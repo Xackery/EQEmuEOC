@@ -845,7 +845,7 @@ switch ($action) {
 }
 
 function get_spawngroups($search) {
-  global $mysql, $npcid, $spawngroup_limit;
+  global $db, $mysql, $npcid, $spawngroup_limit;
 
   if ($search != '') {
     $minx = $_POST['minx'];
@@ -918,7 +918,7 @@ function get_spawngroups($search) {
 }
 
 function get_spawngroup_member_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $sid = $_GET['sid'];
   $npc = $_GET['sgnpcid'];
@@ -931,7 +931,7 @@ function get_spawngroup_member_info() {
 
 function add_spawngroup_member() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $sid = $_REQUEST['sid'];
   $npc = $_REQUEST['npc'];
@@ -963,7 +963,7 @@ function add_spawngroup_member() {
 
 function add_multiple_spawngroup_member() {
   check_authorization();
-  global $mysql, $z, $spawngroup_limit;
+  global $db, $mysql, $z, $spawngroup_limit;
 
   $minx = $_GET['minx'];
   $maxx = $_GET['maxx'];
@@ -1018,7 +1018,7 @@ function add_multiple_spawngroup_member() {
 
 function update_spawngroup_member() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $spawngroupID = $_POST['spawngroupID'];
   $chance = $_POST['chance'];
@@ -1030,7 +1030,7 @@ function update_spawngroup_member() {
 
 function delete_spawngroup_member($balance) {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $sid = $_GET['sid'];
   $npc = $_GET['sgnpcid'];
 
@@ -1073,7 +1073,7 @@ function delete_spawngroup_member($balance) {
 
 function valid_npc() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $sid = $_GET['sid'];
   $npc = $_GET['sgnpcid'];
 
@@ -1090,7 +1090,7 @@ function valid_npc() {
 
 function balance_spawns ($sid) {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   if ($_GET['sid'] != '') {
     $sid = $_GET['sid'];
@@ -1123,7 +1123,7 @@ function balance_spawns ($sid) {
 }
 
 function get_spawngroup_info() {
-  global $mysql;
+  global $db, $mysql;
   $sid = $_GET['sid'];
   $new_sid = $_POST['new_sid'];
 
@@ -1140,7 +1140,7 @@ function get_spawngroup_info() {
 
 function update_spawngroup_name() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $sid = $_GET['sid'];
   $name = $_POST['name'];
   $spawn_limit = $_POST['spawn_limit'];
@@ -1160,7 +1160,7 @@ function update_spawngroup_name() {
 
 function delete_spawngroup() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $sid = $_GET['sid'];
 
   $query = "DELETE FROM spawngroup WHERE id=$sid";
@@ -1174,7 +1174,7 @@ function delete_spawngroup() {
 }
 
 function search_npc_types ($search) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name, level FROM npc_types WHERE name rlike \"$search\"";
   $results = $mysql->query_mult_assoc($query);
@@ -1183,7 +1183,7 @@ function search_npc_types ($search) {
 }
 
 function get_spawnpoints () {
-  global $mysql;
+  global $db, $mysql;
   $sid = $_GET['sid'];
 
   $query = "SELECT * FROM spawn2 WHERE spawngroupID=$sid ORDER BY id";
@@ -1193,7 +1193,7 @@ function get_spawnpoints () {
 }
 
 function grid_info () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
 
@@ -1204,7 +1204,7 @@ function grid_info () {
 }
 
 function spawnpoint_fromgrid () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $spid = intval($_GET['spid']);
 
@@ -1215,7 +1215,7 @@ function spawnpoint_fromgrid () {
 }
 
 function gridentry_info () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
   $array = array();
@@ -1233,7 +1233,7 @@ function gridentry_info () {
 }
 
 function gridpoint_info () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
   $number = intval($_GET['number']);
@@ -1245,7 +1245,7 @@ function gridpoint_info () {
 }
 
 function spawnevent_info () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $seid = $_GET['seid'];
 
@@ -1256,7 +1256,7 @@ function spawnevent_info () {
 }
 
 function spawncondition_info () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $scid = $_GET['scid'];
 
@@ -1267,7 +1267,7 @@ function spawncondition_info () {
 }
 
 function delete_gridentry () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
   $number = intval($_GET['number']);
@@ -1277,7 +1277,7 @@ function delete_gridentry () {
 }
 
 function delete_gridentries () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
 
@@ -1286,7 +1286,7 @@ function delete_gridentries () {
 }
 
 function delete_grid () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
   $spid = intval($_GET['spid']);
@@ -1302,7 +1302,7 @@ function delete_grid () {
 }
 
 function delete_grid_ns () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
 
@@ -1315,7 +1315,7 @@ function delete_grid_ns () {
 
 function delete_spawnevent() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $seid = $_GET['seid'];
 
   $query = "DELETE FROM spawn_events WHERE id=$seid";
@@ -1324,7 +1324,7 @@ function delete_spawnevent() {
 
 function delete_spawncondition() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $scid = $_GET['scid'];
 
   $query = "DELETE FROM spawn_conditions WHERE id=$scid AND zone=\"$z\"";
@@ -1336,7 +1336,7 @@ function delete_spawncondition() {
 
 function delete_spawnconditionvalue() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $scid = $_GET['scid'];
   $instance_id = $_GET['instance_id'];
 
@@ -1345,7 +1345,7 @@ function delete_spawnconditionvalue() {
 }
 
 function spawnpoint_info () {
-  global $mysql;
+  global $db, $mysql;
   $id = $_REQUEST['id'];
 
   $query = "SELECT * FROM spawn2 WHERE id=$id";
@@ -1355,7 +1355,7 @@ function spawnpoint_info () {
 
 function update_spawnpoint() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
 
   $old = spawnpoint_info();
@@ -1377,7 +1377,7 @@ function update_spawnpoint() {
 
 function delete_spawnpoint() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "DELETE FROM spawn2 WHERE id=$id";
@@ -1385,7 +1385,7 @@ function delete_spawnpoint() {
 }
 
 function suggest_spawngroup_id() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z) . "___";
 
@@ -1407,7 +1407,7 @@ function suggest_spawngroup_id() {
 }
 
 function suggest_spawnpoint_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS id FROM spawn2";
   $result = $mysql->query_assoc($query);
@@ -1416,7 +1416,7 @@ function suggest_spawnpoint_id() {
 }
 
 function suggest_grid_id() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z);
 
@@ -1427,7 +1427,7 @@ function suggest_grid_id() {
 }
 
 function suggest_grid_number() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z);
   $pathgrid = intval($_GET['pathgrid']);
@@ -1439,7 +1439,7 @@ function suggest_grid_number() {
 }
 
 function suggest_spawnevent_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS seid FROM spawn_events";
   $result = $mysql->query_assoc($query);
@@ -1448,7 +1448,7 @@ function suggest_spawnevent_id() {
 }
 
 function suggest_spawncondition_id() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $query = "SELECT MAX(id) AS scid FROM spawn_conditions WHERE zone=\"$z\"";
   $result = $mysql->query_assoc($query);
@@ -1457,7 +1457,7 @@ function suggest_spawncondition_id() {
 }
 
 function suggest_spawncondition_value() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $query = "SELECT MAX(value) AS scval FROM spawn_conditions WHERE zone=\"$z\"";
   $result = $mysql->query_assoc($query);
@@ -1467,7 +1467,7 @@ function suggest_spawncondition_value() {
 
 function add_spawnpoint() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $spawngroupID = $_POST['spawngroupID'];
   $zone = $_POST['zone'];
@@ -1490,7 +1490,7 @@ function add_spawnpoint() {
 
 function add_spawngroup() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $name = $_POST['name'];
@@ -1515,7 +1515,7 @@ function add_spawngroup() {
 
 function add_grid() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z);
   $id = $_POST['id'];
@@ -1531,7 +1531,7 @@ function add_grid() {
 
 function add_gridentry() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $pathgrid = intval($_POST['pathgrid']);
   $zoneid = intval($_POST['zoneid']);
@@ -1547,7 +1547,7 @@ function add_gridentry() {
 
 function update_grid() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z);
   $pathgrid = intval($_POST['pathgrid']);
@@ -1560,7 +1560,7 @@ function update_grid() {
 
 function update_gridentry() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z);
   $pathgrid = intval($_POST['pathgrid']);
@@ -1577,7 +1577,7 @@ function update_gridentry() {
 }
 
 function is_spawned() {
-  global $mysql;
+  global $db, $mysql;
   $spid = intval($_GET['spid']);
 
   $array['id'] = $spid;
@@ -1593,7 +1593,7 @@ function is_spawned() {
 }
 
 function view_respawn() {
-  global $mysql;
+  global $db, $mysql;
   $spid = intval($_GET['spid']);
 
   $query = "SELECT * FROM respawn_times where id=$spid and instance_id = 0";
@@ -1603,7 +1603,7 @@ function view_respawn() {
 }
 
 function force_spawn() {
-  global $mysql;
+  global $db, $mysql;
   $spid = intval($_GET['spid']);
   $instance_id = intval($_GET['instance_id']);
 
@@ -1612,7 +1612,7 @@ function force_spawn() {
 }
 
 function grid_info_zone () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $array = array();
 
@@ -1629,7 +1629,7 @@ function grid_info_zone () {
 }
 
 function get_spawn_condition () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $array = array();
 
   $query = "SELECT id AS scid, zone, value, onchange, name FROM spawn_conditions WHERE zone=\"$z\"";
@@ -1644,7 +1644,7 @@ function get_spawn_condition () {
 }
 
 function get_spawn_condition_value() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $array = array();
 
   $scid = $_GET['scid'];
@@ -1661,7 +1661,7 @@ function get_spawn_condition_value() {
 }
 
 function get_spawn_event () {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $array = array();
 
   $query = "SELECT id AS seid,zone AS sezone,cond_id,name AS sename,period,next_minute,next_hour,next_day,next_month,next_year,enabled,action,argument,strict FROM spawn_events WHERE zone=\"$z\" order by id";
@@ -1677,7 +1677,7 @@ function get_spawn_event () {
 
 function update_spawnevent() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $seid = $_POST['seid'];
   $cond_id = $_POST['cond_id'];
@@ -1699,7 +1699,7 @@ function update_spawnevent() {
 
 function update_spawncondition() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $scid = $_POST['scid'];
   $value = $_POST['value'];
@@ -1712,7 +1712,7 @@ function update_spawncondition() {
 
 function update_spawntimer() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $rid = $_POST['rid'];
   $start = $_POST['start'];
@@ -1724,7 +1724,7 @@ function update_spawntimer() {
 
 function add_spawnevent() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $cond_id = $_POST['cond_id'];
   $sename = $_POST['sename'];
@@ -1744,7 +1744,7 @@ function add_spawnevent() {
 
 function add_spawncondition() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $scid = $_POST['scid'];
   $value = $_POST['value'];
@@ -1760,7 +1760,7 @@ function add_spawncondition() {
 
 function add_spawnconditionvalue() {
   check_authorization();
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $scid = $_GET['scid'];
 
@@ -1775,7 +1775,7 @@ function add_spawnconditionvalue() {
 
 function copy_spawnpoint() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $zone = $_POST['zone'];
   $x = $_POST['x'];
   $y = $_POST['y'];
@@ -1797,7 +1797,7 @@ function copy_spawnpoint() {
 
 function move_spawnpoint() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $sgid = $_POST['sgid'];
 
@@ -1806,7 +1806,7 @@ function move_spawnpoint() {
 }
 
 function search_spawngroups($search) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT * FROM spawngroup WHERE name rlike \"$search\"";
   $results = $mysql->query_mult_assoc($query);
 
@@ -1814,7 +1814,7 @@ function search_spawngroups($search) {
 }
 
 function get_spawngroups_by_zone($search) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT spawn2.spawngroupID, spawngroup.name, spawnentry.npcID FROM spawn2 LEFT JOIN spawnentry USING (spawngroupID) LEFT JOIN spawngroup ON (spawn2.spawngroupID = spawngroup.id) WHERE spawn2.zone = '$search'";
   $results = $mysql->query_mult_assoc($query);
 
@@ -1822,7 +1822,7 @@ function get_spawngroups_by_zone($search) {
 }
 
 function export_grid_sql() {
-  global $mysql;
+  global $db, $mysql;
   $gridid = $_GET['pathgrid'];
   $zoneid = getZoneID($_GET['z']);
   $table_string = "";
@@ -1875,7 +1875,7 @@ function export_grid_sql() {
 }
 
 function sort_grid() {
-  global $mysql;
+  global $db, $mysql;
   $gridid = $_GET['pathgrid'];
   $zoneid = getZoneID($_GET['z']);
   $old_number = array();
@@ -1900,7 +1900,7 @@ function sort_grid() {
 }
 
 function copy_grid() {
-  global $mysql;
+  global $db, $mysql;
   $gridid = $_GET['pathgrid'];
   $zoneid = getZoneID($_GET['z']);
   $newid = suggest_grid_id();
@@ -1934,7 +1934,7 @@ function copy_grid() {
 }
 
 function get_npcs_by_grid() {
-  global $mysql;
+  global $db, $mysql;
   $pathgrid = $_GET['pathgrid'];
   $zone = getZoneName(getZoneID($_GET['z']));
 
@@ -1946,7 +1946,7 @@ function get_npcs_by_grid() {
 
 function magelo_import() {
   check_authorization();
-  global $mysql, $npcid, $perl_path;
+  global $db, $mysql, $npcid, $perl_path;
 
   $insert = $_POST['spawngroupinsert'];
   $limit = $_POST['limit'];

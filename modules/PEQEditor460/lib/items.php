@@ -210,7 +210,7 @@ switch ($action) {
 }
 
 function item_info () {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -225,7 +225,7 @@ function item_info () {
 }
 
 function book_info () {
-  global $mysql;
+  global $db, $mysql;
 
   $name = $_GET['name'];
 
@@ -236,7 +236,7 @@ function book_info () {
 }
 
 function update_book () {
-  global $mysql;
+  global $db, $mysql;
 
   $name = $_POST['name'];
   $txtfile = $_POST['txtfile'];
@@ -246,7 +246,7 @@ function update_book () {
 }
 
 function delete_item () {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -255,7 +255,7 @@ function delete_item () {
 }
 
 function update_item () {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
 
@@ -569,7 +569,7 @@ function update_item () {
 }
 
 function copy_item () {
-  global $mysql;
+  global $db, $mysql;
 
    $id = $_GET['id'];
    
@@ -591,7 +591,7 @@ function copy_item () {
 }
 
 function get_max_id () {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT max(id) AS iid FROM items"; 
   $result = $mysql->query_assoc($query);
@@ -601,7 +601,7 @@ function get_max_id () {
 }
 
 function add_item () {
-  global $mysql;
+  global $db, $mysql;
 
   // Define checkbox fields:
   $slots = 0;

@@ -13,17 +13,17 @@
 	$eoc_dbname = $dbname;
 	$eoc_dbuser = $dbuser;
 	$eoc_dbpasswd = $dbpasswd;
-	$eoc_local = mysql_connect($eoc_dbhost, $eoc_dbuser, $eoc_dbpasswd); 
+	$db = mysqli_connect($eoc_dbhost, $eoc_dbuser, $eoc_dbpasswd); 
 	
-	if($eoc_local){ mysql_select_db($eoc_dbname, $eoc_local) or die("Impossible to select $eoc_dbname : ".mysql_error()); }
-	function connect_local(){ global $eoc_local, $eoc_dbname; if($eoc_local){ mysql_select_db($eoc_dbname, $eoc_local) or die("Impossible to select $eoc_dbname : ".mysql_error()); } }
+	if($db){ mysqli_select_db($eoc_dbname, $db) or die("Impossible to select $eoc_dbname : ".mysqli_error()); }
+	function connect_local(){ global $db, $db, $eoc_dbname; if($db){ mysqli_select_db($eoc_dbname, $db) or die("Impossible to select $eoc_dbname : ".mysqli_error()); } }
 	
 	/* Connect to Database either loaded via cookie or EOC Test DB */
-	$db = mysql_connect($dbhost, $dbuser, $dbpasswd); 
-	if($db){ mysql_select_db($dbname, $db) or die("Impossible to select $dbname : ".mysql_error()); }
-	function connect_return(){ global $db, $dbname; if($db){ mysql_select_db($db, $dbname) or die("Impossible to select $eoc_dbname : ".mysql_error()); } }
+	$db = mysqli_connect($dbhost, $dbuser, $dbpasswd); 
+	if($db){ mysqli_select_db($dbname, $db) or die("Impossible to select $dbname : ".mysqli_error()); }
+	function connect_return(){ global $db, $db, $dbname; if($db){ mysqli_select_db($db, $dbname) or die("Impossible to select $eoc_dbname : ".mysqli_error()); } }
 	
-	$mysql_result_limit = 1000; /* Rows returned from Query */  
+	$mysqli_result_limit = 1000; /* Rows returned from Query */  
 	if($dbhost == "localhost"){ $dbhost = "localhost (Test PEQ DB)"; }
 	
 	$App_Title = "EOC 2.0"; 
@@ -58,7 +58,7 @@
     }
 	
 	/* Globally Sanitize Form Variables */
-	foreach(array_keys($_POST) as $key) { $c[$key] = mysql_real_escape_string($_POST[$key]); }
-	foreach(array_keys($_GET) as $key) { $c[$key] = mysql_real_escape_string($_GET[$key]); }
+	foreach(array_keys($_POST) as $key) { $c[$key] = mysqli_real_escape_string($_POST[$key]); }
+	foreach(array_keys($_GET) as $key) { $c[$key] = mysqli_real_escape_string($_GET[$key]); }
 	
 ?>

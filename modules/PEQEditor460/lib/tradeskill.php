@@ -189,7 +189,7 @@ switch ($action) {
 }
 
 function getRecipeTradeskill () {
-  global $mysql, $rec;
+  global $db, $mysql, $rec;
   
   $query = "SELECT tradeskill FROM tradeskill_recipe WHERE id=$rec";
   $result = $mysql->query_assoc($query);
@@ -197,7 +197,7 @@ function getRecipeTradeskill () {
 }
 
 function recipe_info () {
-  global $mysql, $rec, $world_containers;
+  global $db, $mysql, $rec, $world_containers;
 
   $array = array();
   $array['containers'] = '';
@@ -226,7 +226,7 @@ function recipe_info () {
 
 function update_recipe () {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   
   $id = $_POST['id'];
   $name = $_POST['name'];
@@ -264,7 +264,7 @@ function update_recipe () {
 
 function delete_recipe () {
   check_authorization();
-  global $mysql, $rec;
+  global $db, $mysql, $rec;
   
   $query = "DELETE FROM tradeskill_recipe WHERE id=$rec";
   $mysql->query_no_result($query);
@@ -277,7 +277,7 @@ function delete_recipe () {
 }
 
 function getItemBagtype($item) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT bagtype FROM items WHERE id=$item";
   $result = $mysql->query_assoc($query);
@@ -285,7 +285,7 @@ function getItemBagtype($item) {
 }
 
 function component_info() {
-  global $mysql, $rec;
+  global $db, $mysql, $rec;
   $id = $_GET['id'];
 
   $query = "SELECT * FROM tradeskill_recipe_entries WHERE id=$id";
@@ -295,7 +295,7 @@ function component_info() {
 
 function update_component() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   
   $id = $_POST['id'];
   $recipe_id = $_POST['recipe_id'];
@@ -327,7 +327,7 @@ function update_component() {
 
 function add_component() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   
   $fields = '';
   
@@ -347,7 +347,7 @@ function add_component() {
 
 function delete_component () {
   check_authorization();
-  global $mysql, $rec;
+  global $db, $mysql, $rec;
   $id = $_GET['id'];
   
   $query = "DELETE FROM tradeskill_recipe_entries WHERE id=$id";
@@ -355,7 +355,7 @@ function delete_component () {
 }
 
 function search_recipes() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT id, name FROM tradeskill_recipe WHERE name RLIKE \"$search\" ORDER BY name, id";
@@ -364,7 +364,7 @@ function search_recipes() {
 }
 
 function search_recipes_by_item() {
-  global $mysql;
+  global $db, $mysql;
   $itemid = $_GET['itemid'];
 
   $query = "SELECT recipe_id AS id, tradeskill_recipe.name AS name FROM tradeskill_recipe_entries LEFT JOIN tradeskill_recipe ON tradeskill_recipe.id=tradeskill_recipe_entries.recipe_id WHERE item_id=$itemid ORDER BY name, id";
@@ -374,7 +374,7 @@ function search_recipes_by_item() {
 
 function add_recipe() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS id FROM tradeskill_recipe";
   $result = $mysql->query_assoc($query);
@@ -404,7 +404,7 @@ function add_recipe() {
 
 function copy_tradeskill() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $rec = $_GET['rec'];
 
   $query = "DELETE FROM tradeskill_recipe WHERE id=0";
@@ -431,7 +431,7 @@ function copy_tradeskill() {
 
 function get_new_id() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) as tid FROM tradeskill_recipe";
   $result = $mysql->query_assoc($query);
@@ -440,7 +440,7 @@ function get_new_id() {
 }
 
 function getLearnedRecipes($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT * FROM char_recipe_list ORDER BY $sort_by LIMIT $limit";
@@ -450,7 +450,7 @@ function getLearnedRecipes($page_number, $results_per_page, $sort_by) {
 }
 
 function delete_LearnedRecipe () {
-  global $mysql;
+  global $db, $mysql;
   $char_id = $_GET['char_id'];
   $recipe_id = $_GET['recipe_id'];
   
@@ -459,7 +459,7 @@ function delete_LearnedRecipe () {
 }
 
 function export_recipe_sql() {
-  global $mysql;
+  global $db, $mysql;
   $recipe_id = $_GET['rec'];
   $table_string = "";
   $value_string = "";

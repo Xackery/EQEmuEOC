@@ -7,10 +7,10 @@
 	require_once('modules/ItemEditor/ajax/js.php'); 
 	require_once('modules/ItemEditor/constants_ie.php');
 	
-	$PreviewID = isset($_GET["previd"]) ? mysql_real_escape_string($_GET["previd"]) : '';
-	$PrevIcon = isset($_GET["previcon"]) ? mysql_real_escape_string($_GET["previcon"]) : '';
-	$EditItem = isset($_GET["EditItem"]) ? mysql_real_escape_string($_GET["EditItem"]) : '';
-	$EditField = isset($_GET["EditField"]) ? mysql_real_escape_string($_GET["EditField"]) : '';		 
+	$PreviewID = isset($_GET["previd"]) ? mysqli_real_escape_string($_GET["previd"]) : '';
+	$PrevIcon = isset($_GET["previcon"]) ? mysqli_real_escape_string($_GET["previcon"]) : '';
+	$EditItem = isset($_GET["EditItem"]) ? mysqli_real_escape_string($_GET["EditItem"]) : '';
+	$EditField = isset($_GET["EditField"]) ? mysqli_real_escape_string($_GET["EditField"]) : '';		 
 	
 	$FJS .= '<script type="text/javascript" src="modules/ItemEditor/ajax/ajax.js"></script>';
 	$FJS .= '<script type="text/javascript" src="cust_assets/js/lazy-load.js"></script>';
@@ -125,8 +125,8 @@
 		require_once('includes/alla_functions.php');
 		require_once('modules/ItemEditor/constants_ie.php');
 		$PageTitle = "Preview Item"; echo $SpecIncludes. '<title>'.$PageTitle.'</title>';
-		$query_result = mysql_query("SELECT * FROM items WHERE id = ". $PreviewID . ";");
-		while($row = mysql_fetch_array($query_result)){
+		$query_result = mysqli_query($db, "SELECT * FROM items WHERE id = ". $PreviewID . ";");
+		while($row = mysqli_fetch_array($query_result)){
 			echo '<center><div class="alert alert-block alert-warning fade in" style="width:500px">';
 			echo BuildItemStats($row, 1, 'item_view');
 			echo '</div>';
@@ -243,7 +243,7 @@
 		}
 		if($_GET['WeaponType']){
 			$query_result = GetQueryResult('SELECT items.id, replace(items.idfile, "IT", "") AS WeaponList, items.icon FROM items WHERE itemtype = '. $_GET['WeaponType'] . '  GROUP BY `idfile` ORDER BY `WeaponList` ASC;');
-			while($row = mysql_fetch_array($query_result)){
+			while($row = mysqli_fetch_array($query_result)){
 				if(file_exists($weapons_dir . "/" . $row['WeaponList'] . ".jpg")) {
 					echo '<div class="image" style="display:inline">' .
                             "<a href='javascript:;' class='btn btn-default' onClick='FinishIDFile(" . $row['WeaponList'] . ")'>
@@ -295,7 +295,7 @@
 		
 	}
 	if(isset($_GET['EditField'])){
-		$Value = isset($_GET["Value"]) ? mysql_real_escape_string($_GET["Value"]) : '';
+		$Value = isset($_GET["Value"]) ? mysqli_real_escape_string($_GET["Value"]) : '';
 		$PageTitle = "Field Edit: " . $ITD[$_GET['EditField']][1]; echo $SpecIncludes. '<title>'.$PageTitle.'</title>';
 		$OutPut .= "<br><center><h2>". $ITD[$_GET['EditField']][1] . "</h2><br>";
 		if($EditField == "banedmgrace"){
@@ -582,11 +582,11 @@
 				LEFT JOIN items t2
 				ON t1.ID + 1 = t2.ID
 				WHERE t2.ID IS NULL;";
-				$result = mysql_query($query); if (!$result) {die('Invalid query: ' . mysql_error());}
+				$result = mysqli_query($db, $query); if (!$result) {die('Invalid query: ' . mysqli_error());}
 				$OutPut .= '</td><td>If you wish, please select a free ID from your items table below:<br><br>
 				<select name="' . $EditField . '" '. $InputTitle . ' onchange="UpdateField(this.name, this.value);UpdateImage(this.value);" >';
 				$OutPut .= '<option value="0">--- Select ---</option>';
-				while($row = mysql_fetch_array($result)){
+				while($row = mysqli_fetch_array($result)){
 					$OutPut .= '<option value="'. $row["nextID"] . '">'. $row["nextID"] . ' </option>';
 				}
 				$OutPut .= '</select>';
@@ -706,13 +706,13 @@
 							AND ' . 'spells_new' .'.classes' . $type . ' <= '. '250';
 							$sv = 'AND';
 				}
-				$sql .= ' ' . $sv . ' (' . 'spells_new' .'.name LIKE \'%' . mysql_real_escape_string($namestring) . '%\' OR ' . 'spells_new' .'.id LIKE \'%' . mysql_real_escape_string($namestring) . '%\') ';
+				$sql .= ' ' . $sv . ' (' . 'spells_new' .'.name LIKE \'%' . mysqli_real_escape_string($namestring) . '%\' OR ' . 'spells_new' .'.id LIKE \'%' . mysqli_real_escape_string($namestring) . '%\') ';
 				if ($UseSpellGlobals==TRUE) {
 					$sql .= ' AND (ISNULL((SELECT ' . 'spell_globals' . '.spellid FROM ' . 'spell_globals' .  ' 
 						WHERE ' . 'spell_globals' . '.spellid = ' . 'spells_new' .'.id)) 
 						OR (SELECT quest_globals.name FROM ' . 'spell_globals' . ' , quest_globals
 						WHERE ' . 'spell_globals' . '.spellid = ' . 'spells_new' .'.id 
-						AND ' . 'spell_globals' . '.qglobal = quest_globals.name 
+						AND ' . 'spell_globals' . '.qglobal $db, = quest_globals.name 
 						AND ' . 'spell_globals' . '.value = quest_globals.value 
 						LIMIT 1))';
 				} 
@@ -724,13 +724,13 @@
 					$sql = "select * from `spells_new` LIMIT 100 ";
 					$Minimal = 1;
 				} 
-				$result = mysql_query($sql); if (!$result) {die('Invalid query: ' . mysql_error()); } 
+				$result = mysqli_query($db, $sql); if (!$result) {die('Invalid query: ' . mysqli_error()); } 
 				echo  '<hr> <center><table border="0" cellpadding="5" cellspacing="0" class="table table-hover">';
 					$LevelCheck = $level + $OpDiff;
 					$Class = 'classes' . $type;
 					$ClassName = $dbclasses[$type];
 				 
-				while($row = mysql_fetch_array($result)) { 
+				while($row = mysqli_fetch_array($result)) { 
 					if($Minimal == 1){
 						/* This will only come through when the Level Changes */
 						$DBSkill = $dbskills[$row["skill"]];
@@ -826,17 +826,17 @@
 			if($FV == "color"){ $value = hexdec ( $value); }
 			/* Escape strings with comma */
 			if (strpos($value,'\'') !== false) {
-				$value = mysql_real_escape_string($value);
+				$value = mysqli_real_escape_string($value);
 			}
 			if($C != 1){ $Values .= ", "; $Fields .= ", "; } 
 			$Values .= "'" . $value . "'"; $Fields .= "`" . $FV . "`";
 			$C++; 
 		}
 		$Result = $Query . $Fields . ") VALUES (". $Values . ");"; 
-		if(mysql_query($Result)){
+		if(mysqli_query($db, $Result)){
 			echo '<center><h1>Item Saved Successfully!</h1><br>';
-			$query_result = mysql_query("SELECT * FROM items WHERE id = ". $_POST['id'] . ";");
-			while($row = mysql_fetch_array($query_result)){
+			$query_result = mysqli_query($db, "SELECT * FROM items WHERE id = ". $_POST['id'] . ";");
+			while($row = mysqli_fetch_array($query_result)){
 				echo '<div class="alert alert-block alert-warning fade in" style="width:500px">';
 				echo BuildItemStats($row, 1);
 				echo '</div>';
@@ -846,7 +846,7 @@
 		else{
 			echo '<h2>ERROR</h2>';
 			echo '<pre>';
-			echo mysql_error();
+			echo mysqli_error();
 			echo '<br><br>';
 			echo $Result;
 			echo '</pre>';

@@ -1,7 +1,19 @@
 <?php
 
+    function mysqli_result($result, $row, $field=0) {         
+        $result->data_seek($row); 
+        $datarow = $result->fetch_array(); 
+        return $datarow[$field]; 
+    }
+
+    function mysqli_field_name($result, $field_offset)
+    {
+        $properties = mysqli_fetch_field_direct($result, $field_offset);
+        return is_object($properties) ? $properties->name : null;
+    }
+
 	function PageTitle($PT){
-		global $App_Title;  
+		global $db, $App_Title;  
 		echo '<script type="text/javascript">document.title = "[' . $App_Title . '] ' . $PT . '"; </script>';
 	}
 
@@ -49,7 +61,7 @@
 		return '<div class="alert alert-warning alert-dismissable"><h4 style="display:inline;font-weight:bold">' . $data . '</h4>'. $a_desc . '</div>';
 	}
 
-	/* Global Scoped Functions */
+	/* global $db, Scoped Functions */
 
     function p_var_dump($data){
         print '<pre>';
@@ -60,18 +72,18 @@
     function DuplicateMySQLRecord ($table, $id_field, $id_copied_from, $copied_to_id = 0) {
         /* load the original record into an array */
 
-        $result = mysql_query("SELECT * FROM {$table} WHERE {$id_field} = {$id_copied_from}");
-        # echo mysql_error();
-        $original_record = mysql_fetch_assoc($result);
+        $result = mysqli_query($db, "SELECT * FROM {$table} WHERE {$id_field} = {$id_copied_from}");
+        # echo mysqli_error();
+        $original_record = mysqli_fetch_assoc($result);
         if ($copied_to_id == 0) {
             /* insert the new record and get the new auto_increment id */
-            mysql_query("INSERT INTO {$table} (`{$id_field}`) VALUES (NULL)");
-            $new_id = mysql_insert_id();
-            echo mysql_error();
+            mysqli_query($db, "INSERT INTO {$table} (`{$id_field}`) VALUES (NULL)");
+            $new_id = mysqli_insert_id();
+            echo mysqli_error();
         }
         else {
             $new_id = $copied_to_id;
-            mysql_query("INSERT INTO {$table} (`{$id_field}`) VALUES (" . $copied_to_id . ")");
+            mysqli_query($db, "INSERT INTO {$table} (`{$id_field}`) VALUES (" . $copied_to_id . ")");
         }
 
         /* generate the query to update the new record with the previous values */
@@ -83,9 +95,9 @@
         }
         $query = substr($query, 0, strlen($query) - 2); // lop off the extra trailing comma
         $query .= " WHERE {$id_field}={$new_id}";
-        mysql_query($query);
+        mysqli_query($db, $query);
 
-        # echo mysql_error();
+        # echo mysqli_error();
 
         return $new_id;
     }
@@ -100,8 +112,8 @@
             WHERE t2.' . $id_field . ' IS NULL
             ORDER BY next_id DESC
             LIMIT 1';
-        $result = mysql_query($query);echo mysql_error();
-        while($row = mysql_fetch_array($result)){
+        $result = mysqli_query($db, $query);echo mysqli_error();
+        while($row = mysqli_fetch_array($result)){
             return $row['next_id'];
         }
     }

@@ -10,8 +10,8 @@ class mysql extends mysqli {
   }
 
   function query_no_result($query) {
-    global $log_error;
-    if (mysqli_query($this, $query)) {
+    global $db, $log_error;
+    if (mysqli_query($db, $this, $query)) {
       logSQL($query);
       return true;
     }
@@ -25,8 +25,8 @@ class mysql extends mysqli {
   }
 
   function query_assoc($query) {
-    global $log_all, $log_error;
-    if ($result = mysqli_query($this, quote_smart($query))) {
+    global $db, $log_all, $log_error;
+    if ($result = mysqli_query($db, $this, quote_smart($query))) {
       $row = $result->fetch_assoc();
       if ($log_all == 1) {
         logSQL($query);
@@ -42,8 +42,8 @@ class mysql extends mysqli {
 
   // Used to return multi-dimensional arrays
   function query_mult_assoc($query) {
-    global $log_all, $log_error;
-    if ($result = mysqli_query($this, quote_smart($query))) {
+    global $db, $log_all, $log_error;
+    if ($result = mysqli_query($db, $this, quote_smart($query))) {
       while ($row = $result->fetch_assoc()) {
         $array[] = $row;
       }
@@ -104,7 +104,7 @@ function quote_smart($value) {
 
   // Quote if not integer
   if (!is_numeric($value)) {
-    //$value = "'" . mysql_real_escape_string($value) . "'";
+    //$value = "'" . mysqli_real_escape_string($value) . "'";
   }
 
   // Deter UNION SQL Injection

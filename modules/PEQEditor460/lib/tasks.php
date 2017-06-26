@@ -401,7 +401,7 @@ switch ($action) {
 }
 
 function tasks_info() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
   
   $query = "SELECT * FROM tasks WHERE id=$tskid";
   $result = $mysql->query_assoc($query);
@@ -410,7 +410,7 @@ function tasks_info() {
 }
 
 function activity_info() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
   
   $activityid = $_GET['activityid'];
 
@@ -421,7 +421,7 @@ function activity_info() {
 }
 
 function goallist_info() {
-  global $mysql;
+  global $db, $mysql;
   
   $listid = $_GET['listid'];
 
@@ -432,7 +432,7 @@ function goallist_info() {
 }
 
 function taskset_info() {
-  global $mysql;
+  global $db, $mysql;
   
   $id = $_GET['tsksetid'];
   $taskid = $_GET['tskid'];
@@ -444,7 +444,7 @@ function taskset_info() {
 }
 
 function tasksets_id() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
   
   $query = "SELECT id AS tsksetid FROM tasksets WHERE taskid=$tskid";
   $result = $mysql->query_assoc($query);
@@ -453,7 +453,7 @@ function tasksets_id() {
 }
 
 function get_activities() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
   $array = array();
   
   $query = "SELECT * FROM activities WHERE taskid=\"$tskid\"";
@@ -467,7 +467,7 @@ function get_activities() {
 }
 
 function get_goallist() {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
   
   $listid = $_GET['lid'];
@@ -483,7 +483,7 @@ function get_goallist() {
 }
 
 function proximity_info() {
-  global $mysql;
+  global $db, $mysql;
   
   $exploreid = $_GET['eid'];
 
@@ -494,7 +494,7 @@ function proximity_info() {
 }
 
 function get_proximity() {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
   
   $exploreid = $_GET['eid'];
@@ -510,7 +510,7 @@ function get_proximity() {
 }
 
 function get_taskset() {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
   
   $id = $_GET['tsksetid'];
@@ -526,7 +526,7 @@ function get_taskset() {
 }
 
 function update_tasks() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $duration = $_POST['duration'];
@@ -547,7 +547,7 @@ function update_tasks() {
 }
 
 function update_activity() {
-  global $mysql;
+  global $db, $mysql;
 
   $taskid = $_POST['taskid'];
   $activityid = $_POST['activityid'];
@@ -572,7 +572,7 @@ function update_activity() {
 }
 
 function update_proximity() {
-  global $mysql;
+  global $db, $mysql;
 
   $exploreid = $_POST['exploreid'];
   $zoneid = $_POST['zoneid'];
@@ -588,7 +588,7 @@ function update_proximity() {
 }
 
 function delete_tasks() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
 
   $query = "DELETE FROM tasks WHERE id=\"$tskid\"";
   $mysql->query_no_result($query);
@@ -598,7 +598,7 @@ function delete_tasks() {
 }
 
 function delete_goallist() {
-  global $mysql;
+  global $db, $mysql;
   
   $listid = $_GET['lid'];
   $entry = $_GET['entry'];
@@ -609,7 +609,7 @@ function delete_goallist() {
 }
 
 function delete_taskentry() {
-  global $mysql;
+  global $db, $mysql;
   
   $taskid = $_GET['entry'];
   $id = $_GET['tsksetid'];
@@ -620,7 +620,7 @@ function delete_taskentry() {
 }
 
 function delete_taskset() {
-  global $mysql;
+  global $db, $mysql;
   
   $id = $_GET['tsksetid'];
 
@@ -630,7 +630,7 @@ function delete_taskset() {
 }
 
 function delete_goallists() {
-  global $mysql;
+  global $db, $mysql;
   
   $listid = $_GET['lid'];
   $tskid = $_GET['tskid'];
@@ -644,7 +644,7 @@ function delete_goallists() {
 }
 
 function delete_goallists_act() {
-  global $mysql;
+  global $db, $mysql;
   
   $listid = $_GET['lid'];
   $aid = $_GET['aid'];
@@ -659,7 +659,7 @@ function delete_goallists_act() {
 }
 
 function delete_proximity() {
-  global $mysql;
+  global $db, $mysql;
   
   $eid = $_GET['eid'];
   $tskid = $_GET['tskid'];
@@ -674,7 +674,7 @@ function delete_proximity() {
 }
 
 function delete_activity() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
 
   $activityid = $_GET['activityid'];
 
@@ -683,7 +683,7 @@ function delete_activity() {
 }
 
 function suggest_tasks_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS tskid FROM tasks";
   $result = $mysql->query_assoc($query);
@@ -692,7 +692,7 @@ function suggest_tasks_id() {
 }
 
 function suggest_activity_id() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
 
   $query = "SELECT MAX(activityid) as aid FROM activities WHERE taskid=\"$tskid\"";
   $result = $mysql->query_assoc($query);
@@ -701,7 +701,7 @@ function suggest_activity_id() {
 }
 
 function suggest_list_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(listid) as lid FROM goallists";
   $result = $mysql->query_assoc($query);
@@ -710,7 +710,7 @@ function suggest_list_id() {
 }
 
 function suggest_explore_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(exploreid) as eid FROM proximities";
   $result = $mysql->query_assoc($query);
@@ -719,14 +719,14 @@ function suggest_explore_id() {
 }
 
 function suggest_taskset_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(id) AS tasksetid FROM tasksets";
   $result = $mysql->query_assoc($query);
   return ($result['tasksetid'] + 1);
 }
 
 function suggest_step() {
-  global $mysql, $tskid;
+  global $db, $mysql, $tskid;
 
   $query = "SELECT MAX(step) as stp FROM activities WHERE taskid=\"$tskid\"";
   $result = $mysql->query_assoc($query);
@@ -735,7 +735,7 @@ function suggest_step() {
 }
 
 function add_tasks() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $duration = $_POST['duration'];
@@ -756,7 +756,7 @@ function add_tasks() {
 }
 
 function add_activity() {
-  global $mysql;
+  global $db, $mysql;
 
   $taskid = $_POST['taskid'];
   $activityid = $_POST['activityid'];
@@ -777,7 +777,7 @@ function add_activity() {
 }
 
 function add_goallist() {
-  global $mysql;
+  global $db, $mysql;
 
   $taskid = $_POST['taskid'];
   $listid = $_POST['listid'];
@@ -791,7 +791,7 @@ function add_goallist() {
 }
 
 function add_goallist_act() {
-  global $mysql;
+  global $db, $mysql;
 
   $taskid = $_POST['taskid'];
   $listid = $_POST['listid'];
@@ -806,7 +806,7 @@ function add_goallist_act() {
 }
 
 function add_proximity() {
-  global $mysql;
+  global $db, $mysql;
 
   $tskid = $_POST['tskid'];
   $aid = $_POST['aid'];
@@ -828,7 +828,7 @@ function add_proximity() {
 
 function add_taskset() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $taskid = $_POST['taskid'];
 
@@ -837,7 +837,7 @@ function add_taskset() {
 }
 
 function search_tasks() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT id, title FROM tasks WHERE title rlike \"$search\"";
@@ -846,7 +846,7 @@ function search_tasks() {
 }
 
 function getActiveTasks($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT * FROM character_tasks ORDER BY $sort_by LIMIT $limit";
@@ -856,7 +856,7 @@ function getActiveTasks($page_number, $results_per_page, $sort_by) {
 }
 
 function getCompletedTasks($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT * FROM completed_tasks ORDER BY $sort_by LIMIT $limit";
@@ -866,7 +866,7 @@ function getCompletedTasks($page_number, $results_per_page, $sort_by) {
 }
 
 function delete_active_task() {
-  global $mysql;
+  global $db, $mysql;
   $taskid = $_GET['tskid'];
   $charid = $_GET['charid'];
 
@@ -875,7 +875,7 @@ function delete_active_task() {
 }
 
 function delete_completed_task() {
-  global $mysql;
+  global $db, $mysql;
   $taskid = $_GET['tskid'];
   $charid = $_GET['charid'];
 

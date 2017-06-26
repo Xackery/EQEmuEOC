@@ -981,7 +981,7 @@
 	);
 	
 	function FieldFilterOptions($c_val){
-		global $FieldFilterOptions;
+		global $db, $FieldFilterOptions;
 		$ret .= '<option value="0">--- Select ---</option>';
 		foreach($FieldFilterOptions as $key => $val){
 			$ret .=  '<option value="' . $key . '"' . ($c_val == $key ? ' selected="1"' : '') . '>' . $FieldFilterOptions[$key][0] . ' (' .  $FieldFilterOptions[$key][1] . ')</option>'; 
@@ -994,7 +994,7 @@
 		Ex: Some inputs have data translation, so they are appropriate for drop down lists...
 	*/
 	function SpellFieldInput($SpellID, $FieldName, $FieldData){ 
-		global $spells_new_fields, $dbskills, $Spell_Categories, $spell_editor_fields, $Spell_Effects, $Base_Formulas, $target_type_enums, $select_fields, $l_sp_buffformulas, $dbspellresists_color, $npc_category;
+		global $db, $spells_new_fields, $dbskills, $Spell_Categories, $spell_editor_fields, $Spell_Effects, $Base_Formulas, $target_type_enums, $select_fields, $l_sp_buffformulas, $dbspellresists_color, $npc_category;
 		if($FieldName == "id"){ $dis = " disabled"; } 
 		else { $dis = ""; } 
 		if($FieldName == "new_icon"){

@@ -193,7 +193,7 @@ switch($action) {
 }
 
 function spells_info () {
-  global $mysql, $npcid, $spellset;
+  global $db, $mysql, $npcid, $spellset;
 
   $array = array();
 
@@ -243,7 +243,7 @@ function spells_info () {
 
 function update_spellset() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $attack_proc = $_POST['attack_proc'];
   $proc_chance = $_POST['proc_chance'];
@@ -257,7 +257,7 @@ function update_spellset() {
 
 function add_spell() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $npc_spells_id = $_POST['npc_spells_id'];
   $spellid = $_POST['spellid'];
@@ -274,7 +274,7 @@ function add_spell() {
 
 function delete_spell() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -283,7 +283,7 @@ function delete_spell() {
 }
 
 function spell_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -295,7 +295,7 @@ function spell_info() {
 
 function delete_spellset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $id = $_GET['id'];
 
@@ -311,7 +311,7 @@ function delete_spellset() {
 
 function update_spell() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $spellid = $_POST['spellid'];
@@ -327,7 +327,7 @@ function update_spell() {
 }
 
 function suggest_spellset_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS id FROM npc_spells";
   $result = $mysql->query_assoc($query);
@@ -342,7 +342,7 @@ function suggest_spellset_id() {
 
 function add_spellset() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $name = $_POST['name'];
@@ -356,7 +356,7 @@ function add_spellset() {
 
 function update_npc_spellset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $id = $_POST['id'];
 
@@ -366,14 +366,14 @@ function update_npc_spellset() {
 
 function remove_spellset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "UPDATE npc_types SET npc_spells_id=0 WHERE id=$npcid";
   $mysql->query_no_result($query);
 }
 
 function search_spells() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT npc_spells_entries.npc_spells_id, spells_new.name AS spellname 
@@ -386,7 +386,7 @@ function search_spells() {
 
 function copy_spellset() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $spellsetid = $_GET['spellsetid'];
   $npcid = $_GET['npcid'];
 
@@ -424,7 +424,7 @@ function copy_spellset() {
 
 function get_new_id() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) as sid FROM npc_spells";
   $result = $mysql->query_assoc($query);
@@ -434,7 +434,7 @@ function get_new_id() {
 
 function change_spellset_byname () {
   check_authorization();
-  global $mysql, $npcid, $z;
+  global $db, $mysql, $npcid, $z;
   $zid = getZoneID($z);
   $min_id = $zid*1000-1;
   $max_id = $zid*1000+1000;
@@ -455,7 +455,7 @@ function change_spellset_byname () {
 
 function change_spellset_byclass () {
   check_authorization();
-  global $mysql, $npcid, $z;
+  global $db, $mysql, $npcid, $z;
   $zid = getZoneID($z);
   $min_id = $zid*1000-1;
   $max_id = $zid*1000+1000;

@@ -61,7 +61,7 @@ switch ($action) {
 }
 
 function get_mail_headers() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT msgid, charid, timestamp, `from`, subject FROM mail ORDER BY msgid";
   $result = $mysql->query_mult_assoc($query);
@@ -70,7 +70,7 @@ function get_mail_headers() {
 }
 
 function view_message() {
-  global $mysql;
+  global $db, $mysql;
 
   $msg_id = $_GET['msg_id'];
 
@@ -81,7 +81,7 @@ function view_message() {
 }
 
 function update_message() {
-  global $mysql;
+  global $db, $mysql;
 
   $msg_id = $_POST['msg_id'];
   $subject = $_POST['subject'];
@@ -96,7 +96,7 @@ function update_message() {
 }
 
 function send_message() {
-  global $mysql;
+  global $db, $mysql;
 
   $subject = $_POST['subject'];
   $body = $_POST['body'];
@@ -110,7 +110,7 @@ function send_message() {
 }
 
 function delete_message() {
-  global $mysql;
+  global $db, $mysql;
 
   $msg_id = $_GET['msg_id'];
 

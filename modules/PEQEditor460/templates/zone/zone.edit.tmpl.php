@@ -42,10 +42,10 @@
                     </select>
                   </td>
                   <td align="left" width="25%">
-                    Global Instance:<br>
+                    global $db, Instance:<br>
                     <select name="global">
-                      <option value="0"<?echo ($global == 0) ? " selected" : ""?>>No</option>
-                      <option value="1"<?echo ($global == 1) ? " selected" : ""?>>Yes</option>
+                      <option value="0"<?echo ($global $db, == 0) ? " selected" : ""?>>No</option>
+                      <option value="1"<?echo ($global $db, == 1) ? " selected" : ""?>>Yes</option>
                     </select>
                   </td>
                 </tr>

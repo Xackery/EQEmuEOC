@@ -32,7 +32,7 @@ define(function(require, exports, module) {
 
 var oop = require("../lib/oop");
 var TextMode = require("../mode/text").Mode;
-var MysqlHighlightRules = require("./mysql_highlight_rules").MysqlHighlightRules;
+var MysqlHighlightRules = require("./mysqli_highlight_rules").MysqlHighlightRules;
 var Range = require("../range").Range;
 
 var Mode = function() {

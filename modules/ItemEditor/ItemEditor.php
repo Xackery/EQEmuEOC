@@ -33,7 +33,7 @@
 
     /* Item Edit */
     if(!isset($_SESSION['IEViewMode'])){ $_SESSION['IEViewMode'] = 1; }
-    if($_GET['Edit']){
+    if(isset($_GET['Edit'])){
         echo '<center>';
         echo ItemEditor($_GET['Edit'], $_SESSION['IEViewMode']);
         $FJS .= '<script type="text/javascript">
@@ -67,37 +67,37 @@
 
         /* All of this code is stupid, but I've cleaned most of it up - Akka */
 
-        $isearch       = (isset($_GET[       'isearch']) ? mysql_real_escape_string($_GET[       'isearch']) : '');
-        $iname         = (isset($_GET[         'iname']) ? mysql_real_escape_string($_GET[         'iname']) : '');
-        $iclass        = (isset($_GET[        'iclass']) ? mysql_real_escape_string($_GET[        'iclass']) : '');
-        $irace         = (isset($_GET[         'irace']) ? mysql_real_escape_string($_GET[         'irace']) : '');
-        $islot         = (isset($_GET[         'islot']) ? mysql_real_escape_string($_GET[         'islot']) : '');
-        $istat1        = (isset($_GET[        'istat1']) ? mysql_real_escape_string($_GET[        'istat1']) : '');
-        $istat1comp    = (isset($_GET[    'istat1comp']) ? mysql_real_escape_string($_GET[    'istat1comp']) : '');
-        $istat1value   = (isset($_GET[   'istat1value']) ? mysql_real_escape_string($_GET[   'istat1value']) : '');
-        $istat2        = (isset($_GET[        'istat2']) ? mysql_real_escape_string($_GET[        'istat2']) : '');
-        $istat2comp    = (isset($_GET[    'istat2comp']) ? mysql_real_escape_string($_GET[    'istat2comp']) : '');
-        $istat2value   = (isset($_GET[   'istat2value']) ? mysql_real_escape_string($_GET[   'istat2value']) : '');
-        $iresists      = (isset($_GET[      'iresists']) ? mysql_real_escape_string($_GET[      'iresists']) : '');
-        $iresistscomp  = (isset($_GET[  'iresistscomp']) ? mysql_real_escape_string($_GET[  'iresistscomp']) : '');
-        $iresistsvalue = (isset($_GET[ 'iresistsvalue']) ? mysql_real_escape_string($_GET[ 'iresistsvalue']) : '');
-        $iheroics      = (isset($_GET[      'iheroics']) ? mysql_real_escape_string($_GET[      'iheroics']) : '');
-        $iheroicscomp  = (isset($_GET[  'iheroicscomp']) ? mysql_real_escape_string($_GET[  'iheroicscomp']) : '');
-        $iheroicsvalue = (isset($_GET[ 'iheroicsvalue']) ? mysql_real_escape_string($_GET[ 'iheroicsvalue']) : '');
-        $imod          = (isset($_GET[          'imod']) ? mysql_real_escape_string($_GET[          'imod']) : '');
-        $imodcomp      = (isset($_GET[      'imodcomp']) ? mysql_real_escape_string($_GET[      'imodcomp']) : '');
-        $imodvalue     = (isset($_GET[     'imodvalue']) ? mysql_real_escape_string($_GET[     'imodvalue']) : '');
-        $itype         = (isset($_GET[         'itype']) ? mysql_real_escape_string($_GET[         'itype']) : -1);
-        $iaugslot      = (isset($_GET[      'iaugslot']) ? mysql_real_escape_string($_GET[      'iaugslot']) : '');
-        $ieffect       = (isset($_GET[       'ieffect']) ? mysql_real_escape_string($_GET[       'ieffect']) : '');
-        $ireqlevel     = (isset($_GET[     'ireqlevel']) ? mysql_real_escape_string($_GET[     'ireqlevel']) : '');
-        $iminlevel     = (isset($_GET[     'iminlevel']) ? mysql_real_escape_string($_GET[     'iminlevel']) : '');
-        $inodrop       = (isset($_GET[       'inodrop']) ? mysql_real_escape_string($_GET[       'inodrop']) : '');
-        $iavailability = (isset($_GET[ 'iavailability']) ? mysql_real_escape_string($_GET[ 'iavailability']) : '');
-        $iavailevel    = (isset($_GET[    'iavailevel']) ? mysql_real_escape_string($_GET[    'iavailevel']) : '');
-        $ideity        = (isset($_GET[        'ideity']) ? mysql_real_escape_string($_GET[        'ideity']) : '');
-        $itemfield        = (isset($_GET[        'itemfield']) ? mysql_real_escape_string($_GET[        'itemfield']) : '');
-        $itemfieldvalue        = (isset($_GET[        'itemfieldvalue']) ? mysql_real_escape_string($_GET[        'itemfieldvalue']) : '');
+        $isearch       = (isset($_GET[       'isearch']) ? mysqli_real_escape_string($db, $_GET[       'isearch']) : '');
+        $iname         = (isset($_GET[         'iname']) ? mysqli_real_escape_string($db, $_GET[         'iname']) : '');
+        $iclass        = (isset($_GET[        'iclass']) ? mysqli_real_escape_string($db, $_GET[        'iclass']) : '');
+        $irace         = (isset($_GET[         'irace']) ? mysqli_real_escape_string($db, $_GET[         'irace']) : '');
+        $islot         = (isset($_GET[         'islot']) ? mysqli_real_escape_string($db, $_GET[         'islot']) : '');
+        $istat1        = (isset($_GET[        'istat1']) ? mysqli_real_escape_string($db, $_GET[        'istat1']) : '');
+        $istat1comp    = (isset($_GET[    'istat1comp']) ? mysqli_real_escape_string($db, $_GET[    'istat1comp']) : '');
+        $istat1value   = (isset($_GET[   'istat1value']) ? mysqli_real_escape_string($db, $_GET[   'istat1value']) : '');
+        $istat2        = (isset($_GET[        'istat2']) ? mysqli_real_escape_string($db, $_GET[        'istat2']) : '');
+        $istat2comp    = (isset($_GET[    'istat2comp']) ? mysqli_real_escape_string($db, $_GET[    'istat2comp']) : '');
+        $istat2value   = (isset($_GET[   'istat2value']) ? mysqli_real_escape_string($db, $_GET[   'istat2value']) : '');
+        $iresists      = (isset($_GET[      'iresists']) ? mysqli_real_escape_string($db, $_GET[      'iresists']) : '');
+        $iresistscomp  = (isset($_GET[  'iresistscomp']) ? mysqli_real_escape_string($db, $_GET[  'iresistscomp']) : '');
+        $iresistsvalue = (isset($_GET[ 'iresistsvalue']) ? mysqli_real_escape_string($db, $_GET[ 'iresistsvalue']) : '');
+        $iheroics      = (isset($_GET[      'iheroics']) ? mysqli_real_escape_string($db, $_GET[      'iheroics']) : '');
+        $iheroicscomp  = (isset($_GET[  'iheroicscomp']) ? mysqli_real_escape_string($db, $_GET[  'iheroicscomp']) : '');
+        $iheroicsvalue = (isset($_GET[ 'iheroicsvalue']) ? mysqli_real_escape_string($db, $_GET[ 'iheroicsvalue']) : '');
+        $imod          = (isset($_GET[          'imod']) ? mysqli_real_escape_string($db, $_GET[          'imod']) : '');
+        $imodcomp      = (isset($_GET[      'imodcomp']) ? mysqli_real_escape_string($db, $_GET[      'imodcomp']) : '');
+        $imodvalue     = (isset($_GET[     'imodvalue']) ? mysqli_real_escape_string($db, $_GET[     'imodvalue']) : '');
+        $itype         = (isset($_GET[         'itype']) ? mysqli_real_escape_string($db, $_GET[         'itype']) : -1);
+        $iaugslot      = (isset($_GET[      'iaugslot']) ? mysqli_real_escape_string($db, $_GET[      'iaugslot']) : '');
+        $ieffect       = (isset($_GET[       'ieffect']) ? mysqli_real_escape_string($db, $_GET[       'ieffect']) : '');
+        $ireqlevel     = (isset($_GET[     'ireqlevel']) ? mysqli_real_escape_string($db, $_GET[     'ireqlevel']) : '');
+        $iminlevel     = (isset($_GET[     'iminlevel']) ? mysqli_real_escape_string($db, $_GET[     'iminlevel']) : '');
+        $inodrop       = (isset($_GET[       'inodrop']) ? mysqli_real_escape_string($db, $_GET[       'inodrop']) : '');
+        $iavailability = (isset($_GET[ 'iavailability']) ? mysqli_real_escape_string($db, $_GET[ 'iavailability']) : '');
+        $iavailevel    = (isset($_GET[    'iavailevel']) ? mysqli_real_escape_string($db, $_GET[    'iavailevel']) : '');
+        $ideity        = (isset($_GET[        'ideity']) ? mysqli_real_escape_string($db, $_GET[        'ideity']) : '');
+        $itemfield        = (isset($_GET[        'itemfield']) ? mysqli_real_escape_string($db, $_GET[        'itemfield']) : '');
+        $itemfieldvalue        = (isset($_GET[        'itemfieldvalue']) ? mysqli_real_escape_string($db, $_GET[        'itemfieldvalue']) : '');
 
         if($isearch != "") {
             $Query  = "SELECT
@@ -114,13 +114,13 @@
                     $tbitems.color
                     FROM ($tbitems";
 
-            if ($DiscoveredItemsOnly==TRUE) { $Query .= ",discovered_items"; }
+            if (isset($DiscoveredItemsOnly) && $DiscoveredItemsOnly==TRUE) { $Query .= ",discovered_items"; }
             if($iavailability == 1) { $Query .= ",$tblootdropentries,$tbloottableentries,$tbnpctypes"; }
             $Query  .= ")";
             $s = " WHERE";
             if($itemfieldvalue && $itemfield){ $Query .= " $s " . $itemfield . " LIKE '%" . $itemfieldvalue . "%'"; $s = "AND"; }
             if($ieffect!="") {
-                $effect="%".str_replace(',','%',str_replace(' ','%',mysql_real_escape_string($ieffect)))."%";
+                $effect="%".str_replace(',','%',str_replace(' ','%',mysqli_real_escape_string($db, $ieffect)))."%";
                 $Query.=" LEFT JOIN $tbspells AS proc_s ON proceffect=proc_s.id";
                 $Query.=" LEFT JOIN $tbspells AS worn_s ON worneffect=worn_s.id";
                 $Query.=" LEFT JOIN $tbspells AS focus_s ON focuseffect=focus_s.id";
@@ -150,9 +150,9 @@
                 $Query .= ",$tbmerchantlist $s $tbmerchantlist.item=$tbitems.id";
                 $s="AND";
             }
-            if ($DiscoveredItemsOnly==TRUE) { $Query .= " $s discovered_items.item_id=$tbitems.id";  $s="AND";  }
+            if (isset($DiscoveredItemsOnly) && $DiscoveredItemsOnly==TRUE) { $Query .= " $s discovered_items.item_id=$tbitems.id";  $s="AND";  }
             if($iname != "") {
-                $name = mysql_real_escape_string(str_replace("_", "%", str_replace(" ","%",$iname)));
+                $name = mysqli_real_escape_string($db, str_replace("_", "%", str_replace(" ","%",$iname)));
                 /* For ID Searches */
                 if(is_numeric($name)){ $q_add .= "OR $tbitems.id = ". $name . ""; }
                 $Query .= "
@@ -175,9 +175,9 @@
             if($iminlevel > 0) { $Query.=" $s ($tbitems.reqlevel>=$iminlevel) "; $s="AND"; }
             if($ireqlevel > 0) { $Query.=" $s ($tbitems.reqlevel<=$ireqlevel) "; $s="AND"; }
             if($inodrop)       { $Query.=" $s ($tbitems.nodrop=1)";              $s="AND"; }
-            $Query.=" GROUP BY $tbitems.id ORDER BY $tbitems.Name LIMIT " . $mysql_result_limit;
+            $Query.=" GROUP BY $tbitems.id ORDER BY $tbitems.Name LIMIT " . $mysqli_result_limit;
             echo '<code>' . $Query . '</code>';
-            $QueryResult = mysql_query($Query);
+            $QueryResult = mysqli_query($db, $Query);
         }
         else { $iname = ""; }
         echo "<form method='GET' action=''>";
@@ -268,9 +268,9 @@
                     </script>
                 ";
             $Tableborder = 0;
-            $num_rows = mysql_num_rows($QueryResult);
+            $num_rows = mysqli_num_rows($QueryResult);
             $total_row_count = $num_rows;
-            if($num_rows > $mysql_result_limit) { $num_rows = $mysql_result_limit; }
+            if($num_rows > $mysqli_result_limit) { $num_rows = $mysqli_result_limit; }
 
             if($num_rows == 0) { echo "<b>No items found...</b><br>"; }
             else {
@@ -296,7 +296,7 @@
 
 
                     $TableData = "";
-                    $row = mysql_fetch_array($QueryResult);
+                    $row = mysqli_fetch_array($QueryResult);
 
                     $colHex = dechex($row['color']);
                     $colHex = '#' . str_pad($colHex, 6 , "0");

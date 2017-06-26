@@ -9,8 +9,8 @@
 		echo '<center><br><h2 class="page-title">Select Zone to Import From (2nd DB)</h2><hr>';
 		echo '<select onchange="ZoneToolZoneSelect2nd(this.value)">';
 		$Query = "SELECT `long_name`, `zoneidnumber`, `short_name` FROM `zone` ORDER BY `zoneidnumber`";
-		$QueryResult = mysql_query($Query, $db2); 
-		while($row = mysql_fetch_array($QueryResult)){
+		$QueryResult = mysqli_query($db, $Query, $db2); 
+		while($row = mysqli_fetch_array($QueryResult)){
 			echo '<option value="'. $row['zoneidnumber'] . '">' . $row['long_name'] . ' - (' .  $row['zoneidnumber'] .  ': ' . $row['short_name'] . ')' . '</option>';
 		}
 		echo '</select>';
@@ -21,8 +21,8 @@
 	else{		
 		$ZS .= '<select onchange="ZoneToolZoneSelect(this.value)" class="form-control">';
 		$Query = "SELECT `long_name`, `zoneidnumber`, `short_name` FROM `zone` ORDER BY `zoneidnumber`";
-		$QueryResult = mysql_query($Query, $db);
-		while($row = mysql_fetch_array($QueryResult)){
+		$QueryResult = mysqli_query($db, $Query, $db);
+		while($row = mysqli_fetch_array($QueryResult)){
 			$ZS .= '<option value="'. $row['zoneidnumber'] . '">' . $row['long_name'] . ' - (' .  $row['zoneidnumber'] .  ': ' . $row['short_name'] . ')' . '</option>';
 		}
 		$ZS .= '</select>';

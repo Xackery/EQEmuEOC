@@ -167,7 +167,7 @@ switch ($action) {
 }
 
 function get_merchantlist() {
-  global $mysql;
+  global $db, $mysql;
   $mid = get_merchant_id();
   $array = array();
 
@@ -195,7 +195,7 @@ function get_merchantlist() {
 }
 
 function get_merchantlist_temp() {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
 
   $npcid = $_GET['npcid'];
@@ -223,7 +223,7 @@ function get_merchantlist_temp() {
 
 function update_merchantlist() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $mid = $_POST['mid'];
   $count = $_POST['count'];
@@ -243,7 +243,7 @@ function update_merchantlist() {
 
 function update_merchantlist_temp() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $count = $_POST['count'];
   $oldstats = get_merchantlist_temp();
@@ -260,7 +260,7 @@ function update_merchantlist_temp() {
 
 function delete_ware() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
   $slot = $_GET['slot'];
   $mid = $_GET['mid'];
@@ -271,7 +271,7 @@ function delete_ware() {
 
 function delete_temp_ware() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $itemid = $_GET['itemid'];
   $slot = $_GET['slot'];
 
@@ -281,7 +281,7 @@ function delete_temp_ware() {
 
 function add_merchant_item() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $mid = $_POST['mid'];
   $item = $_POST['itemid'];
   $faction_required = $_POST['faction_required'];
@@ -299,7 +299,7 @@ function add_merchant_item() {
 
 function add_merchant_item_temp() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $charges = $_POST['charges'];
   $itemid = $_POST['itemid'];
   
@@ -327,7 +327,7 @@ function add_merchant_item_temp() {
 
 function delete_merchantlist() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $mid = $_GET['mid'];
 
   $query = "DELETE FROM merchantlist WHERE merchantid=$mid";
@@ -339,7 +339,7 @@ function delete_merchantlist() {
 
 function delete_merchantlist_temp() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "DELETE FROM merchantlist_temp WHERE npcid=$npcid";
   $mysql->query_no_result($query);
@@ -347,14 +347,14 @@ function delete_merchantlist_temp() {
 
 function wipe_merchantlist_temp() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $query = "DELETE FROM merchantlist_temp";
   $mysql->query_no_result($query);
 }
 
 function search_merchant_by_item() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT npc_types.id,npc_types.name FROM merchantlist
@@ -365,7 +365,7 @@ function search_merchant_by_item() {
 }
 
 function search_temp_merchant() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search1'];
 
   $query = "SELECT npc_types.id,npc_types.name FROM merchantlist_temp
@@ -376,7 +376,7 @@ function search_temp_merchant() {
 }
 
 function npcs_using_merchantlist () {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
   $merid = $_GET['merid'];
 
@@ -387,7 +387,7 @@ function npcs_using_merchantlist () {
 
 function drop_merchantlist() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "UPDATE npc_types SET merchant_id=0 WHERE id=$npcid";
   $mysql->query_no_result($query);
@@ -395,7 +395,7 @@ function drop_merchantlist() {
 
 function copy_merchantlist() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $mid = $_POST['mid'];
   
   $query = "SELECT MAX(merchantid) as merid FROM merchantlist";
@@ -418,7 +418,7 @@ function copy_merchantlist() {
 
 function sort_merchantlist() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $merchantid = get_merchant_id();
   $item_id = array();
  
@@ -450,7 +450,7 @@ function sort_merchantlist() {
  
 function merchantlist_npcid() {
    check_authorization();
-   global $mysql, $npcid;
+   global $db, $mysql, $npcid;
    $mid = $_GET['mid'];
 
    $query = "SELECT COUNT(*) AS npc_count FROM npc_types WHERE merchant_id=$mid AND id != $npcid";

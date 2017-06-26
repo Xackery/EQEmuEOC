@@ -1,6 +1,6 @@
 <?
   function getExpansionName($expid) {
-    global $eqexpansions, $aa_sof_expansion;
+    global $db, $eqexpansions, $aa_sof_expansion;
     if (!isset($expid)) return "";
     if ($expid < 0) return "$expid"; // Avoid hitting the 'None Selected'
     if (isset($aa_sof_expansion[$expid])) return $aa_sof_expansion[$expid]; // Drakkin

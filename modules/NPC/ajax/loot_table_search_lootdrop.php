@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                 ';
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             "SELECT
             lootdrop.id,
             lootdrop.`name`,
@@ -53,7 +53,7 @@
             ORDER BY item_count DESC
         ");
 
-        while($row = mysql_fetch_array($result)) {
+        while($row = mysqli_fetch_array($result)) {
             echo '
                 <tr>
                     <td style="text-align:center">
@@ -74,22 +74,22 @@
     if($_GET['do_loot_table_loot_drop_add']) {
         $loot_table = $_GET['do_loot_table_loot_drop_add'];
         $loot_drop = $_GET['loot_drop'];
-        $result = mysql_query('INSERT INTO `loottable_entries` (loottable_id, lootdrop_id, multiplier, probability, droplimit, mindrop)
+        $result = mysqli_query($db, 'INSERT INTO `loottable_entries` (loottable_id, lootdrop_id, multiplier, probability, droplimit, mindrop)
             VALUES (' . $loot_table . ', ' . $loot_drop . ', 1, 100, 1, 1)');
-        if(!$result){ echo mysql_error(); }
+        if(!$result){ echo mysqli_error(); }
     }
     /* Loot Table :: DB Create new Unique Loot Drop and add it */
     if($_GET['do_create_new_lootdrop']){
         $loot_table = $_GET['do_create_new_lootdrop'];
         $next_id = GetNextAvailableIDInTable("lootdrop", "id");
 
-        $result = mysql_query('REPLACE INTO `lootdrop` (id, name)
-            VALUES (' . $next_id . ', \'EOC Created :: ' . mysql_real_escape_string(date('Y-m-d H:i:s')) . '\')');
-        if(!$result){ echo mysql_error(); }
+        $result = mysqli_query($db, 'REPLACE INTO `lootdrop` (id, name)
+            VALUES (' . $next_id . ', \'EOC Created :: ' . mysqli_real_escape_string(date('Y-m-d H:i:s')) . '\')');
+        if(!$result){ echo mysqli_error(); }
 
-        $result = mysql_query('REPLACE INTO `loottable_entries` (loottable_id, lootdrop_id, multiplier, probability, droplimit, mindrop)
+        $result = mysqli_query($db, 'REPLACE INTO `loottable_entries` (loottable_id, lootdrop_id, multiplier, probability, droplimit, mindrop)
             VALUES (' . $loot_table . ', ' . $next_id . ', 1, 100, 1, 1)');
-        if(!$result){ echo mysql_error(); }
+        if(!$result){ echo mysqli_error(); }
 
         echo 'Created Lootdrop ID: ' . $next_id . ' and inserted it into Loot Table ID: ' . $loot_table;
     }

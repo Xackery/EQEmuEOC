@@ -231,7 +231,7 @@ switch ($action) {
 }
 
 function get_assassinatelist() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $aid = get_adventure_id();
   $array = array();
@@ -253,7 +253,7 @@ function get_assassinatelist() {
 }
 
 function get_killlist() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $aid = get_adventure_id();
   $array = array();
@@ -274,7 +274,7 @@ function get_killlist() {
 }
 
 function get_lootlist() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $aid = get_adventure_id();
   $array = array();
@@ -295,7 +295,7 @@ function get_lootlist() {
 }
 
 function get_rescuelist() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $aid = get_adventure_id();
   $array = array();
@@ -316,7 +316,7 @@ function get_rescuelist() {
 }
 
 function get_traptemplate() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $ttid = get_trap_template();
   $array = array();
@@ -337,7 +337,7 @@ function get_traptemplate() {
 }
 
 function get_flavor() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $aid = get_adventure_id();
   $array = array();
@@ -353,7 +353,7 @@ function get_flavor() {
 }
 
 function update_flavor() {
-  global $mysql;
+  global $db, $mysql;
   
   $id = $_POST['id'];
   $text = $_POST['text'];
@@ -363,7 +363,7 @@ function update_flavor() {
 }
 
 function delete_adventure() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -375,7 +375,7 @@ function delete_adventure() {
 }
 
 function delete_trap_template() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -387,7 +387,7 @@ function delete_trap_template() {
 }
 
 function adventure_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -398,7 +398,7 @@ function adventure_info() {
 }
 
 function traptemplate_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -409,7 +409,7 @@ function traptemplate_info() {
 }
 
 function update_adventure_template() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $zone = $_POST['zone'];
@@ -450,7 +450,7 @@ function update_adventure_template() {
 }
 
 function update_trap_template() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $type = $_POST['type'];
@@ -463,7 +463,7 @@ function update_trap_template() {
 }
 
 function add_trap_template() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $ttid = $_POST['ttid'];
@@ -480,7 +480,7 @@ function add_trap_template() {
 }
 
 function add_adventure() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $aid = $_POST['aid'];
@@ -525,35 +525,35 @@ function add_adventure() {
 }
 
 function suggest_adventure_template_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(id) as template_id FROM adventure_template";
   $result = $mysql->query_assoc($query);
   return ($result['template_id'] + 1);
 }
 
 function suggest_adventure_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(id) as aid FROM adventure_template_entry";
   $result = $mysql->query_assoc($query);
   return ($result['aid'] + 1);
 }
 
 function suggest_trap_template_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(id) as ttid FROM ldon_trap_templates";
   $result = $mysql->query_assoc($query);
   return ($result['ttid'] + 1);
 }
 
 function search_adventure_npc() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT id,name FROM npc_types where adventure_template_id > 0";
   $results = $mysql->query_mult_assoc($query);
   return $results;
 }
 
 function copy_adventure_instance() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "SELECT * FROM adventure_template WHERE id=$id";
@@ -741,7 +741,7 @@ $lose_points8 = $result['lose_points'] + 80;
 }
 
 function copy_adventure_template() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "SELECT * FROM adventure_template WHERE id=$id";

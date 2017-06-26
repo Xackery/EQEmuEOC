@@ -989,7 +989,7 @@ $EditOptions = array(
 );
 
 function ItemInputFromArray($Field, $Type, $FieldData, $InputTitle){ 
-	global $edit_options; global $ITD;
+	global $db, $edit_options; global $db, $ITD;
 	$OutPut = "";
 	if($Type == "MS"){
 		$OutPut .= '<select name="' . $Field . '" '. $InputTitle . '  style="width:125px;">';
@@ -1077,7 +1077,7 @@ function ItemInputFromArray($Field, $Type, $FieldData, $InputTitle){
 		$OutPut .= '</select>';
 	}
 	else if($Type == "bodytype"){
-		global $bodytypes;
+		global $db, $bodytypes;
 		$OutPut .= '<select name="' . $Field . '" '. $InputTitle . '>';
 		foreach ($bodytypes as $key => $value){
 			if($FieldData == $key){

@@ -22,7 +22,7 @@ switch ($action) {
 }
 
 function find_perl_script() {
-  global $npcid, $quest_path;
+  global $db, $npcid, $quest_path;
 
   $name = getNPCName($npcid);
   $npcname = str_replace("`","-",$name);
@@ -86,7 +86,7 @@ function find_perl_script() {
 }
 
 function MarkQuestNPC() {
-  global $mysql, $quest_path;
+  global $db, $mysql, $quest_path;
 
   $query = "UPDATE npc_types SET isquest = 0";
   $mysql->query_no_result($query);

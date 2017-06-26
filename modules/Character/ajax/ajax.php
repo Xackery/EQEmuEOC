@@ -52,7 +52,7 @@
             WHERE character_data.`name` LIKE '%" . $_GET['character_search'] . "%'
         ";
 
-        $result = mysql_query($sql);
+        $result = mysqli_query($db, $sql);
         echo '<h3>Search Results</h3><hr>';
         echo '<table class="table table-striped table-hover table-condensed flip-content table-bordered" style="width:1100px">';
 
@@ -68,7 +68,7 @@
             </thead>
         ';
 
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
             echo
             '<tr>
                 <td>' . $row['id'] . '</td>
@@ -113,11 +113,11 @@
             $total_query_data = "";
             foreach ($character_tables as $table => $val){
                 # print $table . ' => ' . $val . '<br>';
-                $result = mysql_query("SELECT * FROM " . $table . " WHERE `" . $val . "` = " . $source_character);
+                $result = mysqli_query($db, "SELECT * FROM " . $table . " WHERE `" . $val . "` = " . $source_character);
 
                 /* Build query structure */
                 $data_exists = 0;
-                $original_record = mysql_fetch_assoc($result);
+                $original_record = mysqli_fetch_assoc($result);
                 $query_structure = "REPLACE INTO " . $table . " (";
                 foreach ($original_record as $key => $value) {
                     $query_structure .= '' . $key . ', ';
@@ -133,9 +133,9 @@
                 $query_data = "";
 
                 /* Yes we have to query again because some of the resource was used just above */
-                $result = mysql_query("SELECT * FROM " . $table . " WHERE `" . $val . "` = " . $source_character);
-                $field_count = mysql_num_fields($result);
-                while($row = mysql_fetch_array($result)){
+                $result = mysqli_query($db, "SELECT * FROM " . $table . " WHERE `" . $val . "` = " . $source_character);
+                $field_count = mysqli_num_fields($result);
+                while($row = mysqli_fetch_array($result)){
                     $query_data .= "(";
 
                     /* Iterate through the row entries */
@@ -144,7 +144,7 @@
                         $field_value = "";
                         $field_value = $row[$data_index];
 
-                        if(mysql_field_name($result, $data_index) == $val){
+                        if(mysqli_field_name($result, $data_index) == $val){
                             $field_value = $new_character_id;
                         }
                         /* If field data is null, properly set it to null for SQL markup */
@@ -152,7 +152,7 @@
                             $field_value = "NULL";
                         }
                         else{
-                            $field_value = "'" . mysql_real_escape_string($field_value) . "'";
+                            $field_value = "'" . mysqli_real_escape_string($field_value) . "'";
                         }
 
                         $query_data .= "" . $field_value . "" . ", ";
@@ -170,9 +170,9 @@
                 $total_query_data .= "-- " . $table . " -- \n" . $query_structure . ";\n\n";
 
                 /* Perform query to copy data */
-                $copy_result = mysql_query($query_structure);
+                $copy_result = mysqli_query($db, $query_structure);
                 if(!$copy_result){
-                    echo $query_structure . ' <br> ' . mysql_error() . '<br>';
+                    echo $query_structure . ' <br> ' . mysqli_error() . '<br>';
                 }
             }
 

@@ -227,7 +227,7 @@ switch ($action) {
 }
 
 function faction_info() {
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
   $faction_array = array();
   $faction_info = array();
   $faction_mods = array();
@@ -245,7 +245,7 @@ function faction_info() {
 }
 
 function search_factions_by_name() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_POST['faction_name'];
 
   $query = "SELECT id, `name` FROM faction_list WHERE `name` rlike \"$search\"";
@@ -254,7 +254,7 @@ function search_factions_by_name() {
 }
 
 function search_factions_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_POST['faction_id'];
 
   $query = "SELECT id, `name` FROM faction_list WHERE id = \"$search\"";
@@ -263,7 +263,7 @@ function search_factions_by_id() {
 }
 
 function suggest_faction_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS flid FROM faction_list";
   $result = $mysql->query_assoc($query);
@@ -272,7 +272,7 @@ function suggest_faction_id() {
 }
 
 function suggest_faction_mod_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS fmid FROM faction_list_mod";
   $result = $mysql->query_assoc($query);
@@ -282,7 +282,7 @@ function suggest_faction_mod_id() {
 
 function add_faction() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   
   $id = $_POST['id'];
   $name = $_POST['name'];
@@ -294,7 +294,7 @@ function add_faction() {
 
 function update_faction() {
   check_authorization();
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
 
   $old_id = $fid;
   $old_name = $_POST['old_name'];
@@ -321,7 +321,7 @@ function update_faction() {
 }
 
 function delete_faction() {
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
 
   $query = "DELETE FROM faction_list WHERE id=$fid";
   $mysql->query_no_result($query);
@@ -331,7 +331,7 @@ function delete_faction() {
 }
 
 function get_faction_mod($fmid) {
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
 
   $query = "SELECT * FROM faction_list_mod WHERE id=$fmid AND faction_id=$fid";
   $result = $mysql->query_assoc($query);
@@ -341,7 +341,7 @@ function get_faction_mod($fmid) {
 
 function add_faction_mod() {
   check_authorization();
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
   
   $id = $_POST['id'];
   $faction_id = $fid;
@@ -355,7 +355,7 @@ function add_faction_mod() {
 
 function update_faction_mod() {
   check_authorization();
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
 
   $old_id = $_POST['old_id'];
   $old_mod_name = $_POST['old_mod_name'];
@@ -377,7 +377,7 @@ function update_faction_mod() {
 }
 
 function delete_faction_mod() {
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
   $fmid = $_GET['fmid'];
 
   $query = "DELETE FROM faction_list_mod WHERE id=$fmid AND faction_id=$fid";
@@ -385,7 +385,7 @@ function delete_faction_mod() {
 }
 
 function get_player_factions($page_number, $results_per_page, $sort_by, $where = "") {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT * FROM faction_values";
@@ -399,7 +399,7 @@ function get_player_factions($page_number, $results_per_page, $sort_by, $where =
 }
 
 function get_player_faction() {
-  global $mysql;
+  global $db, $mysql;
   $char_id = $_GET['char_id'];
   $faction_id = $_GET['faction_id'];
   
@@ -410,7 +410,7 @@ function get_player_faction() {
 }
 
 function add_player_faction() {
-  global $mysql;
+  global $db, $mysql;
 
   $char_id = $_POST['char_id'];
   $faction_id = $_POST['faction_id'];
@@ -421,7 +421,7 @@ function add_player_faction() {
 }
 
 function update_player_faction() {
-  global $mysql;
+  global $db, $mysql;
 
   $char_id = $_POST['char_id'];
   $faction_id = $_POST['faction_id'];
@@ -434,7 +434,7 @@ function update_player_faction() {
 }
 
 function delete_player_faction() {
-  global $mysql;
+  global $db, $mysql;
 
   $char_id = $_GET['char_id'];
   $faction_id = $_GET['faction_id'];
@@ -444,7 +444,7 @@ function delete_player_faction() {
 }
 
 function build_filter() {
-  global $mysql;
+  global $db, $mysql;
   $filter1 = $_GET['filter1'];
   $filter2 = $_GET['filter2'];
   $filter_final = array();
@@ -483,7 +483,7 @@ function build_filter() {
 
 function npcs_using_primary() {
   check_authorization();
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
 
   $query = "SELECT nt.id AS npcid, nt.name AS npcname, nf.name AS factionname from npc_types nt
             INNER JOIN npc_faction nf ON nf.id = nt.npc_faction_id
@@ -495,7 +495,7 @@ function npcs_using_primary() {
 
 function npcs_using_faction($value) {
   check_authorization();
-  global $mysql, $fid;
+  global $db, $mysql, $fid;
 
   if ($value == 1) {
     $query = "SELECT nt.id AS npcid, nt.name AS npcname, nfe.npc_value AS factionvalue from npc_types nt
@@ -518,7 +518,7 @@ function npcs_using_faction($value) {
 }
 
 function deconstruct_mod($mod_name) {
-  global $races, $classes, $deities;
+  global $db, $races, $classes, $deities;
   $category = substr($mod_name, 0, 1);
   $cat_index = substr($mod_name, 1);
   $mod_type = array();

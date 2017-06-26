@@ -69,7 +69,7 @@ echo $tmpl->fetch('templates/index.tmpl.php');
 exit;
 
 function list_users() {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT * FROM peq_admin";
   $results = $mysql->query_mult_assoc($query);
@@ -78,7 +78,7 @@ function list_users() {
 }
 
 function user_info() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
   
   $query = "SELECT * FROM peq_admin WHERE id=$id";
@@ -88,7 +88,7 @@ function user_info() {
 }
 
 function add_user () {
-  global $mysql;
+  global $db, $mysql;
   $login = $_POST['login'];
   $password = md5($_POST['password']);
   $administrator = $_POST['administrator'];
@@ -98,7 +98,7 @@ function add_user () {
 }
 
 function edit_user () {
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $login = $_POST['login'];
   $administrator = $_POST['administrator'];
@@ -114,7 +114,7 @@ function edit_user () {
 }
 
 function delete_user () {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
   
   $query = "DELETE FROM peq_admin WHERE id=$id";

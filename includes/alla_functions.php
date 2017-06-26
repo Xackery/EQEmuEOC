@@ -9,8 +9,8 @@
  *  '$ObjectDescription' is the text describing the kind of objects to display (ex: 'NPC'). '$ObjectsDescription' is the plural.
  */
 function PrintQueryResults($FoundObjects, $MaxObjectsReturned, $OpenObjectByIdPage, $ObjectDescription, $ObjectsDescription, $IdAttribute, $NameAttribute, $ExtraField, $ExtraFieldDescription, $ExtraSkill){
-	global $dbskills;
-	$ObjectsToShow = mysql_num_rows($FoundObjects);
+	global $db, $dbskills;
+	$ObjectsToShow = mysqli_num_rows($FoundObjects);
 	if($ObjectsToShow > LimitToUse($MaxObjectsReturned)){
 		$ObjectsToShow = LimitToUse($MaxObjectsReturned);
 		$MoreObjectsExist = True;
@@ -33,7 +33,7 @@ function PrintQueryResults($FoundObjects, $MaxObjectsReturned, $OpenObjectByIdPa
 		echo  "</b></li>\n";
 		echo  "<ul>\n";
 		for( $j = 1 ; $j <= $ObjectsToShow ; $j ++ ){
-			$row = mysql_fetch_array($FoundObjects);
+			$row = mysqli_fetch_array($FoundObjects);
 			$PrintString = " <li><a href='".$OpenObjectByIdPage."?id=".$row[$IdAttribute]."'>";
 			if ($ObjectDescription == "npc"){
 				// Clean up the name for NPCs
@@ -83,7 +83,7 @@ function ReadableNpcName($DbName)
  */
 function NpcTypeFromName($DbName)
 {
-	global $NPCTypeArray;
+	global $db, $NPCTypeArray;
 	foreach ($NPCTypeArray as $key => $type)
 	{
 		$KeyCount = substr_count($DbName, $key);
@@ -188,7 +188,7 @@ function modulo($d,$v)
 /** Returns the list of slot names '$val' corresponds to (as a bit field)
  */
 function getslots($val)
-{ global $dbslots;
+{ global $db, $dbslots;
   reset($dbslots);
   do
   { $key=key($dbslots);
@@ -202,7 +202,7 @@ function getslots($val)
 }
 
 function getclasses($val) {
-	global $dbiclasses;
+	global $db, $dbiclasses;
 	reset($dbiclasses);
 	do 
 	{
@@ -221,7 +221,7 @@ function getclasses($val) {
 }
 
 function getraces($val) {
-  global $dbraces;
+  global $db, $dbraces;
   reset($dbraces);
   do {
     $key=key($dbraces);
@@ -242,7 +242,7 @@ function getsize($val) {
 }
 
 function getspell($id) {
-	global $tbspells,$tbspellglobals,$UseSpellGlobals;
+	global $db, $tbspells,$tbspellglobals,$UseSpellGlobals;
 	if ($UseSpellGlobals==TRUE)
 	{
 		$query="SELECT spells_new.* FROM spells_new WHERE spells_new.id=".$id." 
@@ -250,7 +250,7 @@ function getspell($id) {
 				WHERE " . $tbspellglobals . ".spellid = spells_new.id)) 
 				OR (SELECT quest_globals.name FROM " . $tbspellglobals . " , quest_globals
 				WHERE " . $tbspellglobals . ".spellid = spells_new.id 
-				AND " . $tbspellglobals . ".qglobal = quest_globals.name 
+				AND " . $tbspellglobals . ".qglobal $db, = quest_globals.name 
 				AND " . $tbspellglobals . ".value = quest_globals.value 
 				LIMIT 1))";
 	}
@@ -258,13 +258,13 @@ function getspell($id) {
 	{
 		$query="SELECT * FROM spells_new WHERE id=$id"; 
 	}
-	$result=mysql_query($query) or message_die('functions.php','getspell',$query,mysql_error());
-	$s=mysql_fetch_array($result);
+	$result=mysqli_query($db, $query) or message_die('functions.php','getspell',$query,mysqli_error());
+	$s=mysqli_fetch_array($result);
 	return $s;
 }
 
 function gedeities($val) {
-  global $dbideities;
+  global $db, $dbideities;
   reset($dbideities);
   do {
     $key=key($dbideities);
@@ -274,7 +274,7 @@ function gedeities($val) {
 }
 
 function SelectClass($name,$selected) {
-  global $dbclasses;
+  global $db, $dbclasses;
   print "<SELECT name=\"$name\">";
   print "<option value='0'>-</option>\n";
   for ($i=1; $i<=16; $i++) {
@@ -286,7 +286,7 @@ function SelectClass($name,$selected) {
 }
 
 function SelectDeity($name,$selected) {
-  global $dbideities;
+  global $db, $dbideities;
   print "<SELECT name=\"$name\">";
   print "<option value='0'>-</option>\n";
   for ($i=2; $i<=65536; $i*=2) {
@@ -298,7 +298,7 @@ function SelectDeity($name,$selected) {
 }
 
 function SelectRace($name,$selected) {
-  global $dbraces;
+  global $db, $dbraces;
   print "<SELECT name=\"$name\">";
   print "<option value='0'>-</option>\n";
   for ($i=1; $i<32768; $i*=2) {
@@ -310,7 +310,7 @@ function SelectRace($name,$selected) {
 }
 
 function SelectMobRace($name,$selected) {
-	global $dbiracenames;
+	global $db, $dbiracenames;
 	print "<SELECT name=\"$name\">";
 	print "<option value='0'>-</option>\n";
 	foreach ($dbiracenames as $key => $value)
@@ -323,7 +323,7 @@ function SelectMobRace($name,$selected) {
 }
 
 function SelectIClass($name,$selected) {
-	global $dbiclasses;
+	global $db, $dbiclasses;
 	print "<SELECT name=\"$name\">";
 	print "<option value='0'>-</option>\n";
 	for ($i=1; $i<=32768; $i*=2)
@@ -336,7 +336,7 @@ function SelectIClass($name,$selected) {
 }
 
 function SelectIType($name,$selected) {
-  global $dbitypes;
+  global $db, $dbitypes;
   print "<SELECT name=\"$name\">";
   print "<option value='-1'>-</option>\n";
   reset($dbitypes);
@@ -350,7 +350,7 @@ function SelectIType($name,$selected) {
 }
 
 function SelectSlot($name,$selected) {
-  global $dbslots;
+  global $db, $dbslots;
   print "<SELECT name=\"$name\">";
   print "<option value='0'>-</option>\n";
   reset($dbslots);
@@ -364,7 +364,7 @@ function SelectSlot($name,$selected) {
 }
 
 function SelectSpellEffect($name,$selected) {
-	global $dbspelleffects;
+	global $db, $dbspelleffects;
 	print "<SELECT name=\"$name\">";
 	print "<option value=-1>-</option>\n";
 	reset($dbspelleffects);
@@ -741,22 +741,22 @@ function CanThisNPCDoubleAttack($class,$level) { // mob.cpp
 
 // Automatically format and populate the table based on the query
 function AutoDataTable($Query) {
-	$result = mysql_query($Query);
+	$result = mysqli_query($db, $Query);
 	if (!$result)
 	{
-		echo 'Could not run query: ' . mysql_error();
+		echo 'Could not run query: ' . mysqli_error();
 		exit;
 	}
-	$columns = mysql_num_fields($result);
+	$columns = mysqli_num_fields($result);
 	echo "<table border=0 width=100%><thead>";
 	$RowClass = "lr";
 	###Automatically Generate the column names from the Table	
 		for ($i = 0; $i < $columns; $i++)
 		{
-			echo "<th class='menuh'>". ucfirstwords(str_replace('_',' ',mysql_field_name($result, $i))) . " </th>";
+			echo "<th class='menuh'>". ucfirstwords(str_replace('_',' ',mysqli_field_name($result, $i))) . " </th>";
 		}
 	echo "</tr></thead><tbody>";
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{ 
 		echo "<tr class='".$RowClass."'>";
 		for($i = 0; $i < $columns; $i++)
@@ -779,17 +779,17 @@ function AutoDataTable($Query) {
 // Prints all fields of a table to easily create an array for default values
 // Example: AutoCreateArray("SELECT * FROM spells_new WHERE id = 3", "dbspelldefaults")
 function AutoCreateArray($Query, $ArrayName) {
-	$result = mysql_query($Query);
+	$result = mysqli_query($db, $Query);
 	if (!$result)
 	{
-		echo 'Could not run query: ' . mysql_error();
+		echo 'Could not run query: ' . mysqli_error();
 	}
-	$columns = mysql_num_fields($result);
-	$row = mysql_fetch_array($result);
+	$columns = mysqli_num_fields($result);
+	$row = mysqli_fetch_array($result);
 	echo "\$" . $ArrayName . "=array(<br>";
 	for ($i = 0; $i < $columns; $i++)
 	{
-		echo "	\"" . mysql_field_name($result, $i) . "\"	=>	\"" . $row[$i] . "\",<br>";
+		echo "	\"" . mysqli_field_name($result, $i) . "\"	=>	\"" . $row[$i] . "\",<br>";
 	}
 	echo ");";
 }
@@ -979,7 +979,7 @@ function GetItemStatsString($name,$stat,$stat2,$stat2color) {
 // Used for item.php as well as for tooltips for items
 function BuildItemStats($item, $show_name_icon, $TableClass='') {
 
-	global $dbitypes, $dam2h, $dbbagtypes, $dbskills, $icons_url, $icons_dir, $tbspells, $dbiaugrestrict, $dbiracenames, $root_url;
+	global $db, $dbitypes, $dam2h, $dbbagtypes, $dbskills, $icons_url, $icons_dir, $tbspells, $dbiaugrestrict, $dbiracenames, $root_url;
 
 	$TableProperties = " border='0' cellpadding='0' cellspacing='0' ";
 	if ($TableClass)
@@ -1390,7 +1390,7 @@ function BuildItemStats($item, $show_name_icon, $TableClass='') {
 // Used for spell.php as well as for tooltips for spells
 function BuildSpellInfo($spell, $show_name_icon) {
 
-	global $dbclasses, $dbspelltargets, $dbspellresists, $dbskills, $icons_url, $tbitems, $icons_dir;
+	global $db, $dbclasses, $dbspelltargets, $dbspellresists, $dbskills, $icons_url, $tbitems, $icons_dir;
 	
 	$html_string .= "";
 	$html_string .= "<table border=0 style='padding:5px;width:500px'>";
@@ -1473,9 +1473,9 @@ function BuildSpellInfo($spell, $show_name_icon) {
 	 *  If no row is selected by '$query', returns an emty string
 	 */
 	function GetFieldByQuery($field,$query)
-	{ $QueryResult = mysql_query($query) or message_die('mysql.php','GetFiedByQuery',$query,mysql_error());
-	  if(mysql_num_rows($QueryResult) > 0)
-	  { $rows=mysql_fetch_array($QueryResult) or message_die('mysql.php','GetFiedByQuery',"MYSQL_FETCH_ARRAY",mysql_error());
+	{ $QueryResult = mysqli_query($db, $query) or message_die('mysql.php','GetFiedByQuery',$query,mysqli_error());
+	  if(mysqli_num_rows($QueryResult) > 0)
+	  { $rows=mysqli_fetch_array($QueryResult) or message_die('mysql.php','GetFiedByQuery',"mysqli_FETCH_ARRAY",mysqli_error());
 		$Result = $rows[$field];
 	  }
 	  else
@@ -1487,8 +1487,8 @@ function BuildSpellInfo($spell, $show_name_icon) {
 	/** Runs '$query' and returns the first (arbitrarily) found row.
 	 */
 	function GetRowByQuery($query)
-	{ $QueryResult = mysql_query($query) or mysql_die($query);
-	  $Result = mysql_fetch_array($QueryResult);
+	{ $QueryResult = mysqli_query($db, $query) or mysqli_die($query);
+	  $Result = mysqli_fetch_array($QueryResult);
 
 	  return $Result;
 	}

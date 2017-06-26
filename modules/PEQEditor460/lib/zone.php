@@ -264,7 +264,7 @@ switch ($action) {
 }
 
 function get_zone() {
-  global $mysql, $zoneid;
+  global $db, $mysql, $zoneid;
 
   $query = "SELECT * FROM zone WHERE id=$zoneid";
   $result = $mysql->query_assoc($query);
@@ -273,7 +273,7 @@ function get_zone() {
 }
 
 function get_graveyard() {
-  global $mysql; 
+  global $db, $mysql; 
 
   $graveyard_id = $_GET['graveyard_id'];
  
@@ -284,7 +284,7 @@ function get_graveyard() {
 }
 
 function get_zonepoints() {
-  global $mysql;
+  global $db, $mysql;
 
   $zpid = $_GET['zpid'];
 
@@ -295,7 +295,7 @@ function get_zonepoints() {
 }
 
 function get_blockedspell() {
-  global $mysql;
+  global $db, $mysql;
 
   $bsid = $_GET['bsid'];
 
@@ -307,7 +307,7 @@ function get_blockedspell() {
 
 function update_zone () {
   check_authorization();
-  global $mysql, $zoneid;
+  global $db, $mysql, $zoneid;
 
   $oldstats = get_zone();
   extract($oldstats);
@@ -398,7 +398,7 @@ function update_zone () {
 }
 
 function update_graveyard() {
-  global $mysql;
+  global $db, $mysql;
 
   $zone_id = $_POST['zone_id'];
   $graveyard_id = $_POST['graveyard_id'];
@@ -413,7 +413,7 @@ function update_graveyard() {
 }
 
 function update_zonepoints() {
-  global $mysql;
+  global $db, $mysql;
 
   $zpid = $_POST['zpid'];
   $zone = $_POST['zone']; 
@@ -437,7 +437,7 @@ function update_zonepoints() {
 }
 
 function update_blockedspell() {
-  global $mysql;
+  global $db, $mysql;
 
   $bsid = $_POST['bsid'];
   $spellid = $_POST['spellid']; 
@@ -456,7 +456,7 @@ function update_blockedspell() {
 }
 
 function delete_graveyard() {
-  global $mysql;
+  global $db, $mysql;
   
   $graveyard_id = $_GET['graveyard_id'];
 
@@ -468,7 +468,7 @@ function delete_graveyard() {
 }
 
 function delete_zonepoints() {
-  global $mysql;
+  global $db, $mysql;
   
   $zpid = $_GET['zpid'];
 
@@ -477,7 +477,7 @@ function delete_zonepoints() {
 }
 
 function delete_blockedspell() {
-  global $mysql;
+  global $db, $mysql;
   
   $bsid = $_GET['bsid'];
 
@@ -486,7 +486,7 @@ function delete_blockedspell() {
 }
 
 function suggest_graveyard_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS graveyard_id FROM graveyard";
   $result = $mysql->query_assoc($query);
@@ -495,7 +495,7 @@ function suggest_graveyard_id() {
 }
 
 function suggest_zonepoint_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS zpid FROM zone_points";
   $result = $mysql->query_assoc($query);
@@ -504,7 +504,7 @@ function suggest_zonepoint_id() {
 }
 
 function suggest_zonepoint_number() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $query = "SELECT MAX(number) AS num FROM zone_points WHERE zone=\"$z\"";
   $result = $mysql->query_assoc($query);
@@ -513,7 +513,7 @@ function suggest_zonepoint_number() {
 }
 
 function suggest_blockedspell_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS bsid FROM blocked_spells";
   $result = $mysql->query_assoc($query);
@@ -522,7 +522,7 @@ function suggest_blockedspell_id() {
 }
 
 function add_graveyard() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   
   $zid = getZoneID($z);
   $graveyard_id = $_POST['graveyard_id'];
@@ -540,7 +540,7 @@ function add_graveyard() {
 }
 
 function add_zonepoints() {
-  global $mysql;
+  global $db, $mysql;
   
   $zpid = $_POST['zpid'];
   $zone = $_POST['zone']; 
@@ -564,7 +564,7 @@ function add_zonepoints() {
 }
 
 function add_blockedspell() {
-  global $mysql;
+  global $db, $mysql;
 
   $bsid = $_POST['bsid'];
   $zoneid = $_POST['zoneid'];
@@ -584,7 +584,7 @@ function add_blockedspell() {
 }
 
 function graveyard_info() {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
   
   $query = "SELECT * FROM graveyard";
@@ -598,7 +598,7 @@ function graveyard_info() {
   }
 
 function zonepoints_info() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
   $array = array();
 
   $query = "SELECT version AS zversion FROM zone where id=$zoneid";
@@ -616,7 +616,7 @@ function zonepoints_info() {
   }
 
 function blockedspell_info() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $array = array();
 
@@ -631,7 +631,7 @@ function blockedspell_info() {
   }
 
 function get_graveyard_zone() {
-   global $mysql;
+   global $db, $mysql;
 
    $graveyard_id = $_GET['graveyard_id'];
 
@@ -643,7 +643,7 @@ function get_graveyard_zone() {
 
 function copy_zone() {
   check_authorization();
-  global $mysql, $zoneid, $z;
+  global $db, $mysql, $zoneid, $z;
 
   $query = "DELETE FROM zone WHERE id=0";
   $mysql->query_no_result($query);
@@ -668,14 +668,14 @@ function copy_zone() {
 
 function delete_zone() {
   check_authorization();
-  global $mysql, $zoneid;
+  global $db, $mysql, $zoneid;
 
   $query = "DELETE FROM zone WHERE id=$zoneid";
   $mysql->query_no_result($query);
 }
    
-function get_isglobal () {
-  global $mysql, $z, $zoneid;
+function get_isglobal $db, () {
+  global $db, $mysql, $z, $zoneid;
 
   $zid = getZoneID($z);
 
@@ -689,8 +689,8 @@ function get_isglobal () {
   return $result['count(*)'];
 }
 
-function update_global () {
-  global $mysql, $z, $zoneid;
+function update_global $db, () {
+  global $db, $mysql, $z, $zoneid;
 
   $zid = getZoneID($z);
 
@@ -706,8 +706,8 @@ function update_global () {
   $mysql->query_no_result($query);
   }
 
-function delete_global () {
-  global $mysql, $z, $zoneid;
+function delete_global $db, () {
+  global $db, $mysql, $z, $zoneid;
 
   $zid = getZoneID($z);
 

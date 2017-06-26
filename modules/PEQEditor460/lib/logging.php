@@ -1,7 +1,7 @@
 <?php
 
 function logSQL ($query) {
-  global $log_file, $logging;
+  global $db, $log_file, $logging;
   $user = $_SESSION['login'];
 
   if (isset($_SESSION['guest']) && ($_SESSION['guest'] == 1)) {
@@ -29,7 +29,7 @@ function logSQL ($query) {
 }
 
 function logPerl ($query) {
-  global $perl_log_file, $logging;
+  global $db, $perl_log_file, $logging;
   $user = $_SESSION['login'];
 
   if (isset($_SESSION['guest']) && ($_SESSION['guest'] == 1)) {

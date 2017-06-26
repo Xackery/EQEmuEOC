@@ -78,7 +78,7 @@
 			});
 			
 		  </script>
-		<!-- Begin Custom Global -->
+		<!-- Begin Custom global $db, -->
 		<script src="cust_assets/js/eoc_global.js" type="text/javascript"></script>
 		
 		<script src="cust_assets/Tooltip/js/ajax-tooltip.js" type="text/javascript"></script>

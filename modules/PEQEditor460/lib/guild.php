@@ -73,7 +73,7 @@ switch ($action) {
 }
 
 function guild_info () {
-  global $mysql, $guildid;
+  global $db, $mysql, $guildid;
   $guild_array = array();
   $guild_ranks_array = array();
   $guild_members_array = array();
@@ -108,12 +108,12 @@ function guild_info () {
 }
 
 function update_guild () {
-  global $mysql, $playerid;
+  global $db, $mysql, $playerid;
   //Update guild info here
 }
 
 function delete_guild () {
-  global $mysql, $playerid;
+  global $db, $mysql, $playerid;
   //Delete guild info here
 }
 ?>

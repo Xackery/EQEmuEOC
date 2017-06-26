@@ -3,48 +3,48 @@
 class mysql {
 
   function mysql($username, $password, $database, $host) {
-    mysql_connect("$host", "$username", "$password")
-      or die('Could not connect: ' . mysql_error());
-    mysql_select_db("$database")
+    mysqli_connect("$host", "$username", "$password")
+      or die('Could not connect: ' . mysqli_error());
+    mysqli_select_db("$database")
       or die('Could not select database');
   }
 
   function query_no_result($query) {
-    global $log_error;
-    if (mysql_query($query)) {
+    global $db, $log_error;
+    if (mysqli_query($db, $query)) {
       logSQL($query);
       return true;
     }
     else {
       if ($log_error == 1) {
-        logSQL($query . " - Error: " . mysql_error());
+        logSQL($query . " - Error: " . mysqli_error());
       }
-      mysql::error($query . " - " . mysql_error());
+      mysql::error($query . " - " . mysqli_error());
       return false;
     }
   }
 
   function query_assoc($query) {
-    global $log_all, $log_error;
-    if ($result = mysql_query(quote_smart($query))) {
-      $row = mysql_fetch_assoc($result);
+    global $db, $log_all, $log_error;
+    if ($result = mysqli_query($db, quote_smart($query))) {
+      $row = mysqli_fetch_assoc($result);
       if ($log_all == 1) {
         logSQL($query);
       }
       return (isset($row) ? $row : '');
     }
     if ($log_error == 1) {
-      logSQL($query . " - Error: " . mysql_error());
+      logSQL($query . " - Error: " . mysqli_error());
     }
     else
-      mysql::error($query . " - " . mysql_error());
+      mysql::error($query . " - " . mysqli_error());
   }
 
   // Used to return multi-dimensional arrays
   function query_mult_assoc($query) {
-    global $log_all, $log_error;
-    if ($result = mysql_query(quote_smart($query))) {
-      while ($row = mysql_fetch_assoc($result)) {
+    global $db, $log_all, $log_error;
+    if ($result = mysqli_query($db, quote_smart($query))) {
+      while ($row = mysqli_fetch_assoc($result)) {
         $array[] = $row;
       }
       if ($log_all == 1) {
@@ -53,10 +53,10 @@ class mysql {
       return (isset($array) ? $array : '');
     }
     if ($log_error == 1) {
-      logSQL($query . " - Error: " . mysql_error());
+      logSQL($query . " - Error: " . mysqli_error());
     }
     else
-      mysql::error($query . " - " . mysql_error());
+      mysql::error($query . " - " . mysqli_error());
   }
 
   function generate_insert_query($query) {
@@ -104,7 +104,7 @@ function quote_smart($value) {
 
   // Quote if not integer
   if (!is_numeric($value)) {
-    //$value = "'" . mysql_real_escape_string($value) . "'";
+    //$value = "'" . mysqli_real_escape_string($value) . "'";
   }
 
   // Deter UNION SQL Injection

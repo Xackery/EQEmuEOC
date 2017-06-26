@@ -533,7 +533,7 @@ switch ($action) {
 }
 
 function get_open_bugs($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT id, zone, name, ui, x, y, z, type, flag, target, bug, date, status FROM bugs WHERE status = 0 ORDER BY $sort_by LIMIT $limit";
@@ -547,7 +547,7 @@ function get_open_bugs($page_number, $results_per_page, $sort_by) {
 }
 
 function get_resolved_bugs($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT id, zone, name, ui, x, y, z, type, flag, target, bug, date, status FROM bugs WHERE status != 0 ORDER BY $sort_by LIMIT $limit";
@@ -561,7 +561,7 @@ function get_resolved_bugs($page_number, $results_per_page, $sort_by) {
 }
 
 function get_hackers($page_number, $results_per_page, $sort_by, $where = "") {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT id, account, name, hacked, zone, date FROM hackers";
@@ -579,7 +579,7 @@ function get_hackers($page_number, $results_per_page, $sort_by, $where = "") {
 }
 
 function get_reports() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name, reported, reported_text FROM reports";
   $result = $mysql->query_mult_assoc($query);
@@ -592,7 +592,7 @@ function get_reports() {
 }
 
 function get_petitions() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT dib, petid, accountname, charname, zone, senttime FROM petitions order by senttime";
   $result = $mysql->query_mult_assoc($query);
@@ -605,7 +605,7 @@ function get_petitions() {
 }
 
 function get_rules() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT rv.ruleset_id, rv.rule_name, rv.rule_value, rv.notes FROM rule_values rv 
             INNER JOIN rule_sets rs ON rs.ruleset_id = rv.ruleset_id
@@ -620,7 +620,7 @@ function get_rules() {
 }
 
 function get_rules_from_ruleset() {
-  global $mysql;
+  global $db, $mysql;
   $ruleset_id = $_GET['ruleset_id'];
 
   $query = "SELECT ruleset_id, rule_name, rule_value, notes FROM rule_values WHERE ruleset_id=\"$ruleset_id\" order by rule_name";
@@ -634,7 +634,7 @@ function get_rules_from_ruleset() {
 }
 
 function get_zones() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT launcher, zone, port FROM launcher_zones order by zone";
   $result = $mysql->query_mult_assoc($query);
@@ -647,7 +647,7 @@ function get_zones() {
 }
 
 function get_launchers() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT name, dynamics FROM launcher";
   $result = $mysql->query_mult_assoc($query);
@@ -660,7 +660,7 @@ function get_launchers() {
 }
 
 function get_variables() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT varname, value FROM variables";
   $results = $mysql->query_mult_assoc($query);
@@ -674,7 +674,7 @@ function get_variables() {
 }
 
 function view_bugs() {
-  global $mysql;
+  global $db, $mysql;
 
   $bid = $_GET['bid'];
 
@@ -685,7 +685,7 @@ function view_bugs() {
 }
 
 function view_hackers() {
-  global $mysql;
+  global $db, $mysql;
 
   $hid = $_GET['hid'];
 
@@ -696,7 +696,7 @@ function view_hackers() {
 }
 
 function view_reports() {
-  global $mysql;
+  global $db, $mysql;
 
   $rid = $_GET['rid'];
 
@@ -707,7 +707,7 @@ function view_reports() {
 }
 
 function view_petition() {
-  global $mysql;
+  global $db, $mysql;
 
   $dib = $_GET['dib'];
 
@@ -718,7 +718,7 @@ function view_petition() {
 }
 
 function view_rule() {
-  global $mysql;
+  global $db, $mysql;
 
   $rule_name = $_GET['rule_name'];
   $ruleset_id = $_GET['ruleset_id'];
@@ -730,7 +730,7 @@ function view_rule() {
 }
 
 function view_ruleset() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_GET['ruleset_id'];
 
@@ -741,7 +741,7 @@ function view_ruleset() {
 }
 
 function view_rulesets() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT ruleset_id, name FROM rule_sets order by ruleset_id";
   $result = $mysql->query_mult_assoc($query);
@@ -754,7 +754,7 @@ function view_rulesets() {
 }
 
 function view_zone() {
-  global $mysql;
+  global $db, $mysql;
 
   $zone = $_GET['zone'];
   $launcher = $_GET['launcher'];
@@ -766,7 +766,7 @@ function view_zone() {
 }
 
 function view_launcher() {
-  global $mysql;
+  global $db, $mysql;
 
   $name = $_GET['name'];
 
@@ -777,7 +777,7 @@ function view_launcher() {
 }
 
 function view_variable() {
-  global $mysql;
+  global $db, $mysql;
 
   $varname = $_GET['varname'];
 
@@ -788,7 +788,7 @@ function view_variable() {
 }
 
 function update_bugs() {
-  global $mysql;
+  global $db, $mysql;
 
   $bid = $_POST['bid'];
   $status = $_POST['status'];
@@ -798,7 +798,7 @@ function update_bugs() {
 }
 
 function update_petition() {
-  global $mysql;
+  global $db, $mysql;
 
   $dib = $_POST['dib'];
   $ischeckedout = $_POST['ischeckedout'];
@@ -810,7 +810,7 @@ function update_petition() {
 }
 
 function update_rule() {
-  global $mysql;
+  global $db, $mysql;
 
   $rule_name = $_POST['rule_name'];
   $rule_name1 = $_POST['rule_name1'];
@@ -824,7 +824,7 @@ function update_rule() {
 }
 
 function update_ruleset() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_POST['ruleset_id'];
   $ruleset_id1 = $_POST['ruleset_id1'];
@@ -835,7 +835,7 @@ function update_ruleset() {
 }
 
 function update_zone() {
-  global $mysql;
+  global $db, $mysql;
 
   $launcher1 = $_POST['launcher1'];
   $launcher = $_POST['launcher'];
@@ -848,7 +848,7 @@ function update_zone() {
 }
 
 function update_launcher() {
-  global $mysql;
+  global $db, $mysql;
 
   $name1 = $_POST['name1'];
   $name = $_POST['name'];
@@ -859,7 +859,7 @@ function update_launcher() {
 }
 
 function update_variable() {
-  global $mysql;
+  global $db, $mysql;
 
   $varname = $_POST['varname'];
   $value = $_POST['value']; 
@@ -871,7 +871,7 @@ function update_variable() {
 }
 
 function delete_bugs() {
-  global $mysql;
+  global $db, $mysql;
 
   $bid = $_GET['bid'];
 
@@ -880,7 +880,7 @@ function delete_bugs() {
 }
 
 function delete_hacker() {
-  global $mysql;
+  global $db, $mysql;
 
   $hid = $_GET['hid'];
 
@@ -889,7 +889,7 @@ function delete_hacker() {
 }
 
 function delete_report() {
-  global $mysql;
+  global $db, $mysql;
 
   $rid = $_GET['rid'];
 
@@ -898,7 +898,7 @@ function delete_report() {
 }
 
 function delete_petition() {
-  global $mysql;
+  global $db, $mysql;
 
   $dib = $_GET['dib'];
 
@@ -907,7 +907,7 @@ function delete_petition() {
 }
 
 function delete_rule() {
-  global $mysql;
+  global $db, $mysql;
 
   $rule_name = $_GET['rule_name'];
   $ruleset_id = $_GET['ruleset_id'];
@@ -917,7 +917,7 @@ function delete_rule() {
 }
 
 function delete_ruleset() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_GET['ruleset_id'];
 
@@ -926,7 +926,7 @@ function delete_ruleset() {
 }
 
 function delete_ruleset_rules() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_GET['ruleset_id'];
 
@@ -938,7 +938,7 @@ function delete_ruleset_rules() {
 }
 
 function delete_zone() {
-  global $mysql;
+  global $db, $mysql;
 
   $launcher = $_GET['launcher'];
   $zone = $_GET['zone'];
@@ -948,7 +948,7 @@ function delete_zone() {
 }
 
 function delete_launcher() {
-  global $mysql;
+  global $db, $mysql;
 
   $name = $_GET['name'];
 
@@ -957,7 +957,7 @@ function delete_launcher() {
 }
 
 function delete_variable() {
-  global $mysql;
+  global $db, $mysql;
 
   $varname = $_GET['varname'];
 
@@ -966,7 +966,7 @@ function delete_variable() {
 }
 
 function add_rule() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_POST['ruleset_id'];
   $rule_value = $_POST['rule_value'];
@@ -978,7 +978,7 @@ function add_rule() {
 }
 
 function add_ruleset() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_POST['ruleset_id'];
   $name = $_POST['name']; 
@@ -988,7 +988,7 @@ function add_ruleset() {
 }
 
 function add_zone() {
-  global $mysql;
+  global $db, $mysql;
 
   $launcher = $_POST['launcher'];
   $zone = $_POST['zone']; 
@@ -999,7 +999,7 @@ function add_zone() {
 }
 
 function add_launcher() {
-  global $mysql;
+  global $db, $mysql;
 
   $name = $_POST['name'];
   $dynamics = $_POST['dynamics']; 
@@ -1009,7 +1009,7 @@ function add_launcher() {
 }
 
 function add_variable() {
-  global $mysql;
+  global $db, $mysql;
 
   $varname = $_POST['varname'];
   $value = $_POST['value']; 
@@ -1021,7 +1021,7 @@ function add_variable() {
 }
 
 function copy_ruleset() {
-  global $mysql;
+  global $db, $mysql;
 
   $ruleset_id = $_POST['ruleset_id'];
   $name = $_POST['name'];
@@ -1052,7 +1052,7 @@ function copy_ruleset() {
 }
 
 function suggest_ruleset_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(ruleset_id) AS rsid FROM rule_sets";
   $result = $mysql->query_assoc($query);
@@ -1061,7 +1061,7 @@ function suggest_ruleset_id() {
 }
 
 function suggest_launcher() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT name FROM launcher limit 1";
   $result = $mysql->query_assoc($query);
@@ -1070,7 +1070,7 @@ function suggest_launcher() {
 }
 
 function notify_status($new_status) {
-  global $mysql;
+  global $db, $mysql;
 
   $bid = $_POST['bid'];
   $bug_date = $_POST['bug_date'];
@@ -1090,7 +1090,7 @@ function notify_status($new_status) {
 }
 
 function build_filter() {
-  global $mysql;
+  global $db, $mysql;
   $filter1 = $_GET['filter1'];
   $filter2 = $_GET['filter2'];
   $filter3 = $_GET['filter3'];
@@ -1134,7 +1134,7 @@ function build_filter() {
 }
 
 function delete_multiple_hacks() {
-  global $mysql;
+  global $db, $mysql;
   $hacks = $_POST['cb_delete'];
 
   foreach ($hacks as $hack) {
@@ -1144,7 +1144,7 @@ function delete_multiple_hacks() {
 }
 
 function get_bannedips() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT ip_address, notes FROM Banned_IPs";
   $result = $mysql->query_mult_assoc($query);
@@ -1157,7 +1157,7 @@ function get_bannedips() {
 }
 
 function add_bannedip() {
-  global $mysql;
+  global $db, $mysql;
 
   $ip_address = $_POST['ip_address'];
   $notes = $_POST['notes']; 
@@ -1167,7 +1167,7 @@ function add_bannedip() {
 }
 
 function view_bannedips() {
-  global $mysql;
+  global $db, $mysql;
 
   $ip_address = $_GET['ip'];
 
@@ -1178,7 +1178,7 @@ function view_bannedips() {
 }
 
 function delete_bannedip() {
-  global $mysql;
+  global $db, $mysql;
 
   $ip_address = $_GET['ip'];
 
@@ -1187,7 +1187,7 @@ function delete_bannedip() {
 }
 
 function update_bannedip() {
-  global $mysql;
+  global $db, $mysql;
 
   $ip_address = $_POST['ip_address'];
   $notes = $_POST['notes']; 

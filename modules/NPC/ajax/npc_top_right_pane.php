@@ -9,9 +9,9 @@
     /* Display NPC Data in the top right pane */
     if($_GET['load_npc_top_pane_dash']){
         require_once('includes/constants.php');
-        $result = mysql_query("SELECT * FROM `npc_types` WHERE `id` = " . $_GET['load_npc_top_pane_dash']);
+        $result = mysqli_query($db, "SELECT * FROM `npc_types` WHERE `id` = " . $_GET['load_npc_top_pane_dash']);
         $npc_types = array();
-        while($row = mysql_fetch_array($result)){ $npc_types = $row; }
+        while($row = mysqli_fetch_array($result)){ $npc_types = $row; }
         # p_var_dump($npc_types);
 
         /* Load Race Image */
@@ -81,9 +81,9 @@
                         <td valign="top" style="text-align:left;width:400px !important;padding-left:15px !important">';
 
         if($npc_types['loottable_id'] > 0) {
-            $result = mysql_query("SELECT * FROM `loottable` WHERE `id` = " . $npc_types['loottable_id']);
+            $result = mysqli_query($db, "SELECT * FROM `loottable` WHERE `id` = " . $npc_types['loottable_id']);
             $loot_table = array();
-            while ($row = mysql_fetch_array($result)) {
+            while ($row = mysqli_fetch_array($result)) {
                 $loot_table = $row;
             }
 
@@ -111,8 +111,8 @@
                         </thead>
             ';
 
-            $result = mysql_query("SELECT * FROM `loottable_entries` WHERE `loottable_id` = " . $npc_types['loottable_id'] . " AND `loottable_id` > 0");
-            while ($row = mysql_fetch_array($result)) {
+            $result = mysqli_query($db, "SELECT * FROM `loottable_entries` WHERE `loottable_id` = " . $npc_types['loottable_id'] . " AND `loottable_id` > 0");
+            while ($row = mysqli_fetch_array($result)) {
                 echo '
                     <tr loot_table="' . $npc_types['loottable_id'] . '" loot_drop="' . $row['lootdrop_id'] . '" probability="' . $row['probability'] . '" multiplier="' . $row['multiplier'] . '">
                         <td>
@@ -199,7 +199,7 @@
                         </tr>
                     </thead>
                 ';
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             "SELECT
                 lootdrop_entries.*,
                 items.id,
@@ -211,7 +211,7 @@
                 WHERE `lootdrop_id` = " . $_GET['show_lootdrop_entries']);
 
         $item_count = 0;
-        while($row = mysql_fetch_array($result)){
+        while($row = mysqli_fetch_array($result)){
             echo '
                 <tr loot_drop="' . $_GET['show_lootdrop_entries'] . '" item_id="' . $row['item_id'] . '"">
                     <td>
@@ -274,10 +274,10 @@
     if($_GET['do_lootdrop_delete_confirmed']){
         $loot_drop = $_GET['do_lootdrop_delete_confirmed'];
         $item_id = $_GET['item_id'];
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             "DELETE FROM `lootdrop_entries` WHERE `lootdrop_id` = " . $loot_drop . " AND `item_id` = " . $item_id);
         if(!$result){
-            echo mysql_error();
+            echo mysqli_error();
         }
     }
 
@@ -298,10 +298,10 @@
     if($_GET['do_loot_table_delete_confirmed']){
         $loot_table = $_GET['do_loot_table_delete_confirmed'];
         $loot_drop_id = $_GET['loot_drop_id'];
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             "DELETE FROM `loottable_entries` WHERE `loottable_id` = " . $loot_table . " AND `lootdrop_id` = " . $loot_drop_id);
         if(!$result){
-            echo mysql_error();
+            echo mysqli_error();
         }
     }
 
@@ -312,7 +312,7 @@
         $db_field = $_GET['field'];
         $db_value = $_GET['value'];
 
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             "UPDATE `loottable_entries` SET
             " . $db_field . " = " . $db_value . "
             WHERE loottable_id = " . $loot_table . "
@@ -326,13 +326,13 @@
         $item_id = $_GET['item_id'];
         $db_field = $_GET['field'];
         $db_value = $_GET['value'];
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             "UPDATE `lootdrop_entries` SET
             " . $db_field . " = " . $db_value . "
             WHERE item_id = " . $item_id . "
             AND lootdrop_id = " . $loot_drop);
         if(!$result){
-            echo mysql_error();
+            echo mysqli_error();
         }
     }
 
@@ -341,13 +341,13 @@
         $loot_drop = $_GET['loot_drop'];
         $item_id = $_GET['db_loot_drop_add_item'];
 
-        $result = mysql_query(
+        $result = mysqli_query($db, 
             'REPLACE INTO `lootdrop_entries`
             (lootdrop_id, item_id, item_charges, equip_item, chance, minlevel, maxlevel, multiplier)
             VALUES
             (' . $loot_drop . ', ' . $item_id . ', 1, 1, 100, 0, 255, 1)
             ');
-        echo mysql_error();
+        echo mysqli_error();
     }
 
     /* Loot Table :: Update mincash/maxcash */
@@ -357,8 +357,8 @@
         $value = $_GET['value'];
         if($field == "min_coin"){ $field = "mincash"; }
         if($field == "max_coin"){ $field = "maxcash"; }
-        $result = mysql_query("UPDATE `loottable` SET `" . $field . "` = " . $value . " WHERE `id` = " . $loot_table_id);
-        echo mysql_error();
+        $result = mysqli_query($db, "UPDATE `loottable` SET `" . $field . "` = " . $value . " WHERE `id` = " . $loot_table_id);
+        echo mysqli_error();
     }
 
 ?>

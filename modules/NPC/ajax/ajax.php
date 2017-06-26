@@ -66,8 +66,8 @@
             WHERE t2.ID IS NULL
             ORDER BY next_id DESC
             LIMIT 1";
-        $result = mysql_query($query);
-        while($row = mysql_fetch_array($result)){
+        $result = mysqli_query($db, $query);
+        while($row = mysqli_fetch_array($result)){
             $last_insert = $row['next_id'];
         }
 
@@ -106,23 +106,23 @@
 
 	/* Actual Delete */
 	if($_GET['delete_npc']){
-		mysql_query("DELETE FROM `npc_types` WHERE `id` = " . $_GET['delete_npc']);
-		mysql_query("DELETE FROM `spawnentry` WHERE `npcID` = " . $_GET['delete_npc']);
+		mysqli_query($db, "DELETE FROM `npc_types` WHERE `id` = " . $_GET['delete_npc']);
+		mysqli_query($db, "DELETE FROM `spawnentry` WHERE `npcID` = " . $_GET['delete_npc']);
 	}
 
 	/* Update NPC Data Field */
 	if($_GET['DoFieldUpdate']){ 
 		$query = "UPDATE `npc_types` SET `" . $_GET['Field'] . "` = '" . $_GET['Value'] . "' WHERE `id` = " . $_GET['NPC'] . "";
 		echo $query;  
-		$result = mysql_query($query);	
-		if($result){ echo '<b>Field `'. $_GET['Field'] . '` Updated to Value \'' . $_GET['Value'] . '\' on NPC ID: \'' . $_GET['NPC'] . '\' </b>';} else{ echo 'Field update FAILED! ' . mysql_error(); }
+		$result = mysqli_query($db, $query);	
+		if($result){ echo '<b>Field `'. $_GET['Field'] . '` Updated to Value \'' . $_GET['Value'] . '\' on NPC ID: \'' . $_GET['NPC'] . '\' </b>';} else{ echo 'Field update FAILED! ' . mysqli_error(); }
 	}
 	/* Update NPC Data Field */
 	if($_GET['DoFieldUpdateSingleNPC']){ 
 		$query = "UPDATE `npc_types` SET `" . $_GET['Field'] . "` = '" . $_GET['Value'] . "' WHERE `id` = " . $_GET['NPC'] . "";
 		echo $query; 
-		$result = mysql_query($query);	
-		if($result){ echo '<b>Field `'. $_GET['Field'] . '` Updated to Value \'' . $_GET['Value'] . '\' on NPC ID: \'' . $_GET['NPC'] . '\' </b>';} else{ echo 'Field update FAILED! ' . mysql_error(); }
+		$result = mysqli_query($db, $query);	
+		if($result){ echo '<b>Field `'. $_GET['Field'] . '` Updated to Value \'' . $_GET['Value'] . '\' on NPC ID: \'' . $_GET['NPC'] . '\' </b>';} else{ echo 'Field update FAILED! ' . mysqli_error(); }
 	}
 
 ?>

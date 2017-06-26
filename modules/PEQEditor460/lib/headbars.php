@@ -177,7 +177,7 @@ switch ($editor) {
 }
 
 function build_tabs () {
-  global $editor, $z, $zoneid, $npcid, $playerid, $acctid, $guildid;
+  global $db, $editor, $z, $zoneid, $npcid, $playerid, $acctid, $guildid;
 
   $tabstatus1 = "off";
   $tabstatus2 = "off";
@@ -330,7 +330,7 @@ function build_tabs () {
 }
 
 function zones () {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, short_name, version, expansion FROM zone ORDER BY short_name ASC";
   $results = $mysql->query_mult_assoc($query);
@@ -339,7 +339,7 @@ function zones () {
 }
 
 function zones2 () {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, short_name, long_name, version, expansion FROM zone ORDER BY long_name ASC";
   $results = $mysql->query_mult_assoc($query);
@@ -348,7 +348,7 @@ function zones2 () {
 }
 
 function npcs() {
-  global $mysql, $z, $zoneid, $npc_list;
+  global $db, $mysql, $z, $zoneid, $npc_list;
   $version = 0;
   $zid = "___";
   $results = array();
@@ -387,7 +387,7 @@ function npcs() {
 }
 
 function npcs_by_merchantid() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
   $version = 0;
   $zid = "___";
   $results = array();
@@ -415,7 +415,7 @@ function npcs_by_merchantid() {
 }
 
 function factions() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name FROM faction_list ORDER BY name";
   $results = $mysql->query_mult_assoc($query);
@@ -424,7 +424,7 @@ function factions() {
 }
 
 function recipes() {
-  global $mysql, $ts;
+  global $db, $mysql, $ts;
 
   $results = array();
   if ($ts != '') {
@@ -436,7 +436,7 @@ function recipes() {
 }
 
 function tasks() {
-  global $mysql;
+  global $db, $mysql;
 
     $query = "SELECT id, title FROM tasks ORDER BY title";
     $results = $mysql->query_mult_assoc($query);
@@ -445,7 +445,7 @@ function tasks() {
 }
 
 function npcs_by_spellid() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
   $version = 0;
   $zid = "___";
   $results = array();
@@ -473,7 +473,7 @@ function npcs_by_spellid() {
 }
 
 function spellsets () {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name FROM npc_spells";
   $results = $mysql->query_mult_assoc($query);
@@ -482,7 +482,7 @@ function spellsets () {
 }
 
 function guilds() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name FROM guilds ORDER BY name ASC";
   $results = $mysql->query_mult_assoc($query);
@@ -491,7 +491,7 @@ function guilds() {
 }
 
 function aas() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT skill_id, name FROM altadv_vars ORDER BY name, skill_id";
   $results = $mysql->query_mult_assoc($query);

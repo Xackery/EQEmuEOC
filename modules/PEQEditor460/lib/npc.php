@@ -910,7 +910,7 @@ switch ($action) {
 }
 
 function npc_info() {
-  global $mysql, $npcid, $zoneid;
+  global $db, $mysql, $npcid, $zoneid;
 
   $query = "SELECT * FROM npc_types WHERE id=$npcid";
   $result = $mysql->query_assoc($query);
@@ -940,7 +940,7 @@ function npc_info() {
 }
 
 function get_ispet() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "SELECT count(*) FROM pets WHERE npcID=$npcid";
   $result = $mysql->query_assoc($query);
@@ -949,7 +949,7 @@ function get_ispet() {
 }
 
 function get_pet() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "SELECT * FROM pets WHERE npcID=$npcid";
   $result = $mysql->query_assoc($query);
@@ -967,7 +967,7 @@ function get_pet() {
 }
 
 function get_pets_equipmentset_entries(){
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $array = array();
 
   $query = "SELECT equipmentset FROM pets WHERE npcID=$npcid";
@@ -987,7 +987,7 @@ function get_pets_equipmentset_entries(){
 }
 
 function get_equipmentset() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "SELECT equipmentset FROM pets WHERE npcID=$npcid";
   $result = $mysql->query_assoc($query);
@@ -1001,7 +1001,7 @@ function get_equipmentset() {
 }
 
 function get_equipmentset_entry() {
-  global $mysql;
+  global $db, $mysql;
 
   $set_id = $_GET['set_id'];
   $slot = $_GET['slot'];
@@ -1013,7 +1013,7 @@ function get_equipmentset_entry() {
 }
 
 function get_pet_entry() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "SELECT * FROM pets WHERE npcID=$npcid";
   $result = $mysql->query_assoc($query);
@@ -1023,7 +1023,7 @@ function get_pet_entry() {
 
 function update_pet() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $name = $_POST['name'];
 
@@ -1041,7 +1041,7 @@ function update_pet() {
 
 function add_pet() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $name = $_POST['name'];
   $npcid = $_POST['id'];
@@ -1052,7 +1052,7 @@ function add_pet() {
 
 function add_new_pet() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $type = $_POST['type'];
   $npcid = $_POST['id'];
@@ -1069,7 +1069,7 @@ function add_new_pet() {
 
 function edit_pet() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $type = $_POST['type'];
   $petpower = $_POST['petpower'];
@@ -1085,7 +1085,7 @@ function edit_pet() {
 
 function delete_pet() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "DELETE FROM pets WHERE npcID=$npcid";
   $mysql->query_no_result($query);
@@ -1093,7 +1093,7 @@ function delete_pet() {
 
 function add_equipmentset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $set_id = $_POST['set_id'];
   $setname = $_POST['setname'];
@@ -1108,7 +1108,7 @@ function add_equipmentset() {
 
 function add_equipmentset_entry() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $set_id = $_POST['set_id'];
   $slot = $_POST['slot'];
@@ -1120,7 +1120,7 @@ function add_equipmentset_entry() {
 
 function edit_equipmentset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $set_id = $_POST['set_id'];
   $setname = $_POST['setname'];
@@ -1135,7 +1135,7 @@ function edit_equipmentset() {
 
 function edit_equipmentset_entry() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $set_id = $_POST['set_id'];
   $slot = $_POST['slot'];
@@ -1146,14 +1146,14 @@ function edit_equipmentset_entry() {
 }
 
 function suggest_equipmentset_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(set_id) as id FROM pets_equipmentset";
   $result = $mysql->query_assoc($query);
   return ($result['id'] + 1);
 }
 
 function suggest_equipmentset_slot_id(){
- global $mysql;
+ global $db, $mysql;
 
   $set_id = $_GET['set_id'];
 
@@ -1164,7 +1164,7 @@ function suggest_equipmentset_slot_id(){
 
 function delete_equipmentset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $set_id = $_GET['set_id'];
 
@@ -1180,7 +1180,7 @@ function delete_equipmentset() {
 
 function delete_equipmentset_entry() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $set_id = $_GET['set_id'];
   $slot = $_GET['slot'];
@@ -1191,7 +1191,7 @@ function delete_equipmentset_entry() {
 
 function remove_equipmentset() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "UPDATE pets SET equipmentset = 0 WHERE npcID=$npcid";
   $mysql->query_no_result($query);
@@ -1199,7 +1199,7 @@ function remove_equipmentset() {
 
 function update_npc() {
   check_authorization();
-  global $mysql, $npcid, $specialattacks;
+  global $db, $mysql, $npcid, $specialattacks;
 
   $oldstats = npc_info();
   extract($oldstats);
@@ -1286,7 +1286,7 @@ function update_npc() {
   if ($PhR != $_POST['PhR']) $fields .= "PhR=\"" . $_POST['PhR'] . "\", ";
   if ($see_invis != $_POST['see_invis']) $fields .= "see_invis=\"" . $_POST['see_invis'] . "\", ";
   if ($see_invis_undead != $_POST['see_invis_undead']) $fields .= "see_invis_undead=\"" . $_POST['see_invis_undead'] . "\", ";
-  if ($qglobal != $_POST['qglobal']) $fields .= "qglobal=\"" . $_POST['qglobal'] . "\", ";
+  if ($qglobal $db, != $_POST['qglobal']) $fields .= "qglobal=\"" . $_POST['qglobal'] . "\", ";
   if ($AC != $_POST['AC']) $fields .= "AC=\"" . $_POST['AC'] . "\", ";
   if ($npc_aggro != $_POST['npc_aggro']) $fields .= "npc_aggro=\"" . $_POST['npc_aggro'] . "\", ";
   if ($spawn_limit != $_POST['spawn_limit']) $fields .= "spawn_limit=\"" . $_POST['spawn_limit'] . "\", ";
@@ -1332,7 +1332,7 @@ function update_npc() {
 
 function add_npc() {
   check_authorization();
-  global $mysql, $specialattacks;
+  global $db, $mysql, $specialattacks;
 
   // Define checkbox fields:
   if ($_POST['qglobal'] != 1) $_POST['qglobal'] = 0;
@@ -1453,7 +1453,7 @@ function add_npc() {
 
 function copy_npc() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $fields = '';
   $fields .= "id=\"" . $_POST['id']. "\", ";
@@ -1558,7 +1558,7 @@ function copy_npc() {
 }
 
 function update_npc_bytier() {
-  global $mysql, $z, $npcid;
+  global $db, $mysql, $z, $npcid;
 
   $zid = getZoneID($z);
   $min_id = $zid*1000-1;
@@ -1692,7 +1692,7 @@ function update_npc_bytier() {
 }
 
 function get_faction_name ($id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT name FROM faction_list WHERE id=$id";
   $result = $mysql->query_assoc($query);
@@ -1701,7 +1701,7 @@ function get_faction_name ($id) {
 }
 
 function faction_list() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name FROM faction_list";
   $results = $mysql->query_mult_assoc($query);
@@ -1714,7 +1714,7 @@ function faction_list() {
 }
 
 function get_npc_faction_id() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "SELECT npc_faction_id FROM npc_types WHERE id=$npcid";
   $result = $mysql->query_assoc($query);
@@ -1724,7 +1724,7 @@ function get_npc_faction_id() {
 
 function update_npc_faction_id ($fid) {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "UPDATE npc_types SET npc_faction_id=$fid WHERE id=$npcid";
   $mysql->query_no_result($query);
@@ -1732,7 +1732,7 @@ function update_npc_faction_id ($fid) {
 
 function change_faction_byname() {
   check_authorization();
-  global $mysql, $npcid, $z;
+  global $db, $mysql, $npcid, $z;
   $zid = getZoneID($z);
   $min_id = $zid*1000-1;
   $max_id = $zid*1000+1000;
@@ -1753,7 +1753,7 @@ function change_faction_byname() {
 
 function change_faction_byrace() {
   check_authorization();
-  global $mysql, $npcid, $z;
+  global $db, $mysql, $npcid, $z;
   $zid = getZoneID($z);
   $min_id = $zid*1000-1;
   $max_id = $zid*1000+1000;
@@ -1774,7 +1774,7 @@ function change_faction_byrace() {
 
 function create_npc_faction_id() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $name = $_POST['name'];
   $ipa = $_POST['ipa'];
@@ -1784,14 +1784,14 @@ function create_npc_faction_id() {
 }
 
 function search_npc_faction_ids($search) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT id, name FROM npc_faction WHERE name rlike \"$search\"";
   $results = $mysql->query_mult_assoc($query);
   return $results;
 }
 
 function search_npc_faction_ids_primary($search) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT nf.id, nf.name, fl.name AS primaryfaction FROM npc_faction nf 
             INNER JOIN faction_list fl ON fl.id = nf.primaryfaction
             WHERE fl.name rlike \"$search\";";
@@ -1800,14 +1800,14 @@ function search_npc_faction_ids_primary($search) {
 }
 
 function suggest_npc_faction_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(id) as id FROM npc_faction";
   $result = $mysql->query_assoc($query);
   return ($result['id'] + 1);
 }
 
 function get_npc_faction_id_name() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $id = get_npc_faction_id($npcid);
   $query = "SELECT * FROM npc_faction WHERE id=$id";
   $result = $mysql->query_assoc($query);
@@ -1816,7 +1816,7 @@ function get_npc_faction_id_name() {
 
 function update_npc_faction_id_name() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $name = $_POST['name'];
   $ipa = $_POST['ipa'];
@@ -1826,7 +1826,7 @@ function update_npc_faction_id_name() {
 }
 
 function search_factions($search) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT id, name FROM faction_list WHERE name rlike \"$search\"";
   $results = $mysql->query_mult_assoc($query);
   return $results;
@@ -1834,7 +1834,7 @@ function search_factions($search) {
 
 function update_primary_faction() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $id = get_npc_faction_id($npcid);
   $fid = $_GET['fid'];
   $query = "UPDATE npc_faction SET primaryfaction=$fid WHERE id=$id";
@@ -1843,7 +1843,7 @@ function update_primary_faction() {
 
 function add_faction_hit() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $npc_faction_id = get_npc_faction_id($npcid);
   $fid = $_GET['fid'];
@@ -1855,7 +1855,7 @@ function add_faction_hit() {
 }
 
 function get_factionhit_info() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $npc_faction_id = $_GET['npc_faction_id'];
   $fid = $_GET['faction_id'];
@@ -1867,7 +1867,7 @@ function get_factionhit_info() {
 
 function update_factionhit() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $npc_faction_id = $_GET['npc_faction_id'];
   $fid = $_GET['faction_id'];
@@ -1880,7 +1880,7 @@ function update_factionhit() {
 
 function delete_factionhit() {
   check_authorization();
-  global $mysql;
+  global $db, $mysql;
 
   $npc_faction_id = $_GET['npc_faction_id'];
   $fid = $_GET['faction_id'];
@@ -1890,7 +1890,7 @@ function delete_factionhit() {
 }
 
 function suggest_merchant_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(merchantid) AS id FROM merchantlist";
   $result = $mysql->query_assoc($query);
   
@@ -1908,21 +1908,21 @@ function suggest_merchant_id() {
 }
 
 function suggest_adventure_id() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(adventure_template_id) as id FROM npc_types";
   $result = $mysql->query_assoc($query);
   return ($result['id'] + 1);
 }
 
 function suggest_trap_template() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(trap_template) as id FROM npc_types";
   $result = $mysql->query_assoc($query);
   return ($result['id'] + 1);
 }
 
 function suggest_dye_template() {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT MAX(armortint_id) as id FROM npc_types";
   $result = $mysql->query_assoc($query);
   return ($result['id'] + 1);
@@ -1930,7 +1930,7 @@ function suggest_dye_template() {
 
 function update_merchant_id() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $merchant_id = $_REQUEST['merchant_id'];
   $query = "UPDATE npc_types SET merchant_id=$merchant_id WHERE id=$npcid";
   $mysql->query_no_result($query);
@@ -1938,7 +1938,7 @@ function update_merchant_id() {
 
 function update_adventure_id() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $adventure_template_id = $_REQUEST['adventure_template_id'];
   $query = "UPDATE npc_types SET adventure_template_id=$adventure_template_id WHERE id=$npcid";
   $mysql->query_no_result($query);
@@ -1946,14 +1946,14 @@ function update_adventure_id() {
 
 function update_trap_template() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $trap_template = $_REQUEST['trap_template'];
   $query = "UPDATE npc_types SET trap_template=$trap_template WHERE id=$npcid";
   $mysql->query_no_result($query);
 }
 
 function update_tint() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $red1h = $_POST['red1h'];
@@ -1990,7 +1990,7 @@ function update_tint() {
 
 function add_dye_template() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $armortint_id = $_REQUEST['armortint_id'];
   $query = "UPDATE npc_types SET armortint_id=$armortint_id WHERE id=$npcid";
   $mysql->query_no_result($query);
@@ -2004,7 +2004,7 @@ function add_dye_template() {
 
 function delete_tint() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   
   $id = $_GET['tint_id']; 
   $query = "DELETE FROM npc_types_tint WHERE id=$id";
@@ -2016,14 +2016,14 @@ function delete_tint() {
 
 function delete_npc() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "DELETE FROM npc_types WHERE id=$npcid";
   $mysql->query_no_result($query);
 }
 
 function suggest_npcid() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $query = "SELECT zoneidnumber FROM zone WHERE short_name=\"$z\"";
   $result = $mysql->query_assoc($query);
@@ -2036,7 +2036,7 @@ function suggest_npcid() {
 }
 
 function tint_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $tint_id = $_GET['tint_id'];
 
@@ -2047,7 +2047,7 @@ function tint_info() {
 }
 
 function next_npcid() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $npczoneid = $_POST['npczoneid'];
 
@@ -2057,7 +2057,7 @@ function next_npcid() {
 }
 
 function get_stats() {
-  global $mysql;
+  global $db, $mysql;
  
  $npc_level = $_POST['npc_level'];
  
@@ -2094,7 +2094,7 @@ function get_stats() {
 }
 
 function change_npc_level_ver() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
  
   $zid = getZoneID($z);
   $npc_version = $_POST['npc_version'];
@@ -2127,7 +2127,7 @@ function change_npc_level_ver() {
 }
 
 function export_sql() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $export_array = array();
 
   $query = "SELECT * FROM npc_types WHERE id = $npcid";
@@ -2159,7 +2159,7 @@ function export_sql() {
 }
 
 function get_emotes() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $emoteid = $_GET['emoteid'];
 
   $query = "SELECT id, emoteid, event_, type, text FROM npc_emotes WHERE emoteid=$emoteid ORDER BY emoteid, event_";
@@ -2174,7 +2174,7 @@ function get_emotes() {
 
 function delete_emote() {
   check_authorization();
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $id = $_GET['id']; 
   $emoteid = $_GET['emoteid']; 
 
@@ -2199,7 +2199,7 @@ function delete_emote() {
 }
 
 function emote_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -2210,7 +2210,7 @@ function emote_info() {
 }
 
 function update_emote() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $id = $_POST['id'];
   $emoteid = $_POST['emoteid'];
@@ -2240,7 +2240,7 @@ function update_emote() {
 }
 
 function add_emote() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $emoteid = $_POST['emoteid'];
   $event_ = $_POST['event_']; 
@@ -2257,7 +2257,7 @@ function add_emote() {
 }
 
 function suggest_emoteid() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
 
   $query = "SELECT MAX(emoteid)+1 AS maxeid FROM npc_emotes";
   $result = $mysql->query_assoc($query);
@@ -2267,7 +2267,7 @@ function suggest_emoteid() {
 }
 
 function get_npcid_from_emote($emoteid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id FROM npc_types WHERE emoteid=$emoteid LIMIT 1";
   $result = $mysql->query_assoc($query);
@@ -2277,7 +2277,7 @@ function get_npcid_from_emote($emoteid) {
 }
 
 function getNPCsByEmote() {
-  global $mysql;
+  global $db, $mysql;
   $emoteid = $_GET['emoteid'];
 
   $query = "SELECT id, name FROM npc_types WHERE emoteid=$emoteid ORDER BY id";
@@ -2288,7 +2288,7 @@ function getNPCsByEmote() {
 }
 
 function getExistingEmoteEvents($emoteid) {
-  global $mysql;
+  global $db, $mysql;
   $events = array();
 
   $query = "SELECT event_ FROM npc_emotes WHERE emoteid=$emoteid";
@@ -2302,14 +2302,14 @@ function getExistingEmoteEvents($emoteid) {
 }
 
 function setExistingEmote($npcid, $emoteid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "UPDATE npc_types SET emoteid=$emoteid WHERE id=$npcid";
   $mysql->query_no_result($query);
 }
 
 function list_emotes($page_number, $results_per_page, $sort_by, $where = "") {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT * FROM npc_emotes";
@@ -2323,7 +2323,7 @@ function list_emotes($page_number, $results_per_page, $sort_by, $where = "") {
 }
 
 function build_filter() {
-  global $mysql, $npcid, $z;
+  global $db, $mysql, $npcid, $z;
   $zid = getZoneID($z);
   $filter1 = $_GET['filter1'];
   $filter2 = $_GET['filter2'];

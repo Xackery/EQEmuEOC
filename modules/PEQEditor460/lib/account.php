@@ -108,7 +108,7 @@ switch ($action) {
 }
 
 function get_accounts($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT id, name, lsaccount_id, status FROM account ORDER BY $sort_by LIMIT $limit";
@@ -118,7 +118,7 @@ function get_accounts($page_number, $results_per_page, $sort_by) {
 }
 
 function account_info() {
-  global $mysql, $acctid;
+  global $db, $mysql, $acctid;
   $account_array = array();
   $character_array = array();
   $ip_array = array();
@@ -146,7 +146,7 @@ function account_info() {
 }
 
 function update_account() {
-  global $mysql, $acctid;
+  global $db, $mysql, $acctid;
 
   $oldstats = account_info();
   extract($oldstats);
@@ -162,7 +162,7 @@ function update_account() {
 }
 
 function char_transfer() {
-  global $mysql, $acctid;
+  global $db, $mysql, $acctid;
   $target_acct = getAccountID($_POST['tacct']);
   $char_id = $_GET['playerid'];
 
@@ -171,7 +171,7 @@ function char_transfer() {
 }
 
 function get_account_status() {
-  global $mysql, $acctid;
+  global $db, $mysql, $acctid;
 
   $query = "SELECT status FROM account WHERE id=$acctid";
   $result = $mysql->query_assoc($query);
@@ -180,7 +180,7 @@ function get_account_status() {
 }
 
 function update_account_status() {
-  global $mysql, $acctid;
+  global $db, $mysql, $acctid;
   $new_status = $_POST['new_acct_status'];
 
   $query = "UPDATE account SET status=$new_status WHERE id=$acctid";

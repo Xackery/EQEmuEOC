@@ -20,7 +20,7 @@
 
         /* Search by Item Type */
 		if($_GET['Type'] == 1){
-			$query_result = mysql_query(
+			$query_result = mysqli_query($db, 
                 "SELECT
                 items.id,
                 replace(items.idfile, 'IT', '') AS WeaponList,
@@ -29,7 +29,7 @@
                 GROUP BY `icon`
                 ORDER BY `WeaponList` ASC"
             );
-			while($row = mysql_fetch_array($query_result)){
+			while($row = mysqli_fetch_array($query_result)){
                 $img_url = "cust_assets/icons/item_" . $row['icon'] . ".png";
 				if(file_exists($img_url)) {
                     echo '
@@ -44,7 +44,7 @@
 		}
         /* Search by Item Slot */
 		else if($_GET['Type'] == 2){
-			$query_result = mysql_query("
+			$query_result = mysqli_query($db, "
 			    SELECT
 			    items.id,
 			    slots AS WeaponList,
@@ -56,7 +56,7 @@
 			    GROUP BY `icon`
 			    ORDER BY `WeaponList` ASC
             ");
-			while($row = mysql_fetch_array($query_result)){
+			while($row = mysqli_fetch_array($query_result)){
                 $img_url = "cust_assets/icons/item_" . $row['icon'] . ".png";
 				if(file_exists($img_url)) {
                     echo '

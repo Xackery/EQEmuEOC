@@ -6,39 +6,39 @@
         $id_field = "id";
 
         /* Check if destination character already exists */
-        $sql = "SELECT * FROM `character_data` WHERE `name` = '" . mysql_real_escape_string($destination_character_name) . "'";
-        $result = mysql_query($sql);
-        while ($row = mysql_fetch_array($result)) {
+        $sql = "SELECT * FROM `character_data` WHERE `name` = '" . mysqli_real_escape_string($destination_character_name) . "'";
+        $result = mysqli_query($db, $sql);
+        while ($row = mysqli_fetch_array($result)) {
             return 0;
         }
 
-        $result = mysql_query("SELECT * FROM {$table} WHERE {$id_field} = {$id_copied_from}");
-        $original_record = mysql_fetch_assoc($result);
+        $result = mysqli_query($db, "SELECT * FROM {$table} WHERE {$id_field} = {$id_copied_from}");
+        $original_record = mysqli_fetch_assoc($result);
         /* insert the new record and get the new auto_increment id */
-        mysql_query("INSERT INTO {$table} (`{$id_field}`) VALUES (NULL)");
-        $new_id = mysql_insert_id();
-        echo mysql_error();
+        mysqli_query($db, "INSERT INTO {$table} (`{$id_field}`) VALUES (NULL)");
+        $new_id = mysqli_insert_id();
+        echo mysqli_error();
 
         /* generate the query to update the new record with the previous values */
         $query = "UPDATE {$table} SET ";
         foreach ($original_record as $key => $value) {
             if ($key != $id_field) {
                 if($key == "name"){
-                    $query .= '`' . $key . '` = "' . str_replace('"', '\"', mysql_real_escape_string($destination_character_name)) . '", ';
+                    $query .= '`' . $key . '` = "' . str_replace('"', '\"', mysqli_real_escape_string($destination_character_name)) . '", ';
                 }
                 else if($key == "account_id"){
                     $query .= '`' . $key . '` = "' . str_replace('"', '\"', $destination_account_id) . '", ';
                 }
                 else {
-                    $query .= '`' . $key . '` = "' . str_replace('"', '\"', mysql_real_escape_string($value)) . '", ';
+                    $query .= '`' . $key . '` = "' . str_replace('"', '\"', mysqli_real_escape_string($value)) . '", ';
                 }
             }
         }
         $query = substr($query, 0, strlen($query) - 2); // lop off the extra trailing comma
         $query .= " WHERE {$id_field} = {$new_id}";
-        mysql_query($query);
+        mysqli_query($db, $query);
         # echo '<pre>' . $query . '</pre>';
-        echo mysql_error();
+        echo mysqli_error();
 
         return $new_id;
     }

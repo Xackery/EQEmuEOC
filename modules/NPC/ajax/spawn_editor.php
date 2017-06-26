@@ -19,9 +19,9 @@
         </style>';
 
         /* Get spawnentry info */
-        $result = mysql_query("SELECT * FROM `spawnentry` WHERE `npcID` = " . $npc_id);
+        $result = mysqli_query($db, "SELECT * FROM `spawnentry` WHERE `npcID` = " . $npc_id);
         $spawn_entry = array();
-        while ($row = mysql_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
             $spawn_entry = $row;
         }
 
@@ -49,8 +49,8 @@
                 </thead>
         ';
 
-        $result = mysql_query("SELECT * FROM `spawngroup` WHERE `id` = " . $spawn_group_id);
-        while ($row = mysql_fetch_array($result)) {
+        $result = mysqli_query($db, "SELECT * FROM `spawngroup` WHERE `id` = " . $spawn_group_id);
+        while ($row = mysqli_fetch_array($result)) {
             $Content .= '
                 <tr db_table="spawngroup" db_key="id" db_key_val="' . $row['id'] . '">
                     <td style="background-color:yellow" nonedit="1">' . $row['id'] . '</td>
@@ -94,8 +94,8 @@
                 </thead>
         ';
 
-        $result = mysql_query("SELECT * FROM `spawn2` WHERE `spawngroupID` = " . $spawn_group_id);
-        while ($row = mysql_fetch_array($result)) {
+        $result = mysqli_query($db, "SELECT * FROM `spawn2` WHERE `spawngroupID` = " . $spawn_group_id);
+        while ($row = mysqli_fetch_array($result)) {
             $Content .= '
                 <tr db_table="spawn2" db_key="id,spawngroupID" db_key_val="' . $row['id'] . ',' . $row['spawngroupID'] . '">
                     <td nonedit="1">' . $row['id'] . '</td>
@@ -130,8 +130,8 @@
                     </thead>
         ';
 
-        $result = mysql_query("SELECT * FROM `spawnentry` WHERE `spawngroupID` = " . $spawn_group_id);
-        while ($row = mysql_fetch_array($result)) {
+        $result = mysqli_query($db, "SELECT * FROM `spawnentry` WHERE `spawngroupID` = " . $spawn_group_id);
+        while ($row = mysqli_fetch_array($result)) {
             $Content .= '
                 <tr db_table="spawnentry" db_key="spawngroupID,npcID" db_key_val="' . $row['spawngroupID'] . ',' . $row['npcID'] . '">
                     <td style="background-color:orange" nonedit="1">' . $row['npcID'] . '</td>
@@ -146,9 +146,9 @@
     }
     /* Handle field updates from spawn editor tables */
     if(isset($_GET['do_spawn_edit_update'])){
-        $table_name = mysql_real_escape_string($_GET['do_spawn_edit_update']);
-        $field = mysql_real_escape_string($_GET['field']);
-        $value = mysql_real_escape_string($_GET['value']);
+        $table_name = mysqli_real_escape_string($_GET['do_spawn_edit_update']);
+        $field = mysqli_real_escape_string($_GET['field']);
+        $value = mysqli_real_escape_string($_GET['value']);
         $db_key = $_GET['db_key'];
         $db_key_val = $_GET['db_key_val'];
 
@@ -162,9 +162,9 @@
             $filter = $db_key . " = " . $db_key_val;
         }
 
-        mysql_query("UPDATE `" . $table_name . "` SET `" . $field . "` = " . $value . " WHERE " . $filter);
+        mysqli_query($db, "UPDATE `" . $table_name . "` SET `" . $field . "` = " . $value . " WHERE " . $filter);
         # echo "UPDATE `" . $table_name . "` SET `" . $field . "` = " . $value . " WHERE " . $filter;
-        echo mysql_error();
+        echo mysqli_error();
     }
 
 ?>

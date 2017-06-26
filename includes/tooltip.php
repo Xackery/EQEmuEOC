@@ -5,8 +5,8 @@
 	include($includes_dir.'mysql.php');
 	include($includes_dir.'functions.php');
 	include($includes_dir.'spell.inc.php');
-	$id   = (isset($_GET['id']) ? mysql_real_escape_string($_GET['id']) : '');
-	$type = (isset($_GET['type']) ? mysql_real_escape_string($_GET['type']) : '');
+	$id   = (isset($_GET['id']) ? mysqli_real_escape_string($_GET['id']) : '');
+	$type = (isset($_GET['type']) ? mysqli_real_escape_string($_GET['type']) : '');
 	
 	if($id != "" && is_numeric($id))
 	{
@@ -21,12 +21,12 @@
 			{
 				$Query = "SELECT * FROM $tbitems WHERE id='".$id."'";
 			}
-			$QueryResult = mysql_query($Query) or message_die('item.php','MYSQL_QUERY',$Query,mysql_error());
-			if(mysql_num_rows($QueryResult) == 0)
+			$QueryResult = mysqli_query($db, $Query) or message_die('item.php','mysqli_query($db, ',$Query,mysqli_error());
+			if(mysqli_num_rows($QueryResult) == 0)
 			{
 				//exit();
 			}
-			$item=mysql_fetch_array($QueryResult);
+			$item=mysqli_fetch_array($QueryResult);
 			// Prints all Item data into formatted tables
 			$TooltipData .= BuildItemStats($item, 1);
 		}

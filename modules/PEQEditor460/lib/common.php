@@ -1,7 +1,7 @@
 <?php
 
 function getNPCName($npcid) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT name FROM npc_types WHERE id=$npcid";
   $result = $mysql->query_assoc($query);
@@ -9,7 +9,7 @@ function getNPCName($npcid) {
 }
 
 function getZoneLongName($short_name) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT long_name FROM zone WHERE short_name=\"$short_name\"";
   $result = $mysql->query_assoc($query);
@@ -17,7 +17,7 @@ function getZoneLongName($short_name) {
 }
 
 function getZoneID($short_name) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT zoneidnumber AS id FROM zone WHERE short_name=\"$short_name\"";
   $result = $mysql->query_assoc($query);
@@ -25,7 +25,7 @@ function getZoneID($short_name) {
 }
 
 function getZoneIDByName($short_name) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id FROM zone WHERE short_name=\"$short_name\"";
   $result = $mysql->query_assoc($query);
@@ -33,7 +33,7 @@ function getZoneIDByName($short_name) {
 }
 
 function getZoneName($zoneidnumber) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT short_name FROM zone WHERE zoneidnumber=\"$zoneidnumber\"";
   $result = $mysql->query_assoc($query);
@@ -41,7 +41,7 @@ function getZoneName($zoneidnumber) {
 }
 
 function searchItems($search) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT id, name, lore FROM items WHERE name rlike \"$search\"";
   $results = $mysql->query_mult_assoc($query);
@@ -49,56 +49,56 @@ function searchItems($search) {
 }
 
 function get_merchant_id() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $query = "SELECT merchant_id FROM npc_types WHERE id=$npcid";
   $result = $mysql->query_assoc($query);
   return $result['merchant_id'];
 }
 
 function get_adventure_id() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $query = "SELECT adventure_template_id as id FROM npc_types WHERE id=$npcid";
   $result = $mysql->query_assoc($query);
   return $result['id'];
 }
 
 function get_trap_template() {
-  global $mysql, $npcid;
+  global $db, $mysql, $npcid;
   $query = "SELECT trap_template as id FROM npc_types WHERE id=$npcid";
   $result = $mysql->query_assoc($query);
   return $result['id'];
 }
 
 function get_item_name($id) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT name FROM items WHERE id=$id";
   $result = $mysql->query_assoc($query);
   return $result['name'];
 }
 
 function getFactionName($fid) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT name FROM faction_list WHERE id=$fid";
   $result = $mysql->query_assoc($query);
   return $result['name'];
 }
 
 function getTaskTitle($tskid) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT title FROM tasks WHERE id=$tskid";
   $result = $mysql->query_assoc($query);
   return $result['title'];
 }
 
 function getRecipeName($id) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT name FROM tradeskill_recipe WHERE id=$id";
   $result = $mysql->query_assoc($query);
   return $result['name'];
 }
 
 function getSpellName($id) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT name FROM spells_new WHERE id=$id";
   $result = $mysql->query_assoc($query);
   if($result)
@@ -108,14 +108,14 @@ function getSpellName($id) {
 }
 
 function getSpellsetName($id) {
-  global $mysql;
+  global $db, $mysql;
   $query = "SELECT name FROM npc_spells WHERE id=$id";
   $result = $mysql->query_assoc($query);
   return $result['name'];
 }
 
 function check_authorization() {
-  global $tmpl;
+  global $db, $tmpl;
   
   if(!session::check_authorization()) {
     $body = "<center><br><br><br><br><br><h2>Sorry, guests do not have access to this function.<br><br><a href=\"javascript:history.back();\">Go Back</a></h2>";
@@ -126,7 +126,7 @@ function check_authorization() {
 }
 
 function check_admin_authorization() {
-  global $tmpl;
+  global $db, $tmpl;
   
   if(!session::is_admin()) {
     $body = "<center><br><br><br><br><br><h2>Sorry, only admins have access to this function.<br><br><a href=\"javascript:history.back();\">Go Back</a></h2>";
@@ -137,7 +137,7 @@ function check_admin_authorization() {
 }
 
 function search_npc_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $npcid = $_GET['npcid'];
 
   $query = "SELECT id,name FROM npc_types WHERE id=\"$npcid\"";
@@ -146,7 +146,7 @@ function search_npc_by_id() {
 }
 
 function search_npcs() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT id,name FROM npc_types WHERE name rlike \"$search\"";
@@ -155,7 +155,7 @@ function search_npcs() {
 }
 
 function search_item_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "SELECT id, name FROM items WHERE id=\"$id\"";
@@ -164,7 +164,7 @@ function search_item_by_id() {
 }
 
 function search_items() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT id, name FROM items WHERE name rlike \"$search\"";
@@ -173,7 +173,7 @@ function search_items() {
 }
 
 function get_zone_by_npcid($npcid) {
-  global $mysql;
+  global $db, $mysql;
   $npczone = substr($npcid, 0, -3);
 
   $query = "SELECT short_name FROM zone WHERE zoneidnumber=\"$npczone\"";
@@ -182,7 +182,7 @@ function get_zone_by_npcid($npcid) {
 }
 
 function get_zoneid_by_npcid($npcid) {
-  global $mysql;
+  global $db, $mysql;
   $npczone = substr($npcid, 0, -3);
 
   $query = "SELECT id FROM zone WHERE zoneidnumber=\"$npczone\"";
@@ -191,7 +191,7 @@ function get_zoneid_by_npcid($npcid) {
 }
 
 function get_npcid_by_emoteid($emoteid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id FROM npc_types WHERE emoteid=\"$emoteid\" limit 1";
   $result = $mysql->query_assoc($query);
@@ -199,7 +199,7 @@ function get_npcid_by_emoteid($emoteid) {
 }
 
 function getPlayerName($playerid) {
-  global $mysql;
+  global $db, $mysql;
   
   if ($playerid > 0) {
     $query = "SELECT name FROM character_data WHERE id=$playerid";
@@ -212,7 +212,7 @@ function getPlayerName($playerid) {
 }
 
 function getPlayerID($playername) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT id FROM character_data WHERE name=\"$playername\"";
   $result = $mysql->query_assoc($query);
@@ -220,7 +220,7 @@ function getPlayerID($playername) {
 }
 
 function search_players_by_name() {
-  global $mysql;
+  global $db, $mysql;
   $playername = $_POST['playername'];
 
   $query = "SELECT id, name FROM character_data WHERE name rlike \"$playername\"";
@@ -229,7 +229,7 @@ function search_players_by_name() {
 }
 
 function search_players_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $playerid = $_POST['playerid'];
 
   $query = "SELECT id, name FROM character_data WHERE id rlike \"$playerid\"";
@@ -238,7 +238,7 @@ function search_players_by_id() {
 }
 
 function getGuildName($guildid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT name FROM guilds WHERE id = $guildid";
   $result = $mysql->query_assoc($query);
@@ -246,7 +246,7 @@ function getGuildName($guildid) {
 }
 
 function suggest_version() {
-  global $mysql, $zoneid;
+  global $db, $mysql, $zoneid;
 
   $query = "SELECT version from zone where id=$zoneid";
   $result = $mysql->query_assoc($query);
@@ -255,7 +255,7 @@ function suggest_version() {
 }
 
 function search_spell_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "SELECT id, name FROM spells_new WHERE id = \"$id\"";
@@ -264,7 +264,7 @@ function search_spell_by_id() {
 }
 
 function search_spells_by_name() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT id, name FROM spells_new WHERE name rlike \"$search\"";
@@ -273,7 +273,7 @@ function search_spells_by_name() {
 }
 
 function getAccountName($acctid) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT name FROM account WHERE id=$acctid";
   $result = $mysql->query_assoc($query);
@@ -281,7 +281,7 @@ function getAccountName($acctid) {
 }
 
 function getAccountID($lsname) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id FROM account WHERE name=\"$lsname\"";
   $result = $mysql->query_assoc($query);
@@ -289,7 +289,7 @@ function getAccountID($lsname) {
 }
 
 function search_accounts_by_name() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_POST['lsaccount_name'];
 
   $query = "SELECT id, name, lsaccount_id FROM account WHERE name rlike \"$search\"";
@@ -298,7 +298,7 @@ function search_accounts_by_name() {
 }
 
 function search_accounts_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $lsacctid = $_POST['lsaccount_id'];
 
   $query = "SELECT id, name, lsaccount_id FROM account WHERE lsaccount_id rlike \"$lsacctid\"";
@@ -307,7 +307,7 @@ function search_accounts_by_id() {
 }
 
 function get_real_time($unix_time) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT FROM_UNIXTIME($unix_time) AS real_time";
   $result = $mysql->query_assoc($query);
@@ -316,7 +316,7 @@ function get_real_time($unix_time) {
 }
 
 function get_current_time() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT NOW() AS timestamp";
   $result = $mysql->query_assoc($query);
@@ -325,7 +325,7 @@ function get_current_time() {
 }
 
 function search_guilds() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT id, name FROM guilds WHERE name rlike \"$search\"";
@@ -334,7 +334,7 @@ function search_guilds() {
 }
 
 function search_guilds_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $guild_id = $_GET['guild_id'];
 
   $query = "SELECT id, name FROM guilds WHERE id=\"$guild_id\"";
@@ -343,7 +343,7 @@ function search_guilds_by_id() {
 }
 
 function search_guilds_by_charid() {
-  global $mysql;
+  global $db, $mysql;
   $charid = $_GET['charid'];
 
   $query = "SELECT char_id, guild_id FROM guild_members WHERE char_id=\"$charid\"";
@@ -352,7 +352,7 @@ function search_guilds_by_charid() {
 }
 
 function search_guilds_by_charname() {
-  global $mysql;
+  global $db, $mysql;
   $charname = $_GET['charname'];
 
   $query = "SELECT char_id, guild_id FROM guild_members WHERE char_id IN (SELECT id FROM character_data WHERE name RLIKE \"$charname\")";
@@ -361,7 +361,7 @@ function search_guilds_by_charname() {
 }
 
 function search_aas_by_name() {
-  global $mysql;
+  global $db, $mysql;
   $search = $_GET['search'];
 
   $query = "SELECT skill_id, name FROM altadv_vars WHERE name rlike \"$search\" ORDER BY name, skill_id";
@@ -370,7 +370,7 @@ function search_aas_by_name() {
 }
 
 function search_aas_by_id() {
-  global $mysql;
+  global $db, $mysql;
   $aaid = $_GET['aaid'];
 
   $query = "SELECT skill_id, name FROM altadv_vars WHERE skill_id=\"$aaid\"";
@@ -379,7 +379,7 @@ function search_aas_by_id() {
 }
 
 function getAAName($aaid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT name FROM altadv_vars WHERE skill_id=\"$aaid\"";
   $result = $mysql->query_assoc($query);
@@ -390,7 +390,7 @@ function getAAName($aaid) {
 }
 
 function getPageInfo($table, $page, $size, $sort, $where = "") {
-  global $mysql;
+  global $db, $mysql;
   $stats = array();
 
   $query = "SELECT COUNT(*) AS total FROM $table";
@@ -411,7 +411,7 @@ function getPageInfo($table, $page, $size, $sort, $where = "") {
 }
 
 function delete_player($playerid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "DELETE FROM aa_timers WHERE charid=$playerid";
   $mysql->query_no_result($query);
@@ -515,7 +515,7 @@ function delete_player($playerid) {
 }
 
 function delete_account($acctid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "DELETE FROM account WHERE id=$acctid";
   $mysql->query_no_result($query);
@@ -534,7 +534,7 @@ function delete_account($acctid) {
 }
 
 function get_currency_name($curr_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT a.item_id, i.name FROM alternate_currency a, items i WHERE a.item_id = i.id AND a.id = $curr_id";
   $result = $mysql->query_assoc($query);
@@ -543,7 +543,7 @@ function get_currency_name($curr_id) {
 }
 
 function factions_array() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, name FROM faction_list ORDER BY name";
   $results = $mysql->query_mult_assoc($query);
@@ -561,7 +561,7 @@ function html_replace($text) {
 }
 
 function item_isNoRent($item_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT norent FROM items WHERE id=$item_id";
   $result = $mysql->query_assoc($query);

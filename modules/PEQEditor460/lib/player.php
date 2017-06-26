@@ -104,7 +104,7 @@ switch ($action) {
 }
 
 function get_players($page_number, $results_per_page, $sort_by) {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT id, account_id, name, level, class FROM character_data ORDER BY $sort_by LIMIT $limit";
@@ -114,7 +114,7 @@ function get_players($page_number, $results_per_page, $sort_by) {
 }
 
 function player_info() {
-  global $mysql, $playerid;
+  global $db, $mysql, $playerid;
   $player_array = array();
   $skills = array();
   $languages = array();
@@ -222,7 +222,7 @@ function player_info() {
 }
 
 function update_player() {
-  global $mysql, $playerid;
+  global $db, $mysql, $playerid;
 
   $oldstats = player_info();
   extract($oldstats);

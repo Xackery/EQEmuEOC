@@ -26,8 +26,8 @@
 		}
 		
 		$Query = "SELECT zoneidnumber, short_name, long_name FROM zone ORDER BY zoneidnumber";
-		$QueryResult = mysql_query($Query) or message_die('taskbuild.php', 'MYSQL_QUERY', $Query, mysql_error());
-		while ($row = mysql_fetch_array($QueryResult)) {
+		$QueryResult = mysqli_query($db, $Query) or message_die('taskbuild.php', 'mysqli_query($db, ', $Query, mysqli_error());
+		while ($row = mysqli_fetch_array($QueryResult)) {
 			$CurZoneID    = $row["zoneidnumber"];
 			$CurShortName = $row["short_name"];
 			$CurLongName  = $row["long_name"];
@@ -154,7 +154,7 @@
 
 	function GetActivityForm($taskid, $activityid)
 	{
-		global $tbtaskactivities;
+		global $db, $tbtaskactivities;
 		
 		$TaskID = $taskid;
 		
@@ -163,9 +163,9 @@
 		$TaskContent .= '<table style="margin-left:0px;">';
 		
 		$Query = "SELECT * FROM activities WHERE taskid='" . $taskid . "' AND activityid='" . $activityid . "' LIMIT 1";
-		$QueryResult = mysql_query($Query) or message_die('task.php', 'MYSQL_QUERY', $Query, mysql_error());
+		$QueryResult = mysqli_query($db, $Query) or message_die('task.php', 'mysqli_query($db, ', $Query, mysqli_error());
 		
-		while ($row = mysql_fetch_array($QueryResult)) {
+		while ($row = mysqli_fetch_array($QueryResult)) {
 			$ActivityID      = $row["activityid"];
 			$Step            = $row["step"];
 			$ActivityType    = $row["activitytype"];
@@ -307,8 +307,8 @@
 			
 			$ProximityExists = 0;
 			$Query2          = "SELECT exploreid FROM proximities WHERE exploreid = '" . $GoalID . "'";
-			$QueryResult2 = mysql_query($Query2) or message_die('tasks.php', 'MYSQL_QUERY', $Query2, mysql_error());
-			if (mysql_num_rows($QueryResult2) != 0) {
+			$QueryResult2 = mysqli_query($db, $Query2) or message_die('tasks.php', 'mysqli_query($db, ', $Query2, mysqli_error());
+			if (mysqli_num_rows($QueryResult2) != 0) {
 				$ProximityExists = 1;
 			}
 			
@@ -383,25 +383,25 @@
 		if ($newentry == 1) {
 			$NextID = 1;
 			$Query  = "SELECT exploreid FROM proximities ORDER BY exploreid DESC LIMIT 1";
-			$QueryResult = mysql_query($Query) or message_die('tasks.php', 'MYSQL_QUERY', $Query, mysql_error());
-			if (mysql_num_rows($QueryResult) != 0) {
-				$row    = mysql_fetch_array($QueryResult);
+			$QueryResult = mysqli_query($db, $Query) or message_die('tasks.php', 'mysqli_query($db, ', $Query, mysqli_error());
+			if (mysqli_num_rows($QueryResult) != 0) {
+				$row    = mysqli_fetch_array($QueryResult);
 				$NextID = $row["exploreid"] + 1;
 			}
 			
 			$ZoneID = 0;
 			$Query  = "SELECT zoneid FROM activities WHERE activityid = " . $activityid . " AND taskid = " . $taskid . "  LIMIT 1";
-			$QueryResult = mysql_query($Query) or message_die('tasks.php', 'MYSQL_QUERY', $Query, mysql_error());
-			if (mysql_num_rows($QueryResult) != 0) {
-				$row    = mysql_fetch_array($QueryResult);
+			$QueryResult = mysqli_query($db, $Query) or message_die('tasks.php', 'mysqli_query($db, ', $Query, mysqli_error());
+			if (mysqli_num_rows($QueryResult) != 0) {
+				$row    = mysqli_fetch_array($QueryResult);
 				$ZoneID = $row["zoneid"];
 			}
 			
 			$Query = "INSERT INTO proximities ( zoneid, exploreid, minx, maxx, miny, maxy, minz, maxz ) VALUES ( " . $ZoneID . ", " . $NextID . ", 0, 0, 0, 0, 0, 0 )";
-			$QueryResult = mysql_query($Query) or message_die('tasks.php', 'MYSQL_QUERY', $Query, mysql_error());
+			$QueryResult = mysqli_query($db, $Query) or message_die('tasks.php', 'mysqli_query($db, ', $Query, mysqli_error());
 			
 			$Query = "UPDATE activities SET goalid = " . $NextID . ", activitytype = 5, goalcount = 1, goalmethod = 0 WHERE activityid = " . $activityid . " AND taskid = " . $taskid . "";
-			$QueryResult = mysql_query($Query) or message_die('tasks.php', 'MYSQL_QUERY', $Query, mysql_error());
+			$QueryResult = mysqli_query($db, $Query) or message_die('tasks.php', 'mysqli_query($db, ', $Query, mysqli_error());
 		}
 		
 		$TaskContent .= '<form class="customForm" action="tasks.php">';
@@ -413,10 +413,10 @@
 						AND activities.activityid = " . $activityid . " AND activities.taskid = " . $taskid . " 
 						LIMIT 1";
 		
-		$QueryResult = mysql_query($Query) or message_die('tasks.php', 'MYSQL_QUERY', $Query, mysql_error());
+		$QueryResult = mysqli_query($db, $Query) or message_die('tasks.php', 'mysqli_query($db, ', $Query, mysqli_error());
 		
-		if (mysql_num_rows($QueryResult) != 0) {
-			while ($proximity = mysql_fetch_array($QueryResult)) {
+		if (mysqli_num_rows($QueryResult) != 0) {
+			while ($proximity = mysqli_fetch_array($QueryResult)) {
 				$TaskContent .= '<tr><td colspan="2" align="center"><div id="proximityDeleteDiv"><a href="javascript:;" class="custBtnIconLeft" onclick="deleteTaskActivity(' . $taskid . ', ' . $activityid . ', \'delete\', \'proximityDeleteDiv\')">Delete Proximity</a></div></td></tr>';
 				
 				$TaskContent .= '<tr><td colspan="2"><center><b>Proximity Details</b></center></td></tr>';
@@ -454,7 +454,7 @@
 
 	function GetActivityList($taskid)
 	{
-		global $tbtaskactivities;
+		global $db, $tbtaskactivities;
 		
 		$TaskID = $taskid;
 		
@@ -463,12 +463,12 @@
 		<table align="left" style="width:500px"><tr><td colspan="2" style="vertical-align:top">';
 		
 		$Query = "SELECT * FROM activities WHERE taskid='" . $taskid . "' ORDER BY activityid";
-		$QueryResult = mysql_query($Query) or message_die('task.php', 'MYSQL_QUERY', $Query, mysql_error());
+		$QueryResult = mysqli_query($db, $Query) or message_die('task.php', 'mysqli_query($db, ', $Query, mysqli_error());
 
 		$TaskContent .= '<a href="javascript:;" class="btn green btn-xs" onclick="addActivity(' . $taskid . ')"><i class="fa fa-database"></i> New Activity</a><hr>';
 		$TaskContent .= '<select multiple="multiple" class="form-control" onclick="getActivityContent(' . $taskid . ', this.value)" title="Click to Select an Activity" style="height:200px">';
 		
-		while ($row = mysql_fetch_array($QueryResult)) {
+		while ($row = mysqli_fetch_array($QueryResult)) {
 			$ActivityID      = $row["activityid"];
 			$ActivityType    = $row["activitytype"];
 			$Text1           = $row["text1"];
@@ -505,20 +505,20 @@
 
 	function GetTaskList($taskid)
 	{
-		global $tbtasks; 
+		global $db, $tbtasks; 
 		
 		$TaskID = $taskid;
 		
 		$Query = "SELECT `id`, `title` FROM tasks ORDER BY `id`";
-		$QueryResult = mysql_query($Query);
-		if (mysql_num_rows($QueryResult) == 0) {
+		$QueryResult = mysqli_query($db, $Query);
+		if (mysqli_num_rows($QueryResult) == 0) {
 			//header("Location: index.php");
 			//exit();
 		}
 		
 		$TaskContent .= '<select multiple="multiple" class="form-control" onclick="getTaskContent(this.value)" title="Click to Select a Task" style="width:400px;height:800px">';
 		
-		while ($row = mysql_fetch_array($QueryResult)) {
+		while ($row = mysqli_fetch_array($QueryResult)) {
 			$CurTaskID    = $row["id"];
 			$CurTaskTitle = $row["title"];
 			if ($CurTaskID == $taskid) {
@@ -534,7 +534,7 @@
 
 	function GetTaskEditForm($id)
 	{
-		global $tbtaskactivities, $tbtasks, $icons_url, $root_url; 
+		global $db, $tbtaskactivities, $tbtasks, $icons_url, $root_url; 
 		
 		$taskid     = $id;
 		$activityid = -1;
@@ -554,23 +554,23 @@
 				$task["title"]        = "Default Description";
 				$Query                = "INSERT INTO `tasks` (id, minlevel, maxlevel, duration, repeatable, startzone, rewardmethod, title, description) 
 					VALUES('" . $task["id"] . "','" . $task["minlevel"] . "','" . $task["maxlevel"] . "','" . $task["duration"] . "','" . $task["repeatable"] . "','" . $task["startzone"] . "','" . $task["rewardmethod"] . "','" . $task["title"] . "','" . $task["title"] . "')";
-				$QueryResult = mysql_query($Query) or message_die('taskbuild.php', 'MYSQL_QUERY', $Query, mysql_error());
+				$QueryResult = mysqli_query($db, $Query) or message_die('taskbuild.php', 'mysqli_query($db, ', $Query, mysqli_error());
 				if ($QueryResult) {
 					$Query = "SELECT * FROM `tasks` WHERE id='" . $id . "'";
-					$QueryResult = mysql_query($Query) or message_die('taskbuild.php', 'MYSQL_QUERY', $Query, mysql_error());
-					if (mysql_num_rows($QueryResult) == 0) {
+					$QueryResult = mysqli_query($db, $Query) or message_die('taskbuild.php', 'mysqli_query($db, ', $Query, mysqli_error());
+					if (mysqli_num_rows($QueryResult) == 0) {
 						//exit();
 					}
-					$task = mysql_fetch_array($QueryResult);
+					$task = mysqli_fetch_array($QueryResult);
 				}
 			} else {
 				$Query = "SELECT * FROM `tasks` WHERE id='" . $id . "'";
-				$QueryResult = mysql_query($Query);
-				if (mysql_num_rows($QueryResult) == 0) {
+				$QueryResult = mysqli_query($db, $Query);
+				if (mysqli_num_rows($QueryResult) == 0) {
 					// No task data - Return nothing
 					return;
 				}
-				$task = mysql_fetch_array($QueryResult);
+				$task = mysqli_fetch_array($QueryResult);
 			}
 		}
 		

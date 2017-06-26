@@ -66,7 +66,7 @@ switch ($action) {
 }
 
 function get_old_characters($datetime) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, account_id, timelaston FROM character_data WHERE timelaston < (UNIX_TIMESTAMP() - $datetime) ORDER BY timelaston, id LIMIT 500";
   $results = $mysql->query_mult_assoc($query);
@@ -83,7 +83,7 @@ function purge_characters() {
 }
 
 function get_empty_accounts() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id FROM account WHERE id NOT IN (SELECT account_id FROM character_data GROUP BY account_id) ORDER BY id LIMIT 500";
   $results = $mysql->query_mult_assoc($query);
@@ -100,7 +100,7 @@ function purge_accounts() {
 }
 
 function get_recipe_activity($count) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT * FROM char_recipe_list WHERE madecount >= $count ORDER BY madecount DESC, recipe_id, char_id";
   $results = $mysql->query_mult_assoc($query);

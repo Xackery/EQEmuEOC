@@ -500,13 +500,13 @@ var PhpLangHighlightRules = function() {
         'mssql_fetch_field|mssql_fetch_object|mssql_fetch_row|mssql_field_length|mssql_field_name|mssql_field_seek|mssql_field_type|' +
         'mssql_free_result|mssql_free_statement|mssql_get_last_message|mssql_guid_string|mssql_init|mssql_min_error_severity|' +
         'mssql_min_message_severity|mssql_next_result|mssql_num_fields|mssql_num_rows|mssql_pconnect|mssql_query|mssql_result|mssql_rows_affected|' +
-        'mssql_select_db|mt_getrandmax|mt_rand|mt_srand|multipleiterator|mysql_affected_rows|mysql_client_encoding|mysql_close|mysql_connect|' +
-        'mysql_create_db|mysql_data_seek|mysql_db_name|mysql_db_query|mysql_drop_db|mysql_errno|mysql_error|mysql_escape_string|mysql_fetch_array|' +
-        'mysql_fetch_assoc|mysql_fetch_field|mysql_fetch_lengths|mysql_fetch_object|mysql_fetch_row|mysql_field_flags|mysql_field_len|' +
-        'mysql_field_name|mysql_field_seek|mysql_field_table|mysql_field_type|mysql_free_result|mysql_get_client_info|mysql_get_host_info|' +
-        'mysql_get_proto_info|mysql_get_server_info|mysql_info|mysql_insert_id|mysql_list_dbs|mysql_list_fields|mysql_list_processes|' +
-        'mysql_list_tables|mysql_num_fields|mysql_num_rows|mysql_pconnect|mysql_ping|mysql_query|mysql_real_escape_string|mysql_result|' +
-        'mysql_select_db|mysql_set_charset|mysql_stat|mysql_tablename|mysql_thread_id|mysql_unbuffered_query|mysqli|mysqli_bind_param|' +
+        'mssql_select_db|mt_getrandmax|mt_rand|mt_srand|multipleiterator|mysqli_affected_rows|mysqli_client_encoding|mysqli_close|mysqli_connect|' +
+        'mysqli_create_db|mysqli_data_seek|mysqli_db_name|mysqli_db_query|mysqli_drop_db|mysqli_errno|mysqli_error|mysqli_escape_string|mysqli_fetch_array|' +
+        'mysqli_fetch_assoc|mysqli_fetch_field|mysqli_fetch_lengths|mysqli_fetch_object|mysqli_fetch_row|mysqli_field_flags|mysqli_field_len|' +
+        'mysqli_field_name|mysqli_field_seek|mysqli_field_table|mysqli_field_type|mysqli_free_result|mysqli_get_client_info|mysqli_get_host_info|' +
+        'mysqli_get_proto_info|mysqli_get_server_info|mysqli_info|mysqli_insert_id|mysqli_list_dbs|mysqli_list_fields|mysqli_list_processes|' +
+        'mysqli_list_tables|mysqli_num_fields|mysqli_num_rows|mysqli_pconnect|mysqli_ping|mysqli_query|mysqli_real_escape_string|mysqli_result|' +
+        'mysqli_select_db|mysqli_set_charset|mysqli_stat|mysqli_tablename|mysqli_thread_id|mysqli_unbuffered_query|mysqli|mysqli_bind_param|' +
         'mysqli_bind_result|mysqli_client_encoding|mysqli_connect|mysqli_disable_reads_from_master|mysqli_disable_rpl_parse|mysqli_driver|' +
         'mysqli_enable_reads_from_master|mysqli_enable_rpl_parse|mysqli_escape_string|mysqli_execute|mysqli_fetch|mysqli_get_metadata|' +
         'mysqli_master_query|mysqli_param_count|mysqli_report|mysqli_result|mysqli_rpl_parse_enabled|mysqli_rpl_probe|mysqli_rpl_query_type|' +
@@ -862,9 +862,9 @@ var PhpLangHighlightRules = function() {
         'cubrid_send_glo|define_syslog_variables|dl|ereg|ereg_replace|eregi|eregi_replace|hw_documentattributes|hw_documentbodytag|' +
         'hw_documentsize|hw_outputdocument|imagedashedline|maxdb_bind_param|maxdb_bind_result|maxdb_client_encoding|maxdb_close_long_data|' +
         'maxdb_execute|maxdb_fetch|maxdb_get_metadata|maxdb_param_count|maxdb_send_long_data|mcrypt_ecb|mcrypt_generic_end|mime_content_type|' +
-        'mysql_createdb|mysql_dbname|mysql_db_query|mysql_drop_db|mysql_dropdb|mysql_escape_string|mysql_fieldflags|mysql_fieldflags|' +
-        'mysql_fieldname|mysql_fieldtable|mysql_fieldtype|mysql_freeresult|mysql_listdbs|mysql_list_fields|mysql_listfields|mysql_list_tables|' +
-        'mysql_listtables|mysql_numfields|mysql_numrows|mysql_selectdb|mysql_tablename|mysqli_bind_param|mysqli_bind_result|' +
+        'mysqli_createdb|mysqli_dbname|mysqli_db_query|mysqli_drop_db|mysqli_dropdb|mysqli_escape_string|mysqli_fieldflags|mysqli_fieldflags|' +
+        'mysqli_fieldname|mysqli_fieldtable|mysqli_fieldtype|mysqli_freeresult|mysqli_listdbs|mysqli_list_fields|mysqli_listfields|mysqli_list_tables|' +
+        'mysqli_listtables|mysqli_numfields|mysqli_numrows|mysqli_selectdb|mysqli_tablename|mysqli_bind_param|mysqli_bind_result|' +
         'mysqli_disable_reads_from_master|mysqli_disable_rpl_parse|mysqli_enable_reads_from_master|mysqli_enable_rpl_parse|mysqli_execute|' +
         'mysqli_fetch|mysqli_get_metadata|mysqli_master_query|mysqli_param_count|mysqli_rpl_parse_enabled|mysqli_rpl_probe|mysqli_rpl_query_type|' +
         'mysqli_send_long_data|mysqli_send_query|mysqli_slave_query|ocibindbyname|ocicancel|ocicloselob|ocicollappend|ocicollassign|' +

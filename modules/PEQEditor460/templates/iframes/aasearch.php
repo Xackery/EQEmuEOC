@@ -59,7 +59,7 @@ function getClasses($classes, $berserker) {
   }
 }
 function getExpansionName($expid) {
-  global $eqexpansions;
+  global $db, $eqexpansions;
   if (!isset($expid)) return "";
   if ($expid < 0) return "$expid"; // Avoid hitting the 'None Selected'
   if (isset($eqexpansions[$expid+1])) return $eqexpansions[$expid+1];
@@ -69,7 +69,7 @@ function getExpansionName($expid) {
 
 if(isset($_GET['search']) && ($_GET['search'] != '')) {
   require("../../config.php");
-  if($mysql_class = "mysqli")
+  if($mysqli_class = "mysqli")
     require("../../classes/mysqli.php");
   else
     require("../../classes/mysql.php");

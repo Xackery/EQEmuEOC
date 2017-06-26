@@ -1,6 +1,6 @@
 <?
   function getExpansionName($expid) {
-    global $eqexpansions;
+    global $db, $eqexpansions;
     if (!isset($expid)) return "";
     if ($expid < 0) return "$expid"; // Avoid hitting the 'None Selected'
     if (isset($eqexpansions[$expid+1])) return $eqexpansions[$expid+1];

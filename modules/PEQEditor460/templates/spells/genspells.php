@@ -3,7 +3,7 @@
 $spellfile = "spells_us.txt";
 
 $spellquery = "SELECT * FROM spells_new ORDER BY id";
-$res = mysql_query($spellquery);
+$res = mysqli_query($db, $spellquery);
 
 $fh = fopen($spellfile, 'w');
 if(!$fh) { die("Error opening $spellfile for writing.  Make sure the path is writable."); }
@@ -12,7 +12,7 @@ $cnt = 0;
 $lastid = 0;
 
 //Based on export_spells.pl bundled with eqemu, the spells_us.txt file is just a ^ delemited copy of the spell table.
-while($row = mysql_fetch_assoc($res))
+while($row = mysqli_fetch_assoc($res))
 {
  $cnt++;
  if($row[id] > $lastid) { $lastid = $row[id]; }

@@ -20,7 +20,7 @@
 			}
 		*/
 		$sql = 'UPDATE `spells_new` SET `' . $c['Field'] .'` = \'' . $c['Val'] . '\' WHERE `id` = ' . $c['Spell_ID'] . ''; 
-		$result = mysql_query($sql);
+		$result = mysqli_query($db, $sql);
 		if($result){ echo 'Success'; }
 	}
 	/*
@@ -30,18 +30,18 @@
 	if(isset($_GET['components_select'])){
 		echo '<select name="components" class="form-control"> <option value="0">--- Select ---</option>';
 		$sql = "SELECT `id`, `Name` FROM `items`";
-		$result = mysql_query($sql);
+		$result = mysqli_query($db, $sql);
 		$item_id_to_name = array(); 
-		while($row = mysql_fetch_array($result)){	
+		while($row = mysqli_fetch_array($result)){	
 			$item_id_to_name[$row['id']] = $row['Name'];
 		} 
 		$sql = "SELECT `components1`, `components2`, `components3`, `components4`
 			FROM `spells_new` 
 			WHERE
 			`components1` > 0 OR `components2` > 0 OR `components3` > 0 OR `components4` ";
-		$result = mysql_query($sql);
+		$result = mysqli_query($db, $sql);
 		$n = 0;
-		while($row = mysql_fetch_array($result)){	
+		while($row = mysqli_fetch_array($result)){	
 			if($row['components1'] > 0 && $d_components[$row['components1']] != 1){ $components[$n] = $row['components1']; $d_components[$row['components1']] = 1; $n++; }
 			if($row['components2'] > 0 && $d_components[$row['components2']] != 1){ $components[$n] = $row['components2']; $d_components[$row['components2']] = 1; $n++; }
 			if($row['components3'] > 0 && $d_components[$row['components3']] != 1){ $components[$n] = $row['components3']; $d_components[$row['components3']] = 1; $n++; }

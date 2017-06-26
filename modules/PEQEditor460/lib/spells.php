@@ -87,7 +87,7 @@ switch ($action) {
 }
 
 function spell_info () {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -102,7 +102,7 @@ function spell_info () {
 }
 
 function delete_spell () {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_GET['id'];
 
@@ -111,7 +111,7 @@ function delete_spell () {
 }
 
 function update_spell () {
-  global $mysql;
+  global $db, $mysql;
 
   $id = $_POST['id'];
   $vars = spell_info();
@@ -173,7 +173,7 @@ function update_spell () {
 }
 
 function copy_spell () {
-  global $mysql, $sp_fields;
+  global $db, $mysql, $sp_fields;
 
   $id = $_GET['id'];
 
@@ -193,7 +193,7 @@ function copy_spell () {
 }
 
 function get_max_id () {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT max(id) AS iid FROM spells_new";
   $result = $mysql->query_assoc($query);
@@ -203,7 +203,7 @@ function get_max_id () {
 }
 
 function add_spell () {
-  global $mysql;
+  global $db, $mysql;
 }
 
 ?>

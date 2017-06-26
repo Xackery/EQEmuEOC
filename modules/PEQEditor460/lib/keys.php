@@ -82,7 +82,7 @@ switch ($action) {
 }
 
 function player_keys($player_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT char_id, item_id FROM keyring WHERE char_id=$player_id";
   $results = $mysql->query_mult_assoc($query);
@@ -91,7 +91,7 @@ function player_keys($player_id) {
 }
 
 function key_item_details($player_id, $item_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT * FROM keyring WHERE char_id=$player_id AND item_id=$item_id";
   $results = $mysql->query_assoc($query);
@@ -100,7 +100,7 @@ function key_item_details($player_id, $item_id) {
 }
 
 function search_by_playerid($player_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT DISTINCT(char_id) AS char_id FROM keyring WHERE char_id=$player_id";
   $results = $mysql->query_mult_assoc($query);
@@ -109,7 +109,7 @@ function search_by_playerid($player_id) {
 }
 
 function search_by_playername($player_name, $list_limit) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id AS char_id FROM character_data WHERE `name` RLIKE \"$player_name\" LIMIT $list_limit";
   $results = $mysql->query_mult_assoc($query);
@@ -118,7 +118,7 @@ function search_by_playername($player_name, $list_limit) {
 }
 
 function search_by_itemid($item_id, $list_limit) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT DISTINCT(char_id) AS char_id FROM keyring WHERE item_id=$item_id LIMIT $list_limit";
   $results = $mysql->query_mult_assoc($query);
@@ -127,14 +127,14 @@ function search_by_itemid($item_id, $list_limit) {
 }
 
 function delete_key_item($player_id, $item_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "DELETE FROM keyring WHERE char_id=$player_id AND item_id=$item_id";
   $mysql->query_no_result($query);
 }
 
 function update_key_item() {
-  global $mysql;
+  global $db, $mysql;
 
   $char_id = $_POST['char_id'];
   $item_id = $_POST['item_id'];
@@ -145,7 +145,7 @@ function update_key_item() {
 }
 
 function insert_key_item() {
-  global $mysql;
+  global $db, $mysql;
 
   $char_id = $_POST['char_id'];
   $item_id = $_POST['item_id'];

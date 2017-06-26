@@ -1,6 +1,6 @@
 <?php
 function SpellDescription($spell,$n,$csv=false, $echo=true) {
-  global $dbspelleffects,$tbitems,$dbiracenames,$tbspells,$ServerMaxLevel;
+  global $db, $dbspelleffects,$tbitems,$dbiracenames,$tbspells,$ServerMaxLevel;
   if (($spell["effectid$n"]!=254) AND ($spell["effectid$n"]!=10)) {
 	$maxlvl = $spell["effect_base_value$n"];
 	$minlvl = $ServerMaxLevel;

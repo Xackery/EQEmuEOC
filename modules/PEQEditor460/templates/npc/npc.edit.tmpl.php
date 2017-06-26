@@ -285,7 +285,7 @@
             <table cellpadding="20px">
               <tr>
                 <td valign="top" align="left">
-                  <input type="checkbox" name="qglobal" value="1"<?echo ($qglobal == 1) ? " checked" : "";?>> Enable Quest Globals<br/>
+                  <input type="checkbox" name="qglobal" value="1"<?echo ($qglobal $db, == 1) ? " checked" : "";?>> Enable Quest Globals<br/>
                   <input type="checkbox" name="findable" value="1"<?echo ($findable == 1) ? " checked" : "";?>> NPC is Findable<br/>
                   <input type="checkbox" name="trackable" value="1"<?echo ($trackable == 1) ? " checked" : "";?>> NPC is Trackable<br/>
                 </td>

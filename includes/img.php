@@ -4,8 +4,8 @@
 	include('config.php');
 	
 	$icon = isset($_REQUEST['icon']) ? $_REQUEST['icon'] : null;
-	$id   = (isset($_GET['id']) ? mysql_real_escape_string($_GET['id']) : '');
-	$type = (isset($_GET['type']) ? mysql_real_escape_string($_GET['type']) : '');
+	$id   = (isset($_GET['id']) ? mysqli_real_escape_string($_GET['id']) : '');
+	$type = (isset($_GET['type']) ? mysqli_real_escape_string($_GET['type']) : '');
 	
 	$directory = getcwd(); $directory = str_replace('/includes', '', $directory);
 	#echo $directory; exit;

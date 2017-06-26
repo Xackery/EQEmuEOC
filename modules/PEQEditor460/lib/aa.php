@@ -587,7 +587,7 @@ switch ($action) {
 }
 
 function aa_info () {
-  global $mysql, $aaid;
+  global $db, $mysql, $aaid;
   $aa_array = array();
 //  $aa_vars_array = array();
   $aa_actions_array = array();
@@ -649,14 +649,14 @@ function aa_info () {
 }
 
 function getAAEffectInfo($aaeffectid) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT * FROM aa_effects WHERE id=$aaeffectid";
   return $mysql->query_assoc($query);
 }
 
 function getMaxEffectSlotByRank($aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   $id = $aaid+$rank-1;
   
   $query = "SELECT max(slot) as maxslot FROM aa_effects WHERE aaid=$id";
@@ -666,21 +666,21 @@ function getMaxEffectSlotByRank($aaid, $rank) {
 }
 
 function setNextID($id, $next) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "UPDATE altadv_vars SET sof_next_id=$next WHERE skill_id=$id";
   $mysql->query_no_result($query);
 }
 
 function setAllNextByNext($old, $next) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "UPDATE altadv_vars SET sof_next_id=$next WHERE sof_next_id=$old";
   $mysql->query_no_result($query);
 }
 
 function deleteAllEffectsFromRank($aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   $id = $aaid+$rank-1;
   
   $query = "DELETE FROM aa_effects WHERE aaid=$id";
@@ -688,7 +688,7 @@ function deleteAllEffectsFromRank($aaid, $rank) {
 }
 
 function deleteAllEffectSlots($aaid, $maxrank) {
-  global $mysql;
+  global $db, $mysql;
   $range = $aaid+$maxrank-1;
   
   $query = "DELETE FROM aa_effects WHERE aaid BETWEEN $aaid AND $range";
@@ -696,14 +696,14 @@ function deleteAllEffectSlots($aaid, $maxrank) {
 }
 
 function deleteEffectSlot($id) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "DELETE FROM aa_effects WHERE id=$id";
   $mysql->query_no_result($query);
 }
 
 function copyEffectSlots($fromaaid, $fromrank, $aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   
   $fromid = $fromaaid + $fromrank - 1;
   $toid = $aaid+$rank-1;
@@ -715,7 +715,7 @@ function copyEffectSlots($fromaaid, $fromrank, $aaid, $rank) {
 }
 
 function updateEffectSlot($aa_effect) {
-  global $mysql;
+  global $db, $mysql;
   extract($aa_effect);
   
   $aaid = null;
@@ -753,7 +753,7 @@ function updateEffectSlot($aa_effect) {
 }
 
 function getActionForRank($aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   $realrank = $rank-1;
   
   $query = "SELECT * FROM aa_actions WHERE aaid=$aaid and rank=$realrank";
@@ -783,7 +783,7 @@ function build_aa_action_from_post() {
 }
 
 function deleteActionFromRank($aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   $realrank = $rank-1;
   
   $query = "DELETE FROM aa_actions WHERE aaid=$aaid and rank=$realrank";
@@ -791,7 +791,7 @@ function deleteActionFromRank($aaid, $rank) {
 }
 
 function addActionToRank($aaid, $rank, $vars) {
-  global $mysql;
+  global $db, $mysql;
   $realrank = $rank-1;
   
   $fields = '';
@@ -805,7 +805,7 @@ function addActionToRank($aaid, $rank, $vars) {
 }
 
 function updateActionForRank($aaid, $rank, $vars) {
-  global $mysql;
+  global $db, $mysql;
   $realrank = $rank-1;
   
   $old = getActionForRank($aaid, $rank);
@@ -829,7 +829,7 @@ function updateActionForRank($aaid, $rank, $vars) {
 }
 
 function getBaseAAInfo($aaid) {
-  global $mysql;
+  global $db, $mysql;
   $aa_vars_array = array();
   
   $query = "SELECT * FROM altadv_vars WHERE skill_id=$aaid";
@@ -838,7 +838,7 @@ function getBaseAAInfo($aaid) {
 }
 
 function getNameByID($aaid) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT * FROM altadv_vars WHERE skill_id=$aaid";
   $res = $mysql->query_assoc($query);
@@ -935,7 +935,7 @@ function getNextAAsArray($aaid) {
 }
 
 function get_aa_by_id($id) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT * FROM altadv_vars WHERE skill_id=$id";
   $results = $mysql->query_assoc($query);
@@ -943,7 +943,7 @@ function get_aa_by_id($id) {
 }
 
 function get_aa_by_next($nextid) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT * FROM altadv_vars WHERE sof_next_id=$nextid";
   $results = $mysql->query_mult_assoc($query);
@@ -951,7 +951,7 @@ function get_aa_by_next($nextid) {
 }
 
 function get_level_cost($aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   $id = $aaid+$rank-1;
   $query = "SELECT level, cost, description FROM aa_required_level_cost WHERE skill_id = $id";
   $results = $mysql->query_assoc($query);
@@ -959,7 +959,7 @@ function get_level_cost($aaid, $rank) {
 }
 
 function update_level_cost($aaid, $rank, $level, $cost, $desc) {
-  global $mysql;
+  global $db, $mysql;
   
   $id = $aaid+$rank-1;
   
@@ -985,7 +985,7 @@ function update_level_cost($aaid, $rank, $level, $cost, $desc) {
 }
 
 function delete_level_cost($aaid, $rank) {
-  global $mysql;
+  global $db, $mysql;
   
   $aa_vars = getBaseAAInfo($aaid);
   if (!$aa_vars || $rank <= 0 || ($aa_vars && $aa_vars['max_level'] < $rank)) {
@@ -1077,7 +1077,7 @@ function build_aa_vars_from_post() {
 }
 
 function update_aabase($aa_vars, $aaid) {
-  global $mysql;
+  global $db, $mysql;
 
   
   $old = getBaseAAInfo($aaid);
@@ -1168,7 +1168,7 @@ function update_aabase($aa_vars, $aaid) {
 // $exclude is an aaid that we will ignore for this purpose. (We can
 // exclude the one we're trying to see if we can move with this.)
 function do_aa_range_check($aaid, $ranks, $exlude=0) {
-  global $mysql;
+  global $db, $mysql;
   $errors = array();
   $errror_idx = 0;
   
@@ -1186,7 +1186,7 @@ function do_aa_range_check($aaid, $ranks, $exlude=0) {
 }
 
 function insert_aabase($aa_vars) {
-  global $mysql, $defaultvalues;
+  global $db, $mysql, $defaultvalues;
   $errors = array();
   $error_idx = 0;
   
@@ -1218,7 +1218,7 @@ function insert_aabase($aa_vars) {
 }
 
 function deleteCompleteAA($aaid) {
-  global $mysql;
+  global $db, $mysql;
   
   $vars = getBaseAAInfo($aaid);
   
@@ -1238,7 +1238,7 @@ function deleteCompleteAA($aaid) {
 // This really should be something that the AA loader handles dynamically,
 // since then it could also stop at the client available versions.
 function fixOffsetMax($aaid) {
-  global $mysql;
+  global $db, $mysql;
   
   // Step 1, figure out if we're a valid chain of AAs and what the max rank
   // for the whole thing is.
@@ -1291,21 +1291,21 @@ function fixOffsetMax($aaid) {
 }
 
 function findByID($id) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT skill_id, name, prereq_skill, aa_expansion, classes, berserker FROM altadv_vars WHERE skill_id='$id'";
   return $mysql->query_mult_assoc($query);
 }
 
 function findByName($search) {
-  global $mysql;
+  global $db, $mysql;
   
   $query = "SELECT skill_id, name, prereq_skill, aa_expansion, classes, berserker FROM altadv_vars WHERE name rlike \"$search\" ORDER BY skill_id";
   return $mysql->query_mult_assoc($query);
 }
 
 function findByClsExp($cls, $exp) {
-  global $mysql;
+  global $db, $mysql;
   $classes = 65534;
   $berserker = 1;
   

@@ -499,7 +499,7 @@ switch ($action) {
 }
 
 function get_fishing() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $array = array();
   
@@ -519,7 +519,7 @@ function get_fishing() {
   }
 
 function get_forage() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   $zid = getZoneID($z);
   $array = array();
   
@@ -539,7 +539,7 @@ function get_forage() {
   }
 
 function get_gspawn() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
   $zid = getZoneID($z);
   $array = array();
   
@@ -580,7 +580,7 @@ function get_gspawn() {
   }
 
 function get_traps() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
   $array = array();
   
 $query = "SELECT version AS zversion FROM zone where id=$zoneid";
@@ -610,7 +610,7 @@ $query = "SELECT version AS zversion FROM zone where id=$zoneid";
   }
 
 function get_horses() {
-  global $mysql;
+  global $db, $mysql;
   $array = array();
   
   $query = "SELECT * FROM horses";
@@ -624,7 +624,7 @@ function get_horses() {
   }
 
 function get_doors() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
 
   $array = array();
   
@@ -654,7 +654,7 @@ function get_doors() {
   }
 
 function get_objects() {
-  global $mysql, $z, $zoneid;
+  global $db, $mysql, $z, $zoneid;
 
   $zid = getZoneID($z);
   $array = array();
@@ -685,7 +685,7 @@ function get_objects() {
   }
 
 function fishing_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $fsid = $_GET['fsid'];
 
@@ -696,7 +696,7 @@ function fishing_info() {
 }
 
 function forage_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $fgid = $_GET['fgid'];
 
@@ -707,7 +707,7 @@ function forage_info() {
 }
 
 function gspawn_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $gsid = $_GET['gsid'];
 
@@ -718,7 +718,7 @@ function gspawn_info() {
 }
 
 function traps_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $tid = $_GET['tid'];
 
@@ -729,7 +729,7 @@ function traps_info() {
 }
 
 function horses_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $filename = $_GET['filename'];
 
@@ -740,7 +740,7 @@ function horses_info() {
 }
 
 function doors_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $drid = $_GET['drid'];
 
@@ -751,7 +751,7 @@ function doors_info() {
 }
 
 function objects_info() {
-  global $mysql;
+  global $db, $mysql;
 
   $objid = $_GET['objid'];
 
@@ -762,7 +762,7 @@ function objects_info() {
 }
 
 function update_fishing() {
-  global $mysql;
+  global $db, $mysql;
 
   $fsid = $_POST['fsid'];
   $fiid = $_POST['fiid']; 
@@ -777,7 +777,7 @@ function update_fishing() {
 }
 
 function update_forage() {
-  global $mysql;
+  global $db, $mysql;
 
   $fgid = $_POST['fgid'];
   $fgiid = $_POST['fgiid'];
@@ -790,7 +790,7 @@ function update_forage() {
 }
 
 function update_horses() {
-  global $mysql;
+  global $db, $mysql;
 
   $filename = $_POST['filename'];
   $filenamea = $_POST['filenamea'];
@@ -805,7 +805,7 @@ function update_horses() {
 }
 
 function update_gspawn() {
-  global $mysql;
+  global $db, $mysql;
 
   $gsid = $_POST['gsid'];
   $giid = $_POST['giid'];
@@ -827,7 +827,7 @@ function update_gspawn() {
 }
 
 function update_traps() {
-  global $mysql;
+  global $db, $mysql;
 
   $tid = $_POST['tid'];
   $zone = $_POST['zone'];
@@ -852,7 +852,7 @@ function update_traps() {
 }
 
 function update_doors() {
-  global $mysql;
+  global $db, $mysql;
 
   $drid = $_POST['drid'];
   $doorid = $_POST['doorid'];
@@ -888,7 +888,7 @@ function update_doors() {
 }
 
 function update_objects() {
-  global $mysql;
+  global $db, $mysql;
 
   $objid = $_POST['objid'];
   $objectname = $_POST['objectname'];
@@ -908,7 +908,7 @@ function update_objects() {
 }
 
 function delete_fishing() {
-  global $mysql;
+  global $db, $mysql;
 
   $fsid = $_GET['fsid'];
 
@@ -917,7 +917,7 @@ function delete_fishing() {
 }
 
 function delete_forage() {
-  global $mysql;
+  global $db, $mysql;
 
   $fgid = $_GET['fgid'];
 
@@ -926,7 +926,7 @@ function delete_forage() {
 }
 
 function delete_gspawn() {
-  global $mysql;
+  global $db, $mysql;
 
   $gsid = $_GET['gsid'];
 
@@ -935,7 +935,7 @@ function delete_gspawn() {
 }
 
 function delete_traps() {
-  global $mysql;
+  global $db, $mysql;
 
   $tid = $_GET['tid'];
 
@@ -944,7 +944,7 @@ function delete_traps() {
 }
 
 function delete_horses() {
-  global $mysql;
+  global $db, $mysql;
 
   $filename = $_GET['filename'];
 
@@ -953,7 +953,7 @@ function delete_horses() {
 }
 
 function delete_doors() {
-  global $mysql;
+  global $db, $mysql;
 
   $drid = $_GET['drid'];
 
@@ -962,7 +962,7 @@ function delete_doors() {
 }
 
 function delete_objects() {
-  global $mysql;
+  global $db, $mysql;
 
   $objid = $_GET['objid'];
 
@@ -971,7 +971,7 @@ function delete_objects() {
 }
 
 function suggest_fishing_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS fsid FROM fishing";
   $result = $mysql->query_assoc($query);
@@ -980,7 +980,7 @@ function suggest_fishing_id() {
 }
 
 function suggest_forage_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS fgid FROM forage";
   $result = $mysql->query_assoc($query);
@@ -989,7 +989,7 @@ function suggest_forage_id() {
 }
 
 function suggest_gspawn_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS gsid FROM ground_spawns";
   $result = $mysql->query_assoc($query);
@@ -999,7 +999,7 @@ function suggest_gspawn_id() {
 
 
 function suggest_traps_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS tid FROM traps";
   $result = $mysql->query_assoc($query);
@@ -1008,7 +1008,7 @@ function suggest_traps_id() {
 }
 
 function suggest_door_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS drid FROM doors";
   $result = $mysql->query_assoc($query);
@@ -1017,7 +1017,7 @@ function suggest_door_id() {
 }
 
 function suggest_doorid() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $query = "SELECT MAX(doorid) AS dorid FROM doors WHERE zone=\"$z\"";
   $result = $mysql->query_assoc($query);
@@ -1026,7 +1026,7 @@ function suggest_doorid() {
 }
 
 function suggest_object_id() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS objid FROM object";
   $result = $mysql->query_assoc($query);
@@ -1035,7 +1035,7 @@ function suggest_object_id() {
 }
 
 function add_fishing() {
-  global $mysql;
+  global $db, $mysql;
 
   $fsid = $_GET['fsid'];
   $fiid = $_POST['fiid']; 
@@ -1050,7 +1050,7 @@ function add_fishing() {
 }
 
 function add_forage() {
-  global $mysql;
+  global $db, $mysql;
 
   $fgid = $_GET['fgid'];
   $fgiid = $_POST['fgiid']; 
@@ -1063,7 +1063,7 @@ function add_forage() {
 }
 
 function add_gspawn() {
-  global $mysql;
+  global $db, $mysql;
 
   $gsid = $_POST['gsid'];
   $giid = $_POST['giid'];
@@ -1085,7 +1085,7 @@ function add_gspawn() {
 }
 
 function add_traps() {
-  global $mysql;
+  global $db, $mysql;
 
   $tid = $_POST['tid'];
   $zone = $_POST['zone'];
@@ -1110,7 +1110,7 @@ function add_traps() {
 }
 
 function add_horses() {
-  global $mysql;
+  global $db, $mysql;
 
   $filename = $_POST['filename'];
   $race = $_POST['race'];
@@ -1124,7 +1124,7 @@ function add_horses() {
 }
 
 function add_doors() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $drid = $_POST['drid'];
   $doorid = $_POST['doorid'];
@@ -1160,7 +1160,7 @@ function add_doors() {
 }
 
 function add_objects() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   
   $zid = getZoneID($z);
   $objid = $_POST['objid'];
@@ -1182,7 +1182,7 @@ function add_objects() {
 }
 
 function search_fishing_by_id() {
-   global $mysql;
+   global $db, $mysql;
    
    $fishid = $_GET['fishid'];
    
@@ -1193,7 +1193,7 @@ function search_fishing_by_id() {
 }
 
 function search_gspawn_by_id() {
-   global $mysql;
+   global $db, $mysql;
    
    $gspawnid = $_GET['gspawnid'];
    
@@ -1204,7 +1204,7 @@ function search_gspawn_by_id() {
 }
 
 function search_forage_by_id() {
-   global $mysql;
+   global $db, $mysql;
    
    $forageid = $_GET['forageid'];
    
@@ -1215,7 +1215,7 @@ function search_forage_by_id() {
 }
 
 function get_max_doorversion() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
 
    $query = "SELECT MAX(version) AS version FROM doors WHERE zone=\"$z\"";
    $result = $mysql->query_assoc($query);
@@ -1224,7 +1224,7 @@ function get_max_doorversion() {
 }
 
 function get_max_gsversion() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
    $zid=getZoneID($z);
 
    $query = "SELECT MAX(version) AS version FROM ground_spawns WHERE zoneid=\"$zid\"";
@@ -1234,7 +1234,7 @@ function get_max_gsversion() {
 }
 
 function get_max_trapversion() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
 
    $query = "SELECT MAX(version) AS version FROM traps WHERE zone=\"$z\"";
    $result = $mysql->query_assoc($query);
@@ -1243,7 +1243,7 @@ function get_max_trapversion() {
 }
 
 function get_max_objectversion() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
    $zid=getZoneID($z);
 
    $query = "SELECT MAX(version) AS version FROM object WHERE zoneid=\"$zid\"";
@@ -1253,7 +1253,7 @@ function get_max_objectversion() {
 }
 
 function copy_doors() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
 
    $door_version = $_POST['door_version'];
    $new_version = $_POST['new_version'];
@@ -1318,7 +1318,7 @@ function copy_doors() {
 } 
 
 function copy_groundspawns() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
    $zid = getZoneID($z);
   
    $gs_version = $_POST['gs_version'];
@@ -1345,7 +1345,7 @@ function copy_groundspawns() {
 } 
 
 function copy_traps() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
   
    $trap_version = $_POST['trap_version'];
    $new_version = $_POST['new_version'];
@@ -1371,7 +1371,7 @@ function copy_traps() {
 } 
 
 function copy_objects() {
-   global $mysql, $z;
+   global $db, $mysql, $z;
    $zid = getZoneID($z);
   
    $object_version = $_POST['object_version'];
@@ -1398,7 +1398,7 @@ function copy_objects() {
 } 
 
 function delete_traps_ver() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $trap_version = $_POST['trap_version'];
 
@@ -1407,7 +1407,7 @@ function delete_traps_ver() {
 }
 
 function delete_doors_ver() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $door_version = $_POST['door_version'];
 
@@ -1416,7 +1416,7 @@ function delete_doors_ver() {
 }
 
 function delete_groundspawns_ver() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
   
   $zid = getZoneID($z);
   $gs_version = $_POST['gs_version'];
@@ -1426,7 +1426,7 @@ function delete_groundspawns_ver() {
 }
 
 function delete_objects_ver() {
-  global $mysql, $z;
+  global $db, $mysql, $z;
 
   $zid = getZoneID($z);
   $object_version = $_POST['object_version'];

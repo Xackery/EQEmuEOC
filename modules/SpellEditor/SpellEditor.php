@@ -23,12 +23,12 @@
 	
 		# echo '<center>';
 	
-		$result = mysql_query("SELECT * FROM spells_new WHERE `id` = ". $_GET['Edit'] . ";");
-		$columns = mysql_num_fields($result);
+		$result = mysqli_query($db, "SELECT * FROM spells_new WHERE `id` = ". $_GET['Edit'] . ";");
+		$columns = mysqli_num_fields($result);
 	
-		PageTitle('Spell Edit :: ID ' . mysql_result($result, 0, 0) . ' :: ' . mysql_result($result, 0, 1) . '');
+		PageTitle('Spell Edit :: ID ' . mysqli_result($result, 0, 0) . ' :: ' . mysqli_result($result, 0, 1) . '');
 	
-		echo '<h2 class="page-title">Spell Editor :: ID ' . mysql_result($result, 0, 0) . ' :: ' . mysql_result($result, 0, 1) . '</h2><hr>';
+		echo '<h2 class="page-title">Spell Editor :: ID ' . mysqli_result($result, 0, 0) . ' :: ' . mysqli_result($result, 0, 1) . '</h2><hr>';
 		
 		/*
 			We want to be able to dynamically iterate through any users database so that the editor does not break...
@@ -44,8 +44,8 @@
 		*/
 		
 		for ($i = 0; $i < $columns; $i++){
-			$FieldName = mysql_field_name($result, $i);
-			$FieldData = mysql_result($result, 0, $i);
+			$FieldName = mysqli_field_name($result, $i);
+			$FieldData = mysqli_result($result, 0, $i);
 			$spell_editor_fields[$FieldName] = array(SpellFieldInput($_GET['Edit'], $FieldName, $FieldData), $spells_new_fields[$FieldName][0]);
 		}
 		
@@ -97,8 +97,8 @@
 		echo SectionHeader('Remaining Fields');
 		echo '<table class="table table-striped table-bordered table-hover dataTable no-footer" style="width:0%">';
 		for ($i = 0; $i < $columns; $i++){
-			$FieldName = mysql_field_name($result, $i);
-			$FieldData = mysql_result($result, 0, $i);
+			$FieldName = mysqli_field_name($result, $i);
+			$FieldData = mysqli_result($result, 0, $i);
 			if($spell_ef_acf[$FieldName] != 1){ 
 				echo '<td style="text-align:center">' . $FieldName  . '<br>' . $spell_editor_fields[$FieldName][0] . '</td>'; 
 			}
@@ -313,10 +313,10 @@
 					<select name="field_filter_1" class="form-control" style="width:300px; display:inline">
 						<option value="0">--- Select ---</option>';
 						/* Dynamically Get Fields */
-						$result = mysql_query("SELECT * FROM `spells_new` WHERE `id` > 1 LIMIT 1;");
-						$columns = mysql_num_fields($result);
+						$result = mysqli_query($db, "SELECT * FROM `spells_new` WHERE `id` > 1 LIMIT 1;");
+						$columns = mysqli_num_fields($result);
 						for ($key = 0; $key < $columns; $key++){
-							$val = mysql_field_name($result, $key); 
+							$val = mysqli_field_name($result, $key); 
 							echo  '<option value="' . $val . '"' . ($c['field_filter_1'] == $val ? ' selected="1"' : '') . '>' . $val . ' </option>'; 
 						}		
 				echo '</select>
@@ -353,13 +353,13 @@
 		
 		/* If $c['search_string'] is numeric then we will parse it as an ID and pass it to the search query... */
 		if(is_numeric($c['search_string'])){ 
-			$qadd = '	OR spells_new.id LIKE \'%' . mysql_real_escape_string($c['search_string']) . '%\''; 
+			$qadd = '	OR spells_new.id LIKE \'%' . mysqli_real_escape_string($c['search_string']) . '%\''; 
 		}
 		
 		/* Spell Name Filter */
 		if($c['search_string'] != ''){  
 			if($p_f == 1){ $sql .= ' AND '; } /* If a previous filter is set */
-			$sql .= ' (spells_new.name LIKE \'%' . mysql_real_escape_string($c['search_string']) . '%\'  ' . $qadd . ') '; 
+			$sql .= ' (spells_new.name LIKE \'%' . mysqli_real_escape_string($c['search_string']) . '%\'  ' . $qadd . ') '; 
 			$p_f = 1; 
 		}
 		
@@ -465,7 +465,7 @@
 		} 
 		
 		echo '<h4>Query</h4><code>' . $sql . '</code>';
-		$result = mysql_query($sql); if (!$result) { die('Invalid query: ' . mysql_error()); } 
+		$result = mysqli_query($db, $sql); if (!$result) { die('Invalid query: ' . mysqli_error()); } 
 		echo  '<hr> <center><table class="table table-striped table-bordered table-hover dataTable no-footer" style="width:100%">';
 		$levelcheck = $c['level'] + $OpDiff;
 		$Class = 'classes' . $c['type'];
@@ -492,7 +492,7 @@
 		}
 		
 		/* Show Results */
-		while($row = mysql_fetch_array($result)) { 
+		while($row = mysqli_fetch_array($result)) { 
 			/* Show Classes */ 
 			$v = ""; $classes_string = "";
 			$minlvl = 70;
@@ -533,8 +533,8 @@
 			$rec_data = array(); $rec_string = '';
 			if($row['RecourseLink'] > 0){ 
 				$sql2 = "select * FROM `spells_new` WHERE `id` = " . $row['RecourseLink'] . "";
-				$result2 = mysql_query($sql2);
-				while($row2 = mysql_fetch_array($result2)) { $rec_data[$row['RecourseLink']] = $row2; }
+				$result2 = mysqli_query($db, $sql2);
+				while($row2 = mysqli_fetch_array($result2)) { $rec_data[$row['RecourseLink']] = $row2; }
 				$rec_string = '<br><a href="javascript:;" class="btn btn-default btn-xs ' . $target_type_enums[$rec_data[$row['RecourseLink']]["targettype"]][1] . '" target='. $row['id'] . ' ' . HoverTip("global.php?spell_view=" . $row['RecourseLink']) . '>' . $rec_data[$row['RecourseLink']]['id'] . ' :: ' . $rec_data[$row['RecourseLink']]['name'] . ' <i class="fa fa-arrow-circle-right"></i></a> ';
 			} 
 			

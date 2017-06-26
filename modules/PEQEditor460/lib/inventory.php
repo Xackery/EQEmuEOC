@@ -535,7 +535,7 @@ switch ($action) {
 }
 
 function player_inventory($player_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT charid, slotid, itemid FROM inventory WHERE charid=$player_id ORDER BY slotid";
   $results = $mysql->query_mult_assoc($query);
@@ -544,7 +544,7 @@ function player_inventory($player_id) {
 }
 
 function shared_inventory($player_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT account_id FROM character_data WHERE id=$player_id";
   $result = $mysql->query_assoc($query);
@@ -557,7 +557,7 @@ function shared_inventory($player_id) {
 }
 
 function inv_slot_details($player_id, $slot_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT * FROM inventory WHERE charid=$player_id AND slotid=$slot_id";
   $results = $mysql->query_assoc($query);
@@ -566,7 +566,7 @@ function inv_slot_details($player_id, $slot_id) {
 }
 
 function search_by_playerid($player_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT DISTINCT(charid) AS charid FROM inventory WHERE charid=$player_id";
   $results = $mysql->query_mult_assoc($query);
@@ -575,7 +575,7 @@ function search_by_playerid($player_id) {
 }
 
 function search_by_playername($player_name, $list_limit) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id AS charid FROM character_data WHERE `name` RLIKE \"$player_name\" LIMIT $list_limit";
   $results = $mysql->query_mult_assoc($query);
@@ -584,7 +584,7 @@ function search_by_playername($player_name, $list_limit) {
 }
 
 function search_by_itemid($item_id, $list_limit) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT DISTINCT(charid) AS charid FROM inventory WHERE itemid=$item_id LIMIT $list_limit";
   $results = $mysql->query_mult_assoc($query);
@@ -593,14 +593,14 @@ function search_by_itemid($item_id, $list_limit) {
 }
 
 function delete_inv_item($player_id, $slot_id) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "DELETE FROM inventory WHERE charid=$player_id AND slotid=$slot_id";
   $mysql->query_no_result($query);
 }
 
 function update_inv_item() {
-  global $mysql;
+  global $db, $mysql;
 
   $charid = $_POST['charid'];
   $slotid = $_POST['slotid'];
@@ -620,7 +620,7 @@ function update_inv_item() {
 }
 
 function insert_inv_item() {
-  global $mysql;
+  global $db, $mysql;
 
   $charid = $_POST['charid'];
   $slotid = $_POST['slotid'];

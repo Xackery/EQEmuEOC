@@ -48,12 +48,12 @@
 						WHERE activities.goalmethod = 1 
 						GROUP BY goallists.listid";
 		}
-		$QueryResult = mysql_query($Query) or message_die('tasks.php','MYSQL_QUERY',$Query,mysql_error());
+		$QueryResult = mysqli_query($db, $Query) or message_die('tasks.php','mysqli_query($db, ',$Query,mysqli_error());
 		
 		//$Query2 = "SELECT listid FROM goallists GROUP BY listid";
-		//$QueryResult2 = mysql_query($Query2) or message_die('tasks.php','MYSQL_QUERY',$Query2,mysql_error());
+		//$QueryResult2 = mysqli_query($db, $Query2) or message_die('tasks.php','mysqli_query($db, ',$Query2,mysqli_error());
 		
-		if(mysql_num_rows($QueryResult) != 0)
+		if(mysqli_num_rows($QueryResult) != 0)
 		{
 			
 			$TaskContent = '
@@ -72,7 +72,7 @@
 				$TaskContent .= '<select multiple="multiple" class="form-control" onclick="getGoalContent(this.value, \'taskactivitygoalid\')" title="Click to Select a Goal List">';
 			}
 			
-			while ($row=mysql_fetch_array($QueryResult))
+			while ($row=mysqli_fetch_array($QueryResult))
 			{
 				
 				$CurGoalID = $row["listid"];

@@ -54,11 +54,11 @@ switch ($action) {
     exit;
   case 4: //Edit QGlobal
     check_authorization();
-    $qglobal = view_qglobal($_GET['name'], $_GET['charid'], $_GET['npcid'], $_GET['zoneid']);
+    $qglobal $db, = view_qglobal($_GET['name'], $_GET['charid'], $_GET['npcid'], $_GET['zoneid']);
     if ($qglobal) {
       $breadcrumbs .= " >> Edit Quest Global";
       $body = new Template("templates/qglobal/qglobal.edit.tmpl.php");
-      foreach ($qglobal as $key=>$value) {
+      foreach ($qglobal $db, as $key=>$value) {
         $body->set($key, $value);
       }
       break;
@@ -82,7 +82,7 @@ switch ($action) {
 }
 
 function get_qglobals($page_number, $results_per_page, $sort_by, $where = "") {
-  global $mysql;
+  global $db, $mysql;
   $limit = ($page_number - 1) * $results_per_page . "," . $results_per_page;
 
   $query = "SELECT * FROM quest_globals";
@@ -96,7 +96,7 @@ function get_qglobals($page_number, $results_per_page, $sort_by, $where = "") {
 }
 
 function view_qglobal($name, $charid, $npcid, $zoneid) {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT * FROM quest_globals WHERE name = \"$name\" AND charid = \"$charid\" AND npcid = \"$npcid\" AND zoneid = \"$zoneid\"";
   $result = $mysql->query_assoc($query);
@@ -105,7 +105,7 @@ function view_qglobal($name, $charid, $npcid, $zoneid) {
 }
 
 function insert_qglobal() {
-  global $mysql;
+  global $db, $mysql;
   $fields = '';
 
   $fields .= "name=\"" . $_POST['name'] . "\", ";
@@ -120,7 +120,7 @@ function insert_qglobal() {
 }
 
 function update_qglobal() {
-  global $mysql;
+  global $db, $mysql;
   $old_name = $_POST['old_name'];
   $old_charid = $_POST['old_charid'];
   $old_npcid = $_POST['old_npcid'];
@@ -131,7 +131,7 @@ function update_qglobal() {
   $new_zoneid = $_POST['zoneid'];
   $new_value = $_POST['value'];
   $new_expdate = $_POST['expdate'];
-  $qglobal = view_qglobal($old_name, $old_charid, $old_npcid, $old_zoneid);
+  $qglobal $db, = view_qglobal($old_name, $old_charid, $old_npcid, $old_zoneid);
   $fields = '';
   extract($qglobal);
 
@@ -150,7 +150,7 @@ function update_qglobal() {
 }
 
 function delete_qglobal() {
-  global $mysql;
+  global $db, $mysql;
   $name = $_GET['name'];
   $charid = $_GET['charid'];
   $npcid = $_GET['npcid'];
@@ -161,7 +161,7 @@ function delete_qglobal() {
 }
 
 function build_filter() {
-  global $mysql;
+  global $db, $mysql;
   $filter1 = $_GET['filter1'];
   $filter2 = $_GET['filter2'];
   $filter3 = $_GET['filter3'];

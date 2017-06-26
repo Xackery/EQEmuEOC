@@ -15,8 +15,8 @@
         $npc_cols = array();
         $npc_a_cols = array();
         $query = "SHOW COLUMNS FROM `npc_types`";
-        $result = mysql_query($query);
-        while($row = mysql_fetch_array($result)){
+        $result = mysqli_query($db, $query);
+        while($row = mysqli_fetch_array($result)){
             if ($row['Field'] == "hp") {
                 $field = "Hit Points";
             }
@@ -32,9 +32,9 @@
 
         $npc_fields = array();
         $query = "SELECT * FROM `npc_types` WHERE `id` = " . $_GET['SingleNPCEdit'] . "";
-        $result = mysql_query($query);
+        $result = mysqli_query($db, $query);
         $Content .= '<center>';
-        while($row = mysql_fetch_array($result)){
+        while($row = mysqli_fetch_array($result)){
             $n = 1;
 
             echo '<input type="hidden" id="npc_id" value="'. $row['id'] . '">';

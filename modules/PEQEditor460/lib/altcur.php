@@ -140,7 +140,7 @@ switch ($action) {
 }
 
 function get_altcur_items() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT * FROM alternate_currency";
   $results = $mysql->query_mult_assoc($query);
@@ -149,7 +149,7 @@ function get_altcur_items() {
 }
 
 function view_altcur_item() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "SELECT * FROM alternate_currency WHERE id=$id";
@@ -159,7 +159,7 @@ function view_altcur_item() {
 }
 
 function insert_altcur_item() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $item_id = $_POST['item_id'];
 
@@ -168,7 +168,7 @@ function insert_altcur_item() {
 }
 
 function update_altcur_item() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_POST['id'];
   $item_id = $_POST['item_id'];
 
@@ -177,7 +177,7 @@ function update_altcur_item() {
 }
 
 function delete_altcur_item() {
-  global $mysql;
+  global $db, $mysql;
   $id = $_GET['id'];
 
   $query = "DELETE FROM alternate_currency WHERE id=$id";
@@ -185,7 +185,7 @@ function delete_altcur_item() {
 }
 
 function get_altcur_npcs() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT id, alt_currency_id FROM npc_types WHERE alt_currency_id > 0";
   $results = $mysql->query_mult_assoc($query);
@@ -194,7 +194,7 @@ function get_altcur_npcs() {
 }
 
 function view_altcur_npc() {
-  global $mysql;
+  global $db, $mysql;
   $npcid = $_GET['npcid'];
 
   $query = "SELECT alt_currency_id FROM npc_types WHERE id=$npcid";
@@ -204,7 +204,7 @@ function view_altcur_npc() {
 }
 
 function update_altcur_npc() {
-  global $mysql;
+  global $db, $mysql;
   $npcid = $_POST['npcid'];
   $curr_id = $_POST['curr_id'];
 
@@ -213,7 +213,7 @@ function update_altcur_npc() {
 }
 
 function delete_altcur_npc() {
-  global $mysql;
+  global $db, $mysql;
   $npcid = $_GET['npcid'];
 
   $query = "UPDATE npc_types SET alt_currency_id=0 WHERE id=$npcid";
@@ -221,7 +221,7 @@ function delete_altcur_npc() {
 }
 
 function get_altcur_characters() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT * FROM character_alt_currency";
   $results = $mysql->query_mult_assoc($query);
@@ -230,7 +230,7 @@ function get_altcur_characters() {
 }
 
 function view_altcur_character() {
-  global $mysql;
+  global $db, $mysql;
   $charid = $_GET['charid'];
   $currid = $_GET['currencyid'];
 
@@ -241,7 +241,7 @@ function view_altcur_character() {
 }
 
 function insert_altcur_character() {
-  global $mysql;
+  global $db, $mysql;
   $char_id = $_POST['char_id'];
   $currency_id = $_POST['currency_id'];
   $amount = $_POST['amount'];
@@ -251,7 +251,7 @@ function insert_altcur_character() {
 }
 
 function update_altcur_character() {
-  global $mysql;
+  global $db, $mysql;
   $char_id = $_POST['char_id'];
   $currency_id = $_POST['currency_id'];
   $amount = $_POST['amount'];
@@ -262,7 +262,7 @@ function update_altcur_character() {
 }
 
 function delete_altcur_character() {
-  global $mysql;
+  global $db, $mysql;
   $char_id = $_GET['charid'];
   $currency_id = $_GET['currencyid'];
 
@@ -271,7 +271,7 @@ function delete_altcur_character() {
 }
 
 function get_next_currid() {
-  global $mysql;
+  global $db, $mysql;
 
   $query = "SELECT MAX(id) AS maxid FROM alternate_currency";
   $result = $mysql->query_assoc($query);

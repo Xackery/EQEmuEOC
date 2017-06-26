@@ -12,8 +12,8 @@
         $npc_cols = array();
         $npc_a_cols = array();
         $query = "SHOW COLUMNS FROM `npc_types`";
-        $result = mysql_query($query);
-        while($row = mysql_fetch_array($result)){
+        $result = mysqli_query($db, $query);
+        while($row = mysqli_fetch_array($result)){
             if($row['Field'] == "hp"){
                 $field = "Hit Points";
             }
@@ -30,8 +30,8 @@
         $npc_filter = "";
         if($_GET['npc_filter'] != ""){
             $npc_filter = " AND
-                    (npc_types.`name` LIKE '%" . mysql_real_escape_string($_GET['npc_filter']) . "%' OR
-                    npc_types.`id` = '" . mysql_real_escape_string($_GET['npc_filter']) . "'
+                    (npc_types.`name` LIKE '%" . mysqli_real_escape_string($_GET['npc_filter']) . "%' OR
+                    npc_types.`id` = '" . mysqli_real_escape_string($_GET['npc_filter']) . "'
                     )
                 ";
         }
@@ -66,12 +66,12 @@
                     GROUP BY npc_types.id
                     ORDER BY npc_types.id";
         }
-        $result = mysql_query($query);
+        $result = mysqli_query($db, $query);
 
         #echo $query;
         #exit;
 
-        # echo $query . '<br>' . mysql_error();
+        # echo $query . '<br>' . mysqli_error();
         $RowData = array();
 
         /* Print NPC List Table */
@@ -86,7 +86,7 @@
         echo '</thead>';
 
         echo '<tbody>';
-        while($row = mysql_fetch_array($result)){
+        while($row = mysqli_fetch_array($result)){
             echo '<tr npc_row_id_' . $row['id'] . '="1">';
             echo '<td>
                     <button type="button" class="btn btn-default btn-sm red btn-xs" onclick="do_npc_delete(' . $row['id'] . ')" title="Delete NPC"><i class="fa fa-times"></i> </button>
@@ -97,7 +97,7 @@
                 if(is_numeric($key)){
                     # echo $key . ' ' . $val . '<br>';
                     /* Stuff the cells with info */
-                    echo '<td npc_db_field="' . mysql_field_name ($result, $key) . '" npc_id="' . $row['id'] . '" ' . $row['id'] . '-' . mysql_field_name ($result, $key) . '="1">' . $val . '</td>';
+                    echo '<td npc_db_field="' . mysqli_field_name ($result, $key) . '" npc_id="' . $row['id'] . '" ' . $row['id'] . '-' . mysqli_field_name ($result, $key) . '="1">' . $val . '</td>';
                     $n++;
                 }
             }
